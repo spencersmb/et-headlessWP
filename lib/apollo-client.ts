@@ -52,6 +52,11 @@ function createApolloClient() {
         },
       },
     }),
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache',
+      },
+    }
   })
 }
 

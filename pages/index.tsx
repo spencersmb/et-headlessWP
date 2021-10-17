@@ -4,13 +4,13 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link';
 import { getAllPosts, getPaginatedPosts, getPaginatedPostsV2, sortStickyPosts } from '../lib/posts'
 import Pagination from '../components/pagination';
-import { addApolloState, getAllPostsForHome, initializeApollo, useApollo } from '../lib/apollo-client'
+import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
 import { useQuery } from '@apollo/client'
 
 export default function Home(props) {
   console.log('props', props)
-  const {allPosts} = props
+
   // 1st ATTEMPT
   // const {posts} = props
   // const { loading, error, data } = useQuery(QUERY_ALL_POSTS);
@@ -30,23 +30,23 @@ export default function Home(props) {
   // const newPosts = sortedPosts.slice(offset, offset + postsPerPage);
 
   // WITH-APOLLO WAY
-  // const { loading, error, data, fetchMore, networkStatus } = useQuery(
-  //   QUERY_ALL_POSTS,
-  //   {
-  //     // variables: allPostsQueryVars,
-  //     // Setting this value to true will make the component rerender when
-  //     // the "networkStatus" changes, so we are able to know if it is fetching
-  //     // more data
-  //     notifyOnNetworkStatusChange: true,
-  //   }
-  // )
-  //
-  // const posts = data?.posts?.edges?.map(({ node = {} }) => node);
+  const { loading, error, data, fetchMore, networkStatus } = useQuery(
+    QUERY_ALL_POSTS,
+    {
+      // variables: allPostsQueryVars,
+      // Setting this value to true will make the component rerender when
+      // the "networkStatus" changes, so we are able to know if it is fetching
+      // more data
+      notifyOnNetworkStatusChange: true,
+    }
+  )
 
-  // console.log('posts', posts)
-  // console.log('networkStatus', networkStatus)
+  const posts = data?.posts?.edges?.map(({ node = {} }) => node);
 
-const posts = allPosts?.edges?.map(({ node = {} }) => node);
+  console.log('posts', posts)
+  console.log('networkStatus', networkStatus)
+
+
 
   return (
     <div className={styles.container}>
@@ -72,7 +72,7 @@ const posts = allPosts?.edges?.map(({ node = {} }) => node);
             .filter((post,index) => (index < 10))
             .map((post) => (
             <li key={post.id}>
-              <Link  key={post.id} href={`/blog/${post.slug}`}>
+              <Link href={`/blog/${post.slug}`}>
                 {post.title}
               </Link>
             </li>
@@ -113,33 +113,31 @@ export async function getStaticProps(){
   /**
    * WITH-APOLLO
    */
-  // const apolloClient = initializeApollo()
-  //
-  // await apolloClient.query({
-  //   query: QUERY_ALL_POSTS,
-  //   // variables: allPostsQueryVars,
-  // })
-  //
-  // await apolloClient.query({
-  //   query: QUERY_POST_PER_PAGE,
-  // });
-  //
-  // return addApolloState(apolloClient, {
-  //   props: {},
-  //   revalidate: 1,
-  // })
-  const allPosts = await getAllPostsForHome(false)
+  const apolloClient = initializeApollo()
 
-  return {
-    props: {
-      // initialApolloState,
-      posts: [],
-      allPosts
-      // pagination: {
-      //   ...pagination,
-      //   basePath: '/blog',
-      // },
-    },
-    revalidate: 5
-  };
+  await apolloClient.query({
+    query: QUERY_ALL_POSTS,
+    // variables: allPostsQueryVars,
+  })
+
+  await apolloClient.query({
+    query: QUERY_POST_PER_PAGE,
+  });
+
+  return addApolloState(apolloClient, {
+    props: {},
+    revalidate: 5,
+  })
+
+  // return {
+  //   props: {
+  //     initialApolloState,
+  //     posts: [],
+  //     // pagination: {
+  //     //   ...pagination,
+  //     //   basePath: '/blog',
+  //     // },
+  //   },
+  //   revalidate: 5
+  // };
 }
