@@ -42,6 +42,9 @@ export default function Home(props) {
   )
 
   const posts = data?.posts?.edges?.map(({ node = {} }) => node);
+  
+  console.log('posts', posts)
+
 
   return (
     <div className={styles.container}>
