@@ -42,7 +42,7 @@ export default function Home(props) {
   )
 
   const posts = data?.posts?.edges?.map(({ node = {} }) => node);
-  
+
   console.log('posts', posts)
 
 
@@ -99,7 +99,7 @@ export default function Home(props) {
   )
 }
 
-export async function getStaticProps(){
+export async function getServerSideProps(){
   console.log('revalidate')
 
   // Colby way
