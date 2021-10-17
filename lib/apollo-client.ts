@@ -1,11 +1,12 @@
 import {
-  ApolloClient,
+  ApolloClient, HttpLink,
   InMemoryCache,
-} from "@apollo/client";
+} from '@apollo/client'
 import { concatPagination } from '@apollo/client/utilities'
 import { useMemo } from 'react'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
+import Error from 'next/error'
 
 const API_URL = process.env.WP_API_URL;
 let apolloClient;
@@ -41,7 +42,10 @@ function createApolloClient() {
     //   uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
     //   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     // }),
-    uri: API_URL,
+    link: new HttpLink({
+      uri: API_URL,
+    }),
+    // uri: API_URL,
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
       // typePolicies: {
@@ -98,8 +102,8 @@ export function addApolloState(client, pageProps) {
 }
 
 export function useApollo(pageProps) {
-  const state = pageProps[APOLLO_STATE_PROP_NAME]
-  const store = useMemo(() => initializeApollo(state), [state])
+  // const state = pageProps[APOLLO_STATE_PROP_NAME]
+  const store = useMemo(() => initializeApollo(pageProps), [pageProps])
   return store
 }
 

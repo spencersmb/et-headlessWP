@@ -12,11 +12,14 @@ export default function Home(props) {
   console.log('props', props)
 
   // 1st ATTEMPT
-  // const {posts} = props
-  // const { loading, error, data } = useQuery(QUERY_ALL_POSTS);
+  const {posts} = props
+  const { loading, error, data } = useQuery(QUERY_ALL_POSTS);
+
   // const postData = useQuery(QUERY_POST_PER_PAGE);
   //
-  // const posts = data?.posts?.edges?.map(({ node = {} }) => node);
+  const newPosts = data?.posts?.edges?.map(({ node = {} }) => node);
+  console.log('newPosts[0]', newPosts[0].title)
+
   // const postsPerPage = Number(postData.data.allSettings.readingSettingsPostsPerPage);
   // const pagesCount = Math.ceil(posts.length / postsPerPage);
   //
@@ -30,21 +33,21 @@ export default function Home(props) {
   // const newPosts = sortedPosts.slice(offset, offset + postsPerPage);
 
   // WITH-APOLLO WAY
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    QUERY_ALL_POSTS,
-    {
-      // variables: allPostsQueryVars,
-      // Setting this value to true will make the component rerender when
-      // the "networkStatus" changes, so we are able to know if it is fetching
-      // more data
-      notifyOnNetworkStatusChange: true,
-    }
-  )
-
-  const posts = data?.posts?.edges?.map(({ node = {} }) => node);
-
-  console.log('posts', posts)
-  console.log('networkStatus', networkStatus)
+  // const { loading, error, data, fetchMore, networkStatus } = useQuery(
+  //   QUERY_ALL_POSTS,
+  //   {
+  //     // variables: allPostsQueryVars,
+  //     // Setting this value to true will make the component rerender when
+  //     // the "networkStatus" changes, so we are able to know if it is fetching
+  //     // more data
+  //     notifyOnNetworkStatusChange: true,
+  //   }
+  // )
+  //
+  // const posts = data?.posts?.edges?.map(({ node = {} }) => node);
+  //
+  // console.log('posts', posts)
+  // console.log('networkStatus', networkStatus)
 
 
 
@@ -123,11 +126,19 @@ export async function getStaticProps(){
   await apolloClient.query({
     query: QUERY_POST_PER_PAGE,
   });
+  //
+  // return addApolloState(apolloClient, {
+  //   props: {},
+  //   revalidate: 5,
+  // })
 
-  return addApolloState(apolloClient, {
-    props: {},
-    revalidate: 5,
-  })
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+      posts:[]
+    },
+    revalidate: 1,
+  };
 
   // return {
   //   props: {
