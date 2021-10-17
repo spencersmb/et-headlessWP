@@ -44,19 +44,14 @@ function createApolloClient() {
     uri: API_URL,
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            posts: concatPagination(),
-          },
-        },
-      },
+      // typePolicies: {
+      //   Query: {
+      //     fields: {
+      //       posts: concatPagination(),
+      //     },
+      //   },
+      // },
     }),
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'no-cache',
-      },
-    }
   })
 }
 
