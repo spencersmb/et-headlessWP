@@ -33,7 +33,6 @@ export default function Home(props) {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
     QUERY_ALL_POSTS,
     {
-      fetchPolicy: "cache-and-network",
       // variables: allPostsQueryVars,
       // Setting this value to true will make the component rerender when
       // the "networkStatus" changes, so we are able to know if it is fetching

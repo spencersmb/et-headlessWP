@@ -65,18 +65,21 @@ export function initializeApollo(initialState = null) {
     const existingCache = _apolloClient.extract()
 
     // Merge the existing cache into data passed from getStaticProps/getServerSideProps
-    const data = merge(initialState, existingCache, {
-      // combine arrays using object equality (like in sets)
-      arrayMerge: (destinationArray, sourceArray) => [
-        ...sourceArray,
-        ...destinationArray.filter((d) =>
-          sourceArray.every((s) => !isEqual(d, s))
-        ),
-      ],
-    })
+    // const data = merge(initialState, existingCache, {
+    //   // combine arrays using object equality (like in sets)
+    //   arrayMerge: (destinationArray, sourceArray) => [
+    //     ...sourceArray,
+    //     ...destinationArray.filter((d) =>
+    //       sourceArray.every((s) => !isEqual(d, s))
+    //     ),
+    //   ],
+    // })
 
     // Restore the cache with the merged data
-    _apolloClient.cache.restore(data)
+    // _apolloClient.cache.restore(data)
+
+    //CUSTOM
+    _apolloClient.cache.restore({ ...existingCache, ...initialState });
   }
   // For SSG and SSR always create a new Apollo Client
   if (typeof window === 'undefined') return _apolloClient
