@@ -44,6 +44,8 @@ export default function Home(props) {
   const posts = data?.posts?.edges?.map(({ node = {} }) => node);
 
   console.log('posts', posts)
+  console.log('networkStatus', networkStatus)
+  
 
 
   return (
@@ -99,7 +101,7 @@ export default function Home(props) {
   )
 }
 
-export async function getServerSideProps(){
+export async function getStaticProps(){
   console.log('revalidate')
 
   // Colby way
