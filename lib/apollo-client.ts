@@ -10,24 +10,24 @@ import isEqual from 'lodash/isEqual'
 const API_URL = process.env.WP_API_URL;
 let apolloClient;
 //
-// /**
-//  * getApolloClient
-//  */
-// export function getApolloClient() {
-//   if (!apolloClient) {
-//     apolloClient = _createApolloClient();
-//   }
-//   return apolloClient;
-// }
-//
-// export function _createApolloClient() {
-//   return new ApolloClient({
-//     ssrMode: typeof window === "undefined", // set to true for SSR
-//     uri: API_URL,
-//     connectToDevTools: process.env.NODE_ENV === 'development',
-//     cache: new InMemoryCache()
-//   });
-// }
+/**
+ * getApolloClient
+ */
+export function getApolloClient() {
+  if (!apolloClient) {
+    apolloClient = _createApolloClient();
+  }
+  return apolloClient;
+}
+
+export function _createApolloClient() {
+  return new ApolloClient({
+    ssrMode: typeof window === "undefined", // set to true for SSR
+    uri: API_URL,
+    connectToDevTools: process.env.NODE_ENV === 'development',
+    cache: new InMemoryCache()
+  });
+}
 //
 // export function initializeApollo(initialState = null) {
 //   const _apolloClient = apolloClient ?? _createApolloClient();
