@@ -6,7 +6,6 @@ import { concatPagination } from '@apollo/client/utilities'
 import { useMemo } from 'react'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import Error from 'next/error'
 
 const API_URL = process.env.WP_API_URL;
 let apolloClient;
@@ -132,7 +131,7 @@ async function fetchAPI(query, { variables }: any = {}) {
   const json = await res.json()
   if (json.errors) {
     console.error(json.errors)
-    throw new Error('Failed to fetch API')
+    throw new Error('Etest')
   }
   return json.data
 }
