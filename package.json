@@ -1,0 +1,31 @@
+{
+  "name": "headless-etwp",
+  "homepage": "https://next-wordpress-starter.spacejelly.dev",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.4.16",
+    "deepmerge": "^4.2.2",
+    "graphql": "^15.6.1",
+    "lodash": "^4.17.21",
+    "next": "11.1.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.3.1",
+    "sass": "^1.43.2",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.30",
+    "eslint": "^8.0.1",
+    "eslint-config-next": "11.1.2"
+  }
+}
