@@ -4,9 +4,6 @@ import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
 const getApolloClient = async () => {
 
 }
-export const getPaginatedPosts = async () => {
-
-}
 /**
  * getAllPosts
  */
@@ -24,20 +21,22 @@ export async function getAllPosts():Promise<{posts: IPost[]}> {
     posts: []
   };
 }
-
-export async function getAllPostsV2():Promise<{posts: IPost[]}> {
-  const apolloClient = initializeApollo();
-
-  const {data} = await apolloClient.query({
-    query: QUERY_ALL_POSTS,
-  });
-
-  const posts = data?.posts.edges.map(({ node = {} }) => node);
-
-  return {
-    posts: Array.isArray(posts) && posts.map(mapPostData),
-  };
+interface IApolloGetAllPostsNode{
+  node:IPostRaw
 }
+interface IApolloGetAllPostsResponse {
+  posts: {
+    edges: IApolloGetAllPostsNode[]
+  }
+}
+export function flattenAllPosts(posts:any): IPost[] {
+  console.log('flat', posts)
+
+  const postsFiltered = posts?.edges?.map(({ node = {} }) => node);
+
+  return Array.isArray(postsFiltered) && postsFiltered.map(mapPostData)
+}
+
 export function mapPostData(post:IPostRaw | {} = {}): IPost {
   const data = { ...post };
   let modifiedData: any = {...post}
@@ -68,6 +67,17 @@ export function mapPostData(post:IPostRaw | {} = {}): IPost {
 
 }
 
+export function getCurrentPage({
+                                    pagesCount,
+                                    currentPage = 1
+                                  }:{pagesCount: number, currentPage?: number}) {
+  let page = Number(currentPage);
+  if (typeof page === 'undefined' || isNaN(page) || page > pagesCount) {
+    page = 1;
+  }
+  return page
+}
+
 // export async function getPaginatedPosts(currentPage = 1): Promise<IPaginate> {
 //   const { posts } = await getAllPosts();
 //   const postsPerPage = await getPostsPerPage();
@@ -89,23 +99,25 @@ export function mapPostData(post:IPostRaw | {} = {}): IPost {
 //   };
 // }
 
-export async function getPaginatedPostsV2(currentPage = 1) {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: QUERY_ALL_POSTS,
-  });
-
-  await apolloClient.query({
-    query: QUERY_POST_PER_PAGE,
-  });
-
-  return {
-    initialApolloState: apolloClient.cache.extract()
-  }
-
+// export async function getPaginatedPostsV2(currentPage = 1) {
+//   const apolloClient = initializeApollo();
+//
+//   await apolloClient.query({
+//     query: QUERY_ALL_POSTS,
+//   });
+//
+//   await apolloClient.query({
+//     query: QUERY_POST_PER_PAGE,
+//   });
+//
+//   return {
+//     initialApolloState: apolloClient.cache.extract()
+//   }
+//
+// }
+export function getPagesCount(postsLength: number, postsPerPage: number):number {
+  return Math.ceil(postsLength / postsPerPage);
 }
-
 // export async function getPagesCount(posts: IPost[], postsPerPage = null):Promise<number> {
 //   const _postsPerPage = postsPerPage ?? (await getPostsPerPage());
 //   return Math.ceil(posts.length / _postsPerPage);
@@ -140,8 +152,7 @@ export async function getPostsPerPageV2(): Promise<number> {
     throw e;
   }
 }
-
-export function sortStickyPosts(posts):IPost[] {
-  return [...posts].sort((post) => (post.isSticky ? -1 : 1));
-}
-
+//
+// export function sortStickyPosts(posts):IPost[] {
+//   return [...posts].sort((post) => (post.isSticky ? -1 : 1));
+// }

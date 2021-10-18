@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
-import { getAllPosts, getPaginatedPosts, getPaginatedPostsV2, sortStickyPosts } from '../lib/posts'
+import { flattenAllPosts} from '../lib/posts'
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
@@ -18,11 +18,6 @@ export default function Home(props) {
   //
   // });
   //
-  // const  { loading, error, data }  = useQuery(QUERY_POST_PER_PAGE);
-  // console.log('postData', data)
-
-
-  // const newPosts = data?.posts?.edges?.map(({ node = {} }) => node);
 
 
   // const postsPerPage = Number(postData.data.allSettings.readingSettingsPostsPerPage);
@@ -40,33 +35,19 @@ export default function Home(props) {
   /*
   WITH-APOLLO
    */
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    QUERY_ALL_POSTS,
-    // {
-    //   // variables: allPostsQueryVars,
-    //   // Setting this value to true will make the component rerender when
-    //   // the "networkStatus" changes, so we are able to know if it is fetching
-    //   // more data
-    //   notifyOnNetworkStatusChange: true,
-    // }
-  )
-  console.log('loading', loading)
-  console.log('networkStatus', data)
+  // const { loading, error, data, fetchMore, networkStatus } = useQuery(
+  //   QUERY_ALL_POSTS,
+  //   {
+  //     // variables: allPostsQueryVars,
+  //     // Setting this value to true will make the component rerender when
+  //     // the "networkStatus" changes, so we are able to know if it is fetching
+  //     // more data
+  //     notifyOnNetworkStatusChange: true,
+  //   }
+  // )
 
+  const posts = []
 
-  // const { loading, error, data } = useQuery(EXCHANGE_RATES);
-  const posts = data?.posts?.edges?.map(({ node = {} }) => node);
-  // console.log('data', data)
-
-  console.log('var', process.env.NEXT_PUBLIC_WP_API_URL)
-
-  //
-  // console.log('posts', posts)
-  // console.log('networkStatus', networkStatus)
-  // console.log('loading', loading)
-
-
-  // if (loading) return (<div>Loading</div>);
   return (
     <div className={styles.container}>
       <Head>
@@ -76,7 +57,6 @@ export default function Home(props) {
       </Head>
 
       <h1 className={styles.title}>Welcome to our demo blog!</h1>
-      {/*<Counter/>*/}
       <p>
         You can find more articles on the{' '}
         <Link href='/blog'>
@@ -88,7 +68,7 @@ export default function Home(props) {
         <h3>Posts</h3>
         <ul>
           {posts
-            .filter((post,index) => (index < 10))
+            // .filter((post,index) => (index < 10))
             .map((post) => (
             <li key={post.id}>
               <Link href={`/blog/${post.slug}`}>
@@ -101,7 +81,10 @@ export default function Home(props) {
 
       <div>
         <h3>Pagination</h3>
-        {/*<Pagination {...pagination}  />*/}
+        <Pagination
+          postsLength={posts.length}
+          basePath={props.basePath}
+        />
       </div>
 
       <footer className={styles.footer}>
@@ -132,7 +115,7 @@ export async function getStaticProps(context){
    */
   const apolloClient = initializeApollo()
 
-  await apolloClient.query({
+  const {data} = await apolloClient.query({
     query: QUERY_ALL_POSTS,
     // variables: allPostsQueryVars,
   })
@@ -141,8 +124,15 @@ export async function getStaticProps(context){
     query: QUERY_POST_PER_PAGE,
   });
 
+
+  const posts = flattenAllPosts(data.posts) || []
+
+
   return addApolloState(apolloClient, {
-    props: {},
+    props: {
+      posts,
+      basePath: '/blog'
+    },
     revalidate: 5,
   })
 

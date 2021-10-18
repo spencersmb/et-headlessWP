@@ -4,7 +4,6 @@ import { useApollo } from '../lib/apollo-client'
 import type { AppProps } from 'next/app'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // const apolloClient = useApollo(pageProps.initialApolloState);
   const apolloClient = useApollo(pageProps)
 
   return(

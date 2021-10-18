@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { Helmet } from 'react-helmet';
 import { GrPrevious as PreviousIcon, GrNext as NextIcon } from 'react-icons/gr';
 import { HiOutlineDotsHorizontal as Dots } from 'react-icons/hi';
+import { useQuery } from '@apollo/client'
+import { QUERY_POST_PER_PAGE } from '../../graphqlData/postsData'
+import { getCurrentPage, getPagesCount } from '../../lib/posts'
 
 interface IProps {
-  pagesCount: number
-  currentPage: number
+  postsLength: number
   basePath: string
   addCanonical?: boolean
 }
@@ -15,8 +17,16 @@ interface IProps {
 const MAX_NUM_PAGES = 9;
 const { homepage = '' } = config;
 
-function Pagination ({ pagesCount, currentPage, basePath, addCanonical = true }:IProps) {
+function Pagination ({ postsLength, basePath, addCanonical = true }:IProps) {
+  const  { data }  = useQuery(QUERY_POST_PER_PAGE);
+  const postsPerPage = data.allSettings.readingSettingsPostsPerPage
+
+  const pagesCount = getPagesCount(postsLength, postsPerPage)
+  const currentPage = getCurrentPage({
+    pagesCount
+  })
   const path = `${basePath}/page/`;
+
   const hasPreviousPage = pagesCount > 1 && currentPage > 1;
   const hasNextPage = pagesCount > 1 && currentPage < pagesCount;
 

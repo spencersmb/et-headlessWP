@@ -16,8 +16,18 @@ let apolloClient;
 WITH-APOLLO DOCS
  */
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
+const flatten = () => (item) =>{
+  console.log('flatten', item)
+  if(item){
+    const newItem = item.edges.map(post => post.node)
+    console.log('newItem', newItem)
 
-function createApolloClient() {
+    return newItem
+  }
+  return item
+
+}
+function _createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     // link: new HttpLink({
@@ -28,9 +38,61 @@ function createApolloClient() {
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
       typePolicies: {
+//         RootQueryToPostConnection:{
+//           fields:{
+//             edges:{
+//               read(item, options){
+// console.log('options', options)
+//
+//                 if(item){
+//                   const newItems = item.map(post => {
+//                     // console.log('post', post)
+//                     const postRefId = post.node.__ref
+//                     const refObject = options.readField('post', 'cG9zdDo4Mzgz')
+//                     console.log('refObject', refObject)
+//
+//                   })
+//
+//
+//                   return newItems
+//                 }
+//                 return item
+//               }
+//             }
+//           }
+//         },
+//         Post:{
+//           // keyFields: ['node'],
+//           fields:{
+//             date:{
+//               read(date, options){
+//                 return 'new date'
+//               }
+//             }
+//           }
+//         },
         // Query: {
         //   fields: {
-        //     posts: concatPagination(),
+        //     // posts: flatten(),
+        //     posts:{
+        //       read(posts, options) {
+        //         // console.log('options', options)
+        //
+        //         if(posts){
+        //           const newItem = posts.edges.map(post => {
+        //             // console.log('post', post)
+        //             const refObject = options.readField('Post', post.node)
+        //             const toRef = options.mergeObjects(post, post.node)
+        //             console.log('refObject', toRef)
+        //
+        //             return post.node
+        //           })
+        //           // console.log('newItem', newItem)
+        //           return newItem
+        //         }
+        //         return posts
+        //       },
+        //     }
         //   },
         // },
       },
@@ -39,7 +101,7 @@ function createApolloClient() {
 }
 
 export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient()
+  const _apolloClient = apolloClient ?? _createApolloClient()
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
