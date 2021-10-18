@@ -6,19 +6,7 @@ import { getAllPosts, getPaginatedPosts, getPaginatedPostsV2, sortStickyPosts } 
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
-import { gql, useQuery } from '@apollo/client'
-// import Counter from '../components/counter/Counter'
-import { increment, incrementAsync } from '../lib/redux/reducers/counterReducer'
-import { useAppDispatch } from '../hooks/reduxHooks'
-import store from '../lib/redux/redux-store'
-const EXCHANGE_RATES = gql`
-    query GetExchangeRates {
-        rates(currency: "USD") {
-            currency
-            rate
-        }
-    }
-`;
+import { useQuery } from '@apollo/client'
 export default function Home(props) {
   console.log('props', props)
 
@@ -67,10 +55,11 @@ export default function Home(props) {
 
 
   // const { loading, error, data } = useQuery(EXCHANGE_RATES);
-  const newPosts = data?.posts?.edges?.map(({ node = {} }) => node);
+  const posts = data?.posts?.edges?.map(({ node = {} }) => node);
   // console.log('data', data)
 
-  console.log('newPosts[0]', newPosts[0].title)
+  console.log('var', process.env.NEXT_PUBLIC_WP_API_URL)
+
   //
   // console.log('posts', posts)
   // console.log('networkStatus', networkStatus)
@@ -98,15 +87,15 @@ export default function Home(props) {
       <div>
         <h3>Posts</h3>
         <ul>
-          {/*{posts*/}
-          {/*  .filter((post,index) => (index < 10))*/}
-          {/*  .map((post) => (*/}
-          {/*  <li key={post.id}>*/}
-          {/*    <Link href={`/blog/${post.slug}`}>*/}
-          {/*      {post.title}*/}
-          {/*    </Link>*/}
-          {/*  </li>*/}
-          {/*))}*/}
+          {posts
+            .filter((post,index) => (index < 10))
+            .map((post) => (
+            <li key={post.id}>
+              <Link href={`/blog/${post.slug}`}>
+                {post.title}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
 
