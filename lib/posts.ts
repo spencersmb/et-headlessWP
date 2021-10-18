@@ -4,7 +4,7 @@ import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
 const getApolloClient = async () => {
 
 }
-const getPaginatedPosts = async () => {
+export const getPaginatedPosts = async () => {
 
 }
 /**
