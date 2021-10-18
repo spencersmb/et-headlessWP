@@ -6,19 +6,36 @@ import { getAllPosts, getPaginatedPosts, getPaginatedPostsV2, sortStickyPosts } 
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
-import { useQuery } from '@apollo/client'
-
+import { gql, useQuery } from '@apollo/client'
+// import Counter from '../components/counter/Counter'
+import { increment, incrementAsync } from '../lib/redux/reducers/counterReducer'
+import { useAppDispatch } from '../hooks/reduxHooks'
+import store from '../lib/redux/redux-store'
+const EXCHANGE_RATES = gql`
+    query GetExchangeRates {
+        rates(currency: "USD") {
+            currency
+            rate
+        }
+    }
+`;
 export default function Home(props) {
   console.log('props', props)
 
-  // 1st ATTEMPT
-  const {posts} = props
-  const { loading, error, data } = useQuery(QUERY_ALL_POSTS);
 
-  // const postData = useQuery(QUERY_POST_PER_PAGE);
+
+  // 1st ATTEMPT
+  // const {posts} = props
+  // const { loading, error, data } = useQuery(QUERY_ALL_POSTS,{
   //
-  const newPosts = data?.posts?.edges?.map(({ node = {} }) => node);
-  console.log('newPosts[0]', newPosts[0].title)
+  // });
+  //
+  // const  { loading, error, data }  = useQuery(QUERY_POST_PER_PAGE);
+  // console.log('postData', data)
+
+
+  // const newPosts = data?.posts?.edges?.map(({ node = {} }) => node);
+
 
   // const postsPerPage = Number(postData.data.allSettings.readingSettingsPostsPerPage);
   // const pagesCount = Math.ceil(posts.length / postsPerPage);
@@ -32,25 +49,35 @@ export default function Home(props) {
   // const sortedPosts = sortStickyPosts(posts);
   // const newPosts = sortedPosts.slice(offset, offset + postsPerPage);
 
-  // WITH-APOLLO WAY
-  // const { loading, error, data, fetchMore, networkStatus } = useQuery(
-  //   QUERY_ALL_POSTS,
-  //   {
-  //     // variables: allPostsQueryVars,
-  //     // Setting this value to true will make the component rerender when
-  //     // the "networkStatus" changes, so we are able to know if it is fetching
-  //     // more data
-  //     notifyOnNetworkStatusChange: true,
-  //   }
-  // )
-  //
-  // const posts = data?.posts?.edges?.map(({ node = {} }) => node);
+  /*
+  WITH-APOLLO
+   */
+  const { loading, error, data, fetchMore, networkStatus } = useQuery(
+    QUERY_ALL_POSTS,
+    // {
+    //   // variables: allPostsQueryVars,
+    //   // Setting this value to true will make the component rerender when
+    //   // the "networkStatus" changes, so we are able to know if it is fetching
+    //   // more data
+    //   notifyOnNetworkStatusChange: true,
+    // }
+  )
+  console.log('loading', loading)
+  console.log('networkStatus', data)
+
+
+  // const { loading, error, data } = useQuery(EXCHANGE_RATES);
+  const newPosts = data?.posts?.edges?.map(({ node = {} }) => node);
+  // console.log('data', data)
+
+  console.log('newPosts[0]', newPosts[0].title)
   //
   // console.log('posts', posts)
   // console.log('networkStatus', networkStatus)
+  // console.log('loading', loading)
 
 
-
+  // if (loading) return (<div>Loading</div>);
   return (
     <div className={styles.container}>
       <Head>
@@ -60,7 +87,7 @@ export default function Home(props) {
       </Head>
 
       <h1 className={styles.title}>Welcome to our demo blog!</h1>
-
+      {/*<Counter/>*/}
       <p>
         You can find more articles on the{' '}
         <Link href='/blog'>
@@ -71,15 +98,15 @@ export default function Home(props) {
       <div>
         <h3>Posts</h3>
         <ul>
-          {posts
-            .filter((post,index) => (index < 10))
-            .map((post) => (
-            <li key={post.id}>
-              <Link href={`/blog/${post.slug}`}>
-                {post.title}
-              </Link>
-            </li>
-          ))}
+          {/*{posts*/}
+          {/*  .filter((post,index) => (index < 10))*/}
+          {/*  .map((post) => (*/}
+          {/*  <li key={post.id}>*/}
+          {/*    <Link href={`/blog/${post.slug}`}>*/}
+          {/*      {post.title}*/}
+          {/*    </Link>*/}
+          {/*  </li>*/}
+          {/*))}*/}
         </ul>
       </div>
 
@@ -103,10 +130,8 @@ export default function Home(props) {
     </div>
   )
 }
-
-export async function getStaticProps(){
-  console.log('revalidate')
-
+//
+export async function getStaticProps(context){
   // Colby way
   // const { posts, pagination } = await getPaginatedPostsV2();
 
@@ -126,23 +151,26 @@ export async function getStaticProps(){
   await apolloClient.query({
     query: QUERY_POST_PER_PAGE,
   });
-  //
-  // return addApolloState(apolloClient, {
-  //   props: {},
-  //   revalidate: 5,
-  // })
 
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-      posts:[]
-    },
-    revalidate: 1,
-  };
+  return addApolloState(apolloClient, {
+    props: {},
+    revalidate: 5,
+  })
 
+  /*
+  Following Apollo blog
+   */
   // return {
   //   props: {
-  //     initialApolloState,
+  //     initialApolloState: apolloClient.cache.extract(),
+  //     posts:[]
+  //   },
+  //   revalidate: 1,
+  // };
+  //
+  // return {
+  //   props: {
+  //     // initialApolloState,
   //     posts: [],
   //     // pagination: {
   //     //   ...pagination,
