@@ -3,14 +3,12 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client'
-import { concatPagination } from '@apollo/client/utilities'
 import { useMemo } from 'react'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 
 const API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 let apolloClient;
-//
 
 /*
 WITH-APOLLO DOCS
@@ -20,13 +18,13 @@ const flatten = () => (item) =>{
   console.log('flatten', item)
   if(item){
     const newItem = item.edges.map(post => post.node)
-    console.log('newItem', newItem)
 
     return newItem
   }
   return item
 
 }
+
 function _createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',

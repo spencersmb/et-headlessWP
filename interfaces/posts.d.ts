@@ -60,6 +60,7 @@ interface IPost {
 }
 
 interface IPaginate {
+  apolloClient,
   posts: IPost[]
   pagination:{
     currentPage: number

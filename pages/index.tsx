@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
-import { flattenAllPosts} from '../lib/posts'
+import { flattenAllPosts, getAllPosts, getPaginatedPosts } from '../lib/posts'
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
@@ -81,10 +81,10 @@ export default function Home(props) {
 
       <div>
         <h3>Pagination</h3>
-        <Pagination
-          postsLength={posts.length}
-          basePath={props.basePath}
-        />
+        {/*<Pagination*/}
+        {/*  postsLength={posts.length}*/}
+        {/*  basePath={props.basePath}*/}
+        {/*/>*/}
       </div>
 
       <footer className={styles.footer}>
@@ -113,24 +113,24 @@ export async function getStaticProps(context){
   /**
    * WITH-APOLLO
    */
-  const apolloClient = initializeApollo()
-
-  const {data} = await apolloClient.query({
-    query: QUERY_ALL_POSTS,
-    // variables: allPostsQueryVars,
-  })
-
-  await apolloClient.query({
-    query: QUERY_POST_PER_PAGE,
-  });
-
-
-  const posts = flattenAllPosts(data.posts) || []
+  const {posts, pagination, apolloClient} = await getPaginatedPosts()
+  // const {data} = await apolloClient.query({
+  //   query: QUERY_ALL_POSTS,
+  //   // variables: allPostsQueryVars,
+  // })
+  //
+  // await apolloClient.query({
+  //   query: QUERY_POST_PER_PAGE,
+  // });
+  //
+  //
+  // const posts = flattenAllPosts(data.posts) || []
 
 
   return addApolloState(apolloClient, {
     props: {
       posts,
+      pagination,
       basePath: '/blog'
     },
     revalidate: 5,
