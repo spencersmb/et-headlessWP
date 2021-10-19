@@ -9,6 +9,7 @@ export async function getAllPosts():Promise<{posts: IPost[], apolloClient: any}>
   const data = await apolloClient.query({
     query: QUERY_ALL_POSTS,
   });
+
   const posts = data?.data?.posts?.edges.map(({ node = {} }) => node);
 
   return {
