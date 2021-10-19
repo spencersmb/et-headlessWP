@@ -6,11 +6,11 @@ import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
  */
 export async function getAllPosts():Promise<{posts: IPost[], apolloClient: any}> {
   const apolloClient = initializeApollo();
-  const {data} = await apolloClient.query({
+  const data = await apolloClient.query({
     query: QUERY_ALL_POSTS,
   });
 
-  const posts = data?.posts?.edges.map(({ node = {} }) => node);
+  const posts = data?.data?.posts?.edges.map(({ node = {} }) => node);
 
   return {
     posts: Array.isArray(posts) && posts.map(mapPostData),
