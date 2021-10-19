@@ -17,6 +17,18 @@ export async function getAllPosts():Promise<{posts: IPost[], apolloClient: any}>
     apolloClient
   };
 }
+export async function getAllPostsV2():Promise<{posts: IPost[]}> {
+  const apolloClient = initializeApollo();
+  const data = await apolloClient.query({
+    query: QUERY_ALL_POSTS,
+  });
+
+  const posts = data?.data?.posts?.edges.map(({ node = {} }) => node);
+
+  return {
+    posts: Array.isArray(posts) && posts.map(mapPostData)
+  };
+}
 interface IApolloGetAllPostsNode{
   node:IPostRaw
 }
@@ -93,22 +105,23 @@ export async function getPaginatedPosts(currentPage = 1): Promise<IPaginate> {
   };
 }
 
-// export async function getPaginatedPostsV2(currentPage = 1) {
-//   const apolloClient = initializeApollo();
-//
-//   await apolloClient.query({
-//     query: QUERY_ALL_POSTS,
-//   });
-//
-//   await apolloClient.query({
-//     query: QUERY_POST_PER_PAGE,
-//   });
-//
-//   return {
-//     initialApolloState: apolloClient.cache.extract()
-//   }
-//
-// }
+export async function getPaginatedPostsV2(currentPage = 1) {
+  const apolloClient = initializeApollo();
+  const {posts} = await getAllPostsV2()
+  // await apolloClient.query({
+  //   query: QUERY_ALL_POSTS,
+  // });
+  //
+  // await apolloClient.query({
+  //   query: QUERY_POST_PER_PAGE,
+  // });
+
+  return {
+    initialApolloState: apolloClient.cache.extract(),
+    posts
+  }
+
+}
 export function getPagesCount(postsLength: number, postsPerPage: number):number {
   return Math.ceil(postsLength / postsPerPage);
 }
@@ -126,21 +139,6 @@ export async function getPostsPerPage(apolloClient?: any ): Promise<number> {
     });
 
     return Number(data?.data?.allSettings.readingSettingsPostsPerPage | 0);
-  } catch (e) {
-    console.log(`Failed to query post per page data: ${e.message}`);
-    throw e;
-  }
-}
-
-export async function getPostsPerPageV2(): Promise<number> {
-
-  try {
-    const apolloClient = initializeApollo();
-    const { data } = await apolloClient.query({
-      query: QUERY_POST_PER_PAGE,
-    });
-
-    return Number(data.allSettings.readingSettingsPostsPerPage);
   } catch (e) {
     console.log(`Failed to query post per page data: ${e.message}`);
     throw e;

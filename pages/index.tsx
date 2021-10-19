@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
-import { flattenAllPosts, getAllPosts, getPaginatedPosts } from '../lib/posts'
+import { flattenAllPosts, getAllPosts, getPaginatedPosts, getPaginatedPostsV2 } from '../lib/posts'
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
@@ -113,9 +113,10 @@ export async function getStaticProps(context){
   /**
    * WITH-APOLLO
    */
-  const apolloClient = initializeApollo()
+  // const apolloClient = initializeApollo()
+  //
+  // const {posts, pagination} = await getPaginatedPosts()
 
-  const {posts, pagination} = await getPaginatedPosts()
   // const {data} = await apolloClient.query({
   //   query: QUERY_ALL_POSTS,
   //   // variables: allPostsQueryVars,
@@ -129,14 +130,14 @@ export async function getStaticProps(context){
   // const posts = flattenAllPosts(data.posts) || []
 
 
-  return addApolloState(apolloClient, {
-    props: {
-      posts,
-      pagination,
-      basePath: '/blog'
-    },
-    revalidate: 5,
-  })
+  // return addApolloState(apolloClient, {
+  //   props: {
+  //     posts,
+  //     pagination,
+  //     basePath: '/blog'
+  //   },
+  //   revalidate: 5,
+  // })
 
   /*
   Following Apollo blog
@@ -149,15 +150,16 @@ export async function getStaticProps(context){
   //   revalidate: 1,
   // };
   //
-  // return {
-  //   props: {
-  //     // initialApolloState,
-  //     posts: [],
-  //     // pagination: {
-  //     //   ...pagination,
-  //     //   basePath: '/blog',
-  //     // },
-  //   },
-  //   revalidate: 5
-  // };
+  const {initialApolloState, posts} = await getPaginatedPostsV2()
+  return {
+    props: {
+      initialApolloState,
+      posts,
+      // pagination: {
+      //   ...pagination,
+      //   basePath: '/blog',
+      // },
+    },
+    revalidate: 5
+  };
 }

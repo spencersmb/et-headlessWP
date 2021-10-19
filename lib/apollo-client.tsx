@@ -15,16 +15,6 @@ let apolloClient;
 WITH-APOLLO DOCS
  */
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-const flatten = () => (item) =>{
-  console.log('flatten', item)
-  if(item){
-    const newItem = item.edges.map(post => post.node)
-
-    return newItem
-  }
-  return item
-
-}
 
 function _createApolloClient() {
   return new ApolloClient({
@@ -174,46 +164,4 @@ async function fetchAPI(query, { variables }: any = {}) {
     throw new Error('Etest')
   }
   return json.data
-}
-
-export async function getAllPostsForHome(preview) {
-  const data = await fetchAPI(
-    `
-    query AllPosts {
-      posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
-        edges {
-          node {
-            title
-            excerpt
-            slug
-            date
-            featuredImage {
-              node {
-                sourceUrl
-              }
-            }
-            author {
-              node {
-                name
-                firstName
-                lastName
-                avatar {
-                  url
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `,
-    {
-      variables: {
-        onlyEnabled: !preview,
-        preview,
-      },
-    }
-  )
-
-  return data?.posts
 }
