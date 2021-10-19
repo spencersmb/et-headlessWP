@@ -9,7 +9,6 @@ export async function getAllPosts():Promise<{posts: IPost[], apolloClient: any}>
   const data = await apolloClient.query({
     query: QUERY_ALL_POSTS,
   });
-
   const posts = data?.data?.posts?.edges.map(({ node = {} }) => node);
 
   return {
@@ -148,5 +147,8 @@ export async function getPostsPerPageV2(): Promise<number> {
 }
 
 export function sortStickyPosts(posts):IPost[] {
+  if(!posts){
+    return []
+  }
   return [...posts].sort((post) => (post.isSticky ? -1 : 1));
 }
