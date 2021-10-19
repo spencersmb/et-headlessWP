@@ -8,6 +8,7 @@ import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 
 const API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
+const API_URL_BACKEND = process.env.WP_API_URL;
 let apolloClient;
 
 /*
@@ -32,7 +33,7 @@ function _createApolloClient() {
     //   uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
     //   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     // }),
-    uri: API_URL,
+    uri: API_URL_BACKEND,
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
       typePolicies: {
