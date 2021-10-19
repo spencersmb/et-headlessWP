@@ -121,11 +121,11 @@ export async function getPostsPerPage(apolloClient?: any ): Promise<number> {
 
   try {
     const _apolloClient = apolloClient && apolloClient || initializeApollo();
-    const { data } = await _apolloClient.query({
+    const data = await _apolloClient.query({
       query: QUERY_POST_PER_PAGE,
     });
 
-    return Number(data.allSettings.readingSettingsPostsPerPage);
+    return Number(data?.data?.allSettings.readingSettingsPostsPerPage | 0);
   } catch (e) {
     console.log(`Failed to query post per page data: ${e.message}`);
     throw e;
