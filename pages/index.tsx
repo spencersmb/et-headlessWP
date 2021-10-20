@@ -104,18 +104,24 @@ export default function Home(props) {
 }
 //
 export async function getStaticProps(context){
-  // Colby way
-  // const { posts, pagination } = await getPaginatedPostsV2();
 
-  // 1st attempt
-  // const {initialApolloState} =  await getPaginatedPostsV2()
+  const {initialApolloState, posts, pagination} = await getPaginatedPostsV2()
+  return {
+    props: {
+      initialApolloState,
+      posts,
+      pagination: {
+        ...pagination,
+        basePath: '/blog',
+      },
+    },
+    revalidate: 5
+  };
 
   /**
    * WITH-APOLLO
    */
   // const apolloClient = initializeApollo()
-  //
-  // const {posts, pagination} = await getPaginatedPosts()
 
   // const {data} = await apolloClient.query({
   //   query: QUERY_ALL_POSTS,
@@ -129,37 +135,12 @@ export async function getStaticProps(context){
   //
   // const posts = flattenAllPosts(data.posts) || []
 
-
   // return addApolloState(apolloClient, {
   //   props: {
   //     posts,
-  //     pagination,
   //     basePath: '/blog'
   //   },
   //   revalidate: 5,
   // })
 
-  /*
-  Following Apollo blog
-   */
-  // return {
-  //   props: {
-  //     initialApolloState: apolloClient.cache.extract(),
-  //     posts:[]
-  //   },
-  //   revalidate: 1,
-  // };
-  //
-  const {initialApolloState, posts} = await getPaginatedPostsV2()
-  return {
-    props: {
-      initialApolloState,
-      posts,
-      // pagination: {
-      //   ...pagination,
-      //   basePath: '/blog',
-      // },
-    },
-    revalidate: 5
-  };
 }

@@ -17,6 +17,8 @@ export async function getAllPosts():Promise<{posts: IPost[], apolloClient: any}>
     apolloClient
   };
 }
+
+
 export async function getAllPostsV2():Promise<{posts: IPost[]}> {
   const apolloClient = initializeApollo();
   const data = await apolloClient.query({
@@ -108,27 +110,47 @@ export async function getPaginatedPosts(currentPage = 1): Promise<IPaginate> {
 export async function getPaginatedPostsV2(currentPage = 1) {
   const apolloClient = initializeApollo();
   const {posts} = await getAllPostsV2()
-  // await apolloClient.query({
-  //   query: QUERY_ALL_POSTS,
-  // });
-  //
-  // await apolloClient.query({
-  //   query: QUERY_POST_PER_PAGE,
-  // });
+  const postsPerPage = await getPostsPerPageV2()
+  const pagesCount = await getPagesCountV2(posts, postsPerPage)
+
+  let page = Number(currentPage);
+  if (typeof page === 'undefined' || isNaN(page) || page > pagesCount) {
+    page = 1;
+  }
+  const offset = postsPerPage * (page - 1);
+  const sortedPosts = sortStickyPosts(posts);
 
   return {
     initialApolloState: apolloClient.cache.extract(),
-    posts
+    posts: sortedPosts.slice(offset, offset + postsPerPage),
+    pagination: {
+      currentPage: page,
+      pagesCount,
+    },
   }
 
+}
+
+export async function getPostsPerPageV2(): Promise<number> {
+
+  try {
+    const _apolloClient = initializeApollo();
+    const {data} = await _apolloClient.query({
+      query: QUERY_POST_PER_PAGE,
+    });
+    return Number(data?.allSettings.readingSettingsPostsPerPage);
+  } catch (e) {
+    console.log(`Failed to query post per page data: ${e.message}`);
+    throw e;
+  }
 }
 export function getPagesCount(postsLength: number, postsPerPage: number):number {
   return Math.ceil(postsLength / postsPerPage);
 }
-// export async function getPagesCount(posts: IPost[], postsPerPage = null):Promise<number> {
-//   const _postsPerPage = postsPerPage ?? (await getPostsPerPage());
-//   return Math.ceil(posts.length / _postsPerPage);
-// }
+export async function getPagesCountV2(posts: IPost[], postsPerPage = null):Promise<number> {
+  const _postsPerPage = postsPerPage ?? (await getPostsPerPageV2());
+  return Math.ceil(posts.length / _postsPerPage);
+}
 
 export async function getPostsPerPage(apolloClient?: any ): Promise<number> {
 
