@@ -2,6 +2,9 @@
   "name": "Untitled GraphQL Schema",
   "schemaPath": "schema.graphql",
   "extensions": {
+    "customDirectives": [
+      "@client"
+    ],
     "endpoints": {
       "Default GraphQL Endpoint": {
         "url": "http://wpheadless.local/graphql",

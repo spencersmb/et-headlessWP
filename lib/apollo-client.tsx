@@ -1,21 +1,70 @@
 import {
   ApolloClient,
+  gql,
   HttpLink,
   InMemoryCache,
 } from '@apollo/client'
 import { useMemo } from 'react'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
+import { cache, cartItemsVar } from './apollo-cache'
 
 const API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const API_URL_BACKEND = process.env.WP_API_URL;
 let apolloClient;
 
+const typeDefs = gql`
+    type Nav {
+        isNavOpen: Boolean!
+#        cartItems: [ID!]!
+    }
+
+    extend type GeneralSettings {
+        nav: Nav
+    }
+
+    extend type RootQuery {
+        nav: Nav
+    }
+
+    type RootMutation {
+        openNav(open: Boolean): Nav
+    }
+`;
+
+const resolvers = {
+  GeneralSettings:{
+    nav(){
+      return {
+        isOpen: false
+      }
+    }
+  },
+  RootQuery:{
+    nav(){
+      return {
+        isOpen: false
+      }
+    }
+  },
+  Nav:{
+    isOpen(){
+      return false
+    }
+  }
+}
 /*
 WITH-APOLLO DOCS
  */
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-
+/**
+ * Creates and provides the apolloContext
+ * to a next.js PageTree. Use it by wrapping
+ * your PageComponent via HOC pattern.
+ * @param {Function|Class} PageComponent
+ * @param {Object} [config]
+ * @param {Boolean} [config.ssr=true]
+ */
 function _createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
@@ -25,67 +74,9 @@ function _createApolloClient() {
     // }),
     uri: API_URL,
     connectToDevTools: process.env.NODE_ENV === 'development',
-    cache: new InMemoryCache({
-      typePolicies: {
-//         RootQueryToPostConnection:{
-//           fields:{
-//             edges:{
-//               read(item, options){
-// console.log('options', options)
-//
-//                 if(item){
-//                   const newItems = item.map(post => {
-//                     // console.log('post', post)
-//                     const postRefId = post.node.__ref
-//                     const refObject = options.readField('post', 'cG9zdDo4Mzgz')
-//                     console.log('refObject', refObject)
-//
-//                   })
-//
-//
-//                   return newItems
-//                 }
-//                 return item
-//               }
-//             }
-//           }
-//         },
-//         Post:{
-//           // keyFields: ['node'],
-//           fields:{
-//             date:{
-//               read(date, options){
-//                 return 'new date'
-//               }
-//             }
-//           }
-//         },
-        // Query: {
-        //   fields: {
-        //     // posts: flatten(),
-        //     posts:{
-        //       read(posts, options) {
-        //         // console.log('options', options)
-        //
-        //         if(posts){
-        //           const newItem = posts.edges.map(post => {
-        //             // console.log('post', post)
-        //             const refObject = options.readField('Post', post.node)
-        //             const toRef = options.mergeObjects(post, post.node)
-        //             console.log('refObject', toRef)
-        //
-        //             return post.node
-        //           })
-        //           // console.log('newItem', newItem)
-        //           return newItem
-        //         }
-        //         return posts
-        //       },
-        //     }
-        //   },
-        // },
-      },
-    }),
+    cache,
+    // resolvers,
+    // typeDefs,
   })
 }
 

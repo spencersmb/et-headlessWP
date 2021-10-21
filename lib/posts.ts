@@ -1,4 +1,4 @@
-import { initializeApollo } from './apollo-client'
+import { APOLLO_STATE_PROP_NAME, initializeApollo } from './apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
 
 /**
@@ -119,9 +119,8 @@ export async function getPaginatedPostsV2(currentPage = 1) {
   }
   const offset = postsPerPage * (page - 1);
   const sortedPosts = sortStickyPosts(posts);
-
   return {
-    initialApolloState: apolloClient.cache.extract(),
+    [APOLLO_STATE_PROP_NAME]: apolloClient.cache.extract(),
     posts: sortedPosts.slice(offset, offset + postsPerPage),
     pagination: {
       currentPage: page,

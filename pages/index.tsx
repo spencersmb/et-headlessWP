@@ -6,20 +6,57 @@ import { flattenAllPosts, getAllPosts, getPaginatedPosts, getPaginatedPostsV2 } 
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
-import { useQuery } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
+import { cache, NAV_QUERY, NavVar } from '../lib/apollo-cache'
+
+const useWriteQuery = () => {
+  const cacheDataLocally = (data: any) => {
+    cache.writeQuery({
+      query: NAV_QUERY,
+      data: {
+        ...data
+      },
+    });
+  }
+  return {
+    cacheDataLocally
+  }
+}
 export default function Home(props) {
-  console.log('props', props)
+  // console.log('props', props)
 
+  const {posts, pagination} = props
+  const {cacheDataLocally} = useWriteQuery()
+  const {data} = useQuery(NAV_QUERY);
+  console.log('isNav Open', data)
 
+  function toggleNav() {
 
-  // 1st ATTEMPT
-  // const {posts} = props
-  // const { loading, error, data } = useQuery(QUERY_ALL_POSTS,{
-  //
-  // });
-  //
+    // get current value
+    const _current = NavVar()
 
+    // set Local value
+    NavVar({
+      isOpen: !_current.isOpen
+    })
 
+    // optionally update the cache
+    // cacheDataLocally(
+    //   {
+    //     nav:{
+    //       isOpen: !_current.isOpen
+    //     }
+    //   }
+    // )
+    // cache.writeQuery({
+    //   query: NAV_QUERY,
+    //   data: {
+    //     nav:{
+    //       isOpen: !_current.isOpen
+    //     }
+    //   },
+    // });
+  }
   // const postsPerPage = Number(postData.data.allSettings.readingSettingsPostsPerPage);
   // const pagesCount = Math.ceil(posts.length / postsPerPage);
   //
@@ -46,8 +83,6 @@ export default function Home(props) {
   //   }
   // )
 
-  const posts = []
-
   return (
     <div className={styles.container}>
       <Head>
@@ -63,15 +98,15 @@ export default function Home(props) {
           <a>blog articles page</a>
         </Link>
       </p>
-
+      <button onClick={toggleNav}>IsNav Open</button>
       <div>
         <h3>Posts</h3>
         <ul>
           {posts
-            // .filter((post,index) => (index < 10))
+            .filter((post,index) => index <10 )
             .map((post) => (
             <li key={post.id}>
-              <Link href={`/blog/${post.slug}`}>
+              <Link href={`/${post.slug}`}>
                 {post.title}
               </Link>
             </li>
@@ -81,10 +116,9 @@ export default function Home(props) {
 
       <div>
         <h3>Pagination</h3>
-        {/*<Pagination*/}
-        {/*  postsLength={posts.length}*/}
-        {/*  basePath={props.basePath}*/}
-        {/*/>*/}
+        <Pagination
+          {...pagination}
+        />
       </div>
 
       <footer className={styles.footer}>
@@ -105,14 +139,14 @@ export default function Home(props) {
 //
 export async function getStaticProps(context){
 
-  const {initialApolloState, posts, pagination} = await getPaginatedPostsV2()
+  const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPostsV2()
   return {
     props: {
-      initialApolloState,
+      __APOLLO_STATE__,
       posts,
       pagination: {
         ...pagination,
-        basePath: '/blog',
+        basePath: '',
       },
     },
     revalidate: 5
@@ -122,19 +156,15 @@ export async function getStaticProps(context){
    * WITH-APOLLO
    */
   // const apolloClient = initializeApollo()
-
-  // const {data} = await apolloClient.query({
+  //
+  // const data = await apolloClient.query({
   //   query: QUERY_ALL_POSTS,
   //   // variables: allPostsQueryVars,
   // })
+  // console.log('data', data)
   //
-  // await apolloClient.query({
-  //   query: QUERY_POST_PER_PAGE,
-  // });
+  // const posts = flattenAllPosts(data?.data.posts) || []
   //
-  //
-  // const posts = flattenAllPosts(data.posts) || []
-
   // return addApolloState(apolloClient, {
   //   props: {
   //     posts,

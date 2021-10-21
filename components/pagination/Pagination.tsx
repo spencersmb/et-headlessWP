@@ -9,7 +9,8 @@ import { QUERY_POST_PER_PAGE } from '../../graphqlData/postsData'
 import { getCurrentPage, getPagesCount } from '../../lib/posts'
 
 interface IProps {
-  postsLength: number
+  pagesCount: number
+  currentPage: number
   basePath: string
   addCanonical?: boolean
 }
@@ -17,15 +18,10 @@ interface IProps {
 const MAX_NUM_PAGES = 9;
 const { homepage = '' } = config;
 
-function Pagination ({ postsLength, basePath, addCanonical = true }:IProps) {
-  const  { data }  = useQuery(QUERY_POST_PER_PAGE);
-  const postsPerPage = data.allSettings.readingSettingsPostsPerPage
-
-  const pagesCount = getPagesCount(postsLength, postsPerPage)
-  const currentPage = getCurrentPage({
-    pagesCount
-  })
+function Pagination ({ pagesCount, currentPage, basePath, addCanonical = true }:IProps) {
   const path = `${basePath}/page/`;
+  console.log('path', path)
+  
 
   const hasPreviousPage = pagesCount > 1 && currentPage > 1;
   const hasNextPage = pagesCount > 1 && currentPage < pagesCount;

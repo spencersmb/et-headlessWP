@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const QUERY_ALL_POSTS = gql`
     query AllPosts {
-        posts(first: 10) {
+        posts(first: 40) {
             __typename
             edges {
                 __typename
