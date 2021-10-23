@@ -6,8 +6,21 @@ import { flattenAllPosts, getAllPosts, getPaginatedPosts, getPaginatedPostsV2 } 
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
-import { useQuery, gql } from '@apollo/client'
-import { cache, NAV_QUERY, NavVar } from '../lib/apollo-cache'
+import { useQuery, gql, useMutation, useReactiveVar } from '@apollo/client'
+import { cache, IsLoggedInVar, NAV_QUERY, NavVar } from '../lib/apollo-cache'
+import Test from '../components/test'
+import { useEssGridAuth } from '../lib/auth/authContext'
+import { useEffect } from 'react'
+import { wrapper } from '../lib/redux/store'
+import { serverRenderClock, startClock } from '../lib/redux/tick/actions'
+import { addCount } from '../lib/redux/counter/actions'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import Clock from '../components/Clock'
+import AddCount from '../components/addCount'
+import { mutations } from '../lib/apollo-mutations'
+import { loginUserAction } from '../lib/redux/user/actions'
+
 
 const useWriteQuery = () => {
   const cacheDataLocally = (data: any) => {
@@ -22,17 +35,46 @@ const useWriteQuery = () => {
     cacheDataLocally
   }
 }
-export default function Home(props) {
+function Home(props) {
+
+  console.log('props', props)
+
+  useEffect(() => {
+    // const timer = props.startClock()
+    //
+    // return () => {
+    //   clearInterval(timer)
+    // }
+  }, [props])
   // console.log('props', props)
 
-  const {posts, pagination} = props
+  // const {posts, pagination} = props
+  const posts = []
+
   const {cacheDataLocally} = useWriteQuery()
-  const {data} = useQuery(NAV_QUERY);
-  console.log('isNav Open', data)
+  const isLoggedIn = useReactiveVar(IsLoggedInVar)
+  console.log('isLoggedIn', isLoggedIn)
 
-  function toggleNav() {
+  // const {data} = useQuery(NAV_QUERY);
+  // console.log('isNav Open index page', data.nav.isOpen)
 
-    // get current value
+  // const [toggleNavMut] = useMutation(TOGGLE_NAV_GQL)
+
+  // console.log('opened', opened)
+  // console.log('loading', loading)
+  // console.log('error', error)
+
+// toggleNav({open: true})
+  const {state} = useEssGridAuth()
+  const {logUserIn, logoutAction}= useEssGridAuth()
+
+//   console.log('state from index', state)
+  function LogIn(){
+    IsLoggedInVar(true)
+  }
+  async function toggleNav() {
+
+    // // get current value
     const _current = NavVar()
 
     // set Local value
@@ -41,13 +83,13 @@ export default function Home(props) {
     })
 
     // optionally update the cache
-    // cacheDataLocally(
-    //   {
-    //     nav:{
-    //       isOpen: !_current.isOpen
-    //     }
-    //   }
-    // )
+    cacheDataLocally(
+      {
+        nav:{
+          isOpen: !_current.isOpen
+        }
+      }
+    )
     // cache.writeQuery({
     //   query: NAV_QUERY,
     //   data: {
@@ -83,6 +125,8 @@ export default function Home(props) {
   //   }
   // )
 
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -92,13 +136,35 @@ export default function Home(props) {
       </Head>
 
       <h1 className={styles.title}>Welcome to our demo blog!</h1>
+      <AddCount />
+      <Clock lastUpdate={props.tick.lastUpdate} light={props.tick.light}/>
+      <nav>
+        <Link href={'/other'}>
+          <a>Navigate</a>
+        </Link>
+      </nav>
+      <h2>Nav Status: {JSON.stringify(state.loggedIn)}</h2>
+      {/*<button onClick={async ()=>{*/}
+      {/*  LogIn()*/}
+      {/*  // await toggleNav({ variables: { isOpen: true }})*/}
+      {/*}}>LoginVar Test</button>*/}
+      <button onClick={async ()=>{
+        logUserIn()
+        // await toggleNav({ variables: { isOpen: true }})
+      }}>Login</button>
+
+      <button onClick={async ()=>{
+        logoutAction()
+        // await toggleNav({ variables: { isOpen: true }})
+      }}>LogOut</button>
       <p>
         You can find more articles on the{' '}
         <Link href='/blog'>
           <a>blog articles page</a>
         </Link>
       </p>
-      <button onClick={toggleNav}>IsNav Open</button>
+      <button onClick={toggleNav}>IsNav Local Cache</button>
+      <Test />
       <div>
         <h3>Posts</h3>
         <ul>
@@ -116,9 +182,9 @@ export default function Home(props) {
 
       <div>
         <h3>Pagination</h3>
-        <Pagination
-          {...pagination}
-        />
+        {/*<Pagination*/}
+        {/*  {...pagination}*/}
+        {/*/>*/}
       </div>
 
       <footer className={styles.footer}>
@@ -136,8 +202,8 @@ export default function Home(props) {
     </div>
   )
 }
-//
-export async function getStaticProps(context){
+
+export async function getStaticPropsApollo(context) {
 
   const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPostsV2()
   return {
@@ -151,26 +217,59 @@ export async function getStaticProps(context){
     },
     revalidate: 5
   };
-
-  /**
-   * WITH-APOLLO
-   */
-  // const apolloClient = initializeApollo()
-  //
-  // const data = await apolloClient.query({
-  //   query: QUERY_ALL_POSTS,
-  //   // variables: allPostsQueryVars,
-  // })
-  // console.log('data', data)
-  //
-  // const posts = flattenAllPosts(data?.data.posts) || []
-  //
-  // return addApolloState(apolloClient, {
-  //   props: {
-  //     posts,
-  //     basePath: '/blog'
-  //   },
-  //   revalidate: 5,
-  // })
-
 }
+
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  const {toggleIsLoggedIn} = mutations
+  IsLoggedInVar(true)
+  const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPostsV2()
+  // store.dispatch(serverRenderClock(true))
+  store.dispatch(loginUserAction())
+  store.dispatch(addCount())
+  return{
+    props: {
+      __APOLLO_STATE__,
+      posts,
+      pagination: {
+        ...pagination,
+        basePath: '',
+      },
+    },
+    revalidate: 5
+  }
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addCount: bindActionCreators(addCount, dispatch),
+    startClock: bindActionCreators(startClock, dispatch),
+  }
+}
+const mapStateToProps = (state) => {
+  return state
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
+
+//
+//   /**
+//    * WITH-APOLLO
+//    */
+//   // const apolloClient = initializeApollo()
+//   //
+//   // const data = await apolloClient.query({
+//   //   query: QUERY_ALL_POSTS,
+//   //   // variables: allPostsQueryVars,
+//   // })
+//   // console.log('data', data)
+//   //
+//   // const posts = flattenAllPosts(data?.data.posts) || []
+//   //
+//   // return addApolloState(apolloClient, {
+//   //   props: {
+//   //     posts,
+//   //     basePath: '/blog'
+//   //   },
+//   //   revalidate: 5,
+//   // })
+//
+// }

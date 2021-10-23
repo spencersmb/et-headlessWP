@@ -1,35 +1,31 @@
 import {
   ApolloClient,
   gql,
-  HttpLink,
-  InMemoryCache,
 } from '@apollo/client'
 import { useMemo } from 'react'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { cache, cartItemsVar } from './apollo-cache'
+import { cache, cartItemsVar, NAV_QUERY } from './apollo-cache'
 
 const API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const API_URL_BACKEND = process.env.WP_API_URL;
 let apolloClient;
 
 const typeDefs = gql`
-    type Nav {
-        isNavOpen: Boolean!
-#        cartItems: [ID!]!
-    }
-
-    extend type GeneralSettings {
-        nav: Nav
-    }
+#    type Nav {
+#        isNavOpen: Boolean!
+##        cartItems: [ID!]!
+#    }
+#
+#    extend type GeneralSettings {
+#        nav: Nav
+#    }
 
     extend type RootQuery {
         nav: Nav
     }
 
-    type RootMutation {
-        openNav(open: Boolean): Nav
-    }
+
 `;
 
 const resolvers = {
@@ -50,6 +46,30 @@ const resolvers = {
   Nav:{
     isOpen(){
       return false
+    }
+  }
+}
+const mutations = {
+  updateNav: (_, variables, { cache }) => {
+    console.log('variables', variables)
+
+    //query existing data
+    const data = cache.readQuery({ query: NAV_QUERY });
+
+    //Calculate new counter value
+    const _currentValue = data.nav.isOpen;
+    cache.writeQuery({
+      query: NAV_QUERY,
+      data: {
+        nav: {
+          isOpen: !_currentValue
+        }
+      },
+    })
+    return {
+      nav: {
+        isOpen: !_currentValue
+      }
     }
   }
 }
@@ -75,8 +95,10 @@ function _createApolloClient() {
     uri: API_URL,
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache,
-    // resolvers,
-    // typeDefs,
+    resolvers: {
+      Mutation: mutations
+    },
+    typeDefs,
   })
 }
 

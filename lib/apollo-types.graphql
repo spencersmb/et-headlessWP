@@ -1,2 +1,23 @@
+directive @client on FIELD
 
+type Nav {
+    isOpen: Boolean!
+}
+type NavReturn{
+    nav: Nav
+}
+
+type Todo{
+    id: ID
+    text:String
+}
+
+type LoggedIn {
+    isLoggedIn: Boolean
+}
+
+extend type RootMutation {
+    updateNav(isOpen: Boolean): NavReturn
+    addTodo(text: String): Todo
+}
 

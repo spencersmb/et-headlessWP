@@ -9,7 +9,6 @@ export default function Posts({ posts, pagination }) {
   const {data} = useQuery(NAV_QUERY);
   console.log('isNav Open', data)
 
-
   return (
     <div>
       <h2>Posts</h2>

@@ -6,17 +6,25 @@ export const NavVar = makeVar<{isOpen: boolean}>({
   isOpen: false
 });
 
+export const IsLoggedInVar = makeVar<boolean>(false);
+
+
 // Initializes to an empty array
 export const cartItemsVar = makeVar<string[]>([]);
 export const cache = new InMemoryCache({
     typePolicies: {
       Query: {
         fields: {
-          nav:{
-            read () {
-              return NavVar();
+          isLoggedIn: {
+            read(){
+              return IsLoggedInVar()
             }
           }
+          // nav:{
+          //   read () {
+          //     return NavVar();
+          //   }
+          // }
           // cartItems: {
           //   read () {
           //     return cartItemsVar();
@@ -24,7 +32,7 @@ export const cache = new InMemoryCache({
           // },
         }
       },
-    }
+    },
   })
 
 export const NAV_QUERY = gql`

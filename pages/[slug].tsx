@@ -4,11 +4,14 @@ import { flattenAllPosts } from '../lib/posts'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { NAV_QUERY } from '../lib/apollo-cache'
+import { useEssGridAuth } from '../lib/auth/authContext'
 
 function Post(props){
   // console.log('page props', props)
   const {data} = useQuery(NAV_QUERY);
-  console.log('nav data', data.nav)
+  // console.log('nav data', data.nav)
+  const {state} = useEssGridAuth()
+  console.log('state from index', state)
 
 
   return (
@@ -24,7 +27,7 @@ function Post(props){
 export default Post
 export async function getStaticPaths(params){
   console.log('params', params)
-  
+
   return{
     paths:[
       { params: {
