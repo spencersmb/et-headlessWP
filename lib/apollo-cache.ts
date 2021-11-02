@@ -1,13 +1,6 @@
-import { InMemoryCache, Reference, makeVar, gql } from '@apollo/client'
-
-// Initializes to true if localStorage includes a 'token' key,
-// false otherwise
-export const NavVar = makeVar<{isOpen: boolean}>({
-  isOpen: false
-});
+import { InMemoryCache, makeVar, gql } from '@apollo/client'
 
 export const IsLoggedInVar = makeVar<boolean>(false);
-
 
 // Initializes to an empty array
 export const cartItemsVar = makeVar<string[]>([]);
@@ -25,21 +18,23 @@ export const cache = new InMemoryCache({
           //     return NavVar();
           //   }
           // }
-          // cartItems: {
-          //   read () {
-          //     return cartItemsVar();
-          //   }
-          // },
         }
       },
     },
   })
 
+/*
+Example: How to query local data from cache
+ */
 export const NAV_QUERY = gql`
     query Settings {
         nav @client
     }
 `;
+
+/*
+Example: How to write local data to cache - **causes a render on client side**
+ */
 cache.writeQuery({
   query: NAV_QUERY,
   data: {

@@ -7,7 +7,7 @@ import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphqlData/postsData'
 import { useQuery, gql, useMutation, useReactiveVar } from '@apollo/client'
-import { cache, IsLoggedInVar, NAV_QUERY, NavVar } from '../lib/apollo-cache'
+import { cache, IsLoggedInVar, NAV_QUERY } from '../lib/apollo-cache'
 import Test from '../components/test'
 import { useEssGridAuth } from '../lib/auth/authContext'
 import { useEffect } from 'react'
@@ -46,73 +46,20 @@ function Home(props) {
     //   clearInterval(timer)
     // }
   }, [props])
-  // console.log('props', props)
 
-  // const {posts, pagination} = props
-  const posts = []
-
-  const {cacheDataLocally} = useWriteQuery()
   const isLoggedIn = useReactiveVar(IsLoggedInVar)
   console.log('isLoggedIn', isLoggedIn)
 
-  // const {data} = useQuery(NAV_QUERY);
-  // console.log('isNav Open index page', data.nav.isOpen)
-
-  // const [toggleNavMut] = useMutation(TOGGLE_NAV_GQL)
-
-  // console.log('opened', opened)
-  // console.log('loading', loading)
-  // console.log('error', error)
-
-// toggleNav({open: true})
   const {state} = useEssGridAuth()
   const {logUserIn, logoutAction}= useEssGridAuth()
 
-//   console.log('state from index', state)
+
   function LogIn(){
     IsLoggedInVar(true)
   }
-  async function toggleNav() {
-
-    // // get current value
-    const _current = NavVar()
-
-    // set Local value
-    NavVar({
-      isOpen: !_current.isOpen
-    })
-
-    // optionally update the cache
-    cacheDataLocally(
-      {
-        nav:{
-          isOpen: !_current.isOpen
-        }
-      }
-    )
-    // cache.writeQuery({
-    //   query: NAV_QUERY,
-    //   data: {
-    //     nav:{
-    //       isOpen: !_current.isOpen
-    //     }
-    //   },
-    // });
-  }
-  // const postsPerPage = Number(postData.data.allSettings.readingSettingsPostsPerPage);
-  // const pagesCount = Math.ceil(posts.length / postsPerPage);
-  //
-  // let page = Number(1);
-  // if (typeof page === 'undefined' || isNaN(page) || page > pagesCount) {
-  //   page = 1;
-  // }
-  //
-  // const offset = postsPerPage * (page - 1);
-  // const sortedPosts = sortStickyPosts(posts);
-  // const newPosts = sortedPosts.slice(offset, offset + postsPerPage);
 
   /*
-  WITH-APOLLO
+  WITH-APOLLO EXAMPLE TO PULL POSTS FROM CACHE
    */
   // const { loading, error, data, fetchMore, networkStatus } = useQuery(
   //   QUERY_ALL_POSTS,
@@ -124,8 +71,6 @@ function Home(props) {
   //     notifyOnNetworkStatusChange: true,
   //   }
   // )
-
-
 
   return (
     <div className={styles.container}>
@@ -144,31 +89,26 @@ function Home(props) {
         </Link>
       </nav>
       <h2>Nav Status: {JSON.stringify(state.loggedIn)}</h2>
-      {/*<button onClick={async ()=>{*/}
-      {/*  LogIn()*/}
-      {/*  // await toggleNav({ variables: { isOpen: true }})*/}
-      {/*}}>LoginVar Test</button>*/}
       <button onClick={async ()=>{
         logUserIn()
         // await toggleNav({ variables: { isOpen: true }})
-      }}>Login</button>
+      }}>Context Login </button>
 
       <button onClick={async ()=>{
         logoutAction()
         // await toggleNav({ variables: { isOpen: true }})
-      }}>LogOut</button>
+      }}>Context LogOut</button>
       <p>
         You can find more articles on the{' '}
         <Link href='/blog'>
           <a>blog articles page</a>
         </Link>
       </p>
-      <button onClick={toggleNav}>IsNav Local Cache</button>
       <Test />
       <div>
         <h3>Posts</h3>
         <ul>
-          {posts
+          {props.posts
             .filter((post,index) => index <10 )
             .map((post) => (
             <li key={post.id}>
@@ -183,7 +123,7 @@ function Home(props) {
       <div>
         <h3>Pagination</h3>
         {/*<Pagination*/}
-        {/*  {...pagination}*/}
+        {/*  {...props.pagination}*/}
         {/*/>*/}
       </div>
 
@@ -203,40 +143,47 @@ function Home(props) {
   )
 }
 
-export async function getStaticPropsApollo(context) {
-
-  const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPostsV2()
-  return {
-    props: {
-      __APOLLO_STATE__,
-      posts,
-      pagination: {
-        ...pagination,
-        basePath: '',
-      },
-    },
-    revalidate: 5
-  };
-}
-
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  const {toggleIsLoggedIn} = mutations
-  IsLoggedInVar(true)
-  const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPostsV2()
-  // store.dispatch(serverRenderClock(true))
-  store.dispatch(loginUserAction())
-  store.dispatch(addCount())
-  return{
+
+  // const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPostsV2()
+  // // store.dispatch(serverRenderClock(true))
+  // store.dispatch(loginUserAction())
+  // store.dispatch(addCount())
+  // return{
+  //   props: {
+  //     __APOLLO_STATE__,
+  //     posts,
+  //     pagination: {
+  //       ...pagination,
+  //       basePath: '',
+  //     },
+  //   },
+  //   revalidate: 5
+  // }
+
+  /**
+   * WITH-APOLLO Alternate way to wrap component
+   */
+  const apolloClient = initializeApollo()
+
+  const data = await apolloClient.query({
+    query: QUERY_ALL_POSTS,
+    // variables: allPostsQueryVars,
+  })
+
+  const posts = flattenAllPosts(data?.data.posts) || []
+
+  return addApolloState(apolloClient, {
     props: {
-      __APOLLO_STATE__,
       posts,
       pagination: {
-        ...pagination,
+        // ...pagination,
         basePath: '',
       },
+      basePath: ''
     },
-    revalidate: 5
-  }
+    revalidate: 5,
+  })
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -250,26 +197,6 @@ const mapStateToProps = (state) => {
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
 
-//
-//   /**
-//    * WITH-APOLLO
-//    */
-//   // const apolloClient = initializeApollo()
-//   //
-//   // const data = await apolloClient.query({
-//   //   query: QUERY_ALL_POSTS,
-//   //   // variables: allPostsQueryVars,
-//   // })
-//   // console.log('data', data)
-//   //
-//   // const posts = flattenAllPosts(data?.data.posts) || []
-//   //
-//   // return addApolloState(apolloClient, {
-//   //   props: {
-//   //     posts,
-//   //     basePath: '/blog'
-//   //   },
-//   //   revalidate: 5,
-//   // })
+
 //
 // }
