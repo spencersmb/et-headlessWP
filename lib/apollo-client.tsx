@@ -1,11 +1,12 @@
 import {
   ApolloClient,
-  gql,
+  gql, InMemoryCache,
 } from '@apollo/client'
 import { useMemo } from 'react'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { cache, cartItemsVar, NAV_QUERY } from './apollo-cache'
+import { IsLoggedInVar, NAV_QUERY } from './apollo-cache'
+import { relayStylePagination } from '@apollo/client/utilities'
 
 const API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const API_URL_BACKEND = process.env.WP_API_URL;
@@ -51,7 +52,6 @@ const resolvers = {
 }
 const mutations = {
   updateNav: (_, variables, { cache }) => {
-    console.log('variables', variables)
 
     //query existing data
     const data = cache.readQuery({ query: NAV_QUERY });
@@ -93,12 +93,48 @@ function _createApolloClient() {
     //   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     // }),
     uri: API_URL,
-    connectToDevTools: process.env.NODE_ENV === 'development',
-    cache,
-    resolvers: {
-      Mutation: mutations
+    defaultOptions:{
+        query:{
+          // notifyOnNetworkStatusChange: true
+        }
     },
-    typeDefs,
+    connectToDevTools: process.env.NODE_ENV === 'development',
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            isLoggedIn: {
+              read(){
+                return IsLoggedInVar()
+              }
+            },
+
+            //Pagination
+            posts: relayStylePagination()
+            // posts:{
+            //   keyArgs: ["type"],
+            //   merge(existing = [], incoming) {
+            //     console.log('existing', existing)
+            //     console.log('incoming', incoming)
+            //
+            //
+            //     // return [existing, incoming];
+            //     return {
+            //       ...existing,
+            //       ...incoming
+            //     }
+            //   },
+            // }
+
+            // nav:{
+            //   read () {
+            //     return NavVar();
+            //   }
+            // }
+          }
+        },
+      },
+    })
   })
 }
 

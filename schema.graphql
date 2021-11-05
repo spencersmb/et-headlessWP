@@ -479,12 +479,48 @@ union CoreTableBlockAttributesUnion = CoreTableBlockAttributes | CoreTableBlockD
 
 union CoreVerseBlockAttributesUnion = CoreVerseBlockAttributes | CoreVerseBlockDeprecatedV1Attributes
 
+union HeadlessConfig_Additionalsettings_Error404Page = Page
+
 "Deprecated in favor of MenuItemLinkeable Interface"
-union MenuItemObjectUnion = Category | Page | Post | PostFormat | Tag
+union MenuItemObjectUnion = Category | Page | Post | Tag
 
 union YoastFaqBlockAttributesUnion = YoastFaqBlockAttributes | YoastFaqBlockDeprecatedV1Attributes
 
 union YoastHowToBlockAttributesUnion = YoastHowToBlockAttributes | YoastHowToBlockDeprecatedV1Attributes | YoastHowToBlockDeprecatedV2Attributes
+
+"acf/acf-media-text block"
+type AcfAcfMediaTextBlock implements Block {
+    attributes: AcfAcfMediaTextBlockAttributes
+    "Block attributes, JSON encoded"
+    attributesJSON: String
+    "Server side rendered content."
+    dynamicContent: String
+    "Gutenberg blocks"
+    innerBlocks: [Block!]
+    "Is block rendered server side."
+    isDynamic: Boolean!
+    "Name of the block."
+    name: String!
+    order: Int!
+    "Original HTML content."
+    originalContent: String
+    "Parent post."
+    parentNode: Node!
+    "Parent post id."
+    parentNodeDatabaseId: Int!
+    "Original HTML content with inner blocks."
+    saveContent: String
+}
+
+type AcfAcfMediaTextBlockAttributes {
+    align: String
+    className: String
+    data: BlockAttributesObject
+    id: String
+    mode: String
+    name: String
+    wpClassName: String
+}
 
 "Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from."
 type Avatar {
@@ -832,6 +868,61 @@ type CategoryToPostConnectionEdge {
 type CategoryToTaxonomyConnectionEdge {
     "The node of the connection, without the edges"
     node: Taxonomy
+}
+
+"cloudinary/gallery block"
+type CloudinaryGalleryBlock implements Block {
+    attributes: CloudinaryGalleryBlockAttributes
+    "Block attributes, JSON encoded"
+    attributesJSON: String
+    "Server side rendered content."
+    dynamicContent: String
+    "Gutenberg blocks"
+    innerBlocks: [Block!]
+    "Is block rendered server side."
+    isDynamic: Boolean!
+    "Name of the block."
+    name: String!
+    order: Int!
+    "Original HTML content."
+    originalContent: String
+    "Parent post."
+    parentNode: Node!
+    "Parent post id."
+    parentNodeDatabaseId: Int!
+    "Original HTML content with inner blocks."
+    saveContent: String
+}
+
+type CloudinaryGalleryBlockAttributes {
+    aspectRatio: String
+    carouselLocation: String
+    carouselOffset: Float
+    carouselStyle: String
+    className: String
+    cloudName: String
+    container: String
+    displayPropsColumns: Float
+    displayPropsMode: String
+    indicatorPropsShape: String
+    navigation: String
+    selectedImages: BlockAttributesArray!
+    themePropsActive: String
+    themePropsOnPrimary: String
+    themePropsPrimary: String
+    thumbnailPropsHeight: Float
+    thumbnailPropsMediaSymbolShape: String
+    thumbnailPropsNavigationShape: String
+    thumbnailPropsSelectedBorderPosition: String
+    thumbnailPropsSelectedBorderWidth: Float
+    thumbnailPropsSelectedStyle: String
+    thumbnailPropsWidth: Float
+    transformationBackground: String
+    transformationCrop: String!
+    zoom: Boolean
+    zoomPropsTrigger: String
+    zoomPropsType: String
+    zoomPropsViewerPosition: String
 }
 
 "A Comment object"
@@ -1259,15 +1350,18 @@ type CoreButtonBlockAttributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1277,15 +1371,18 @@ type CoreButtonBlockDeprecatedV1Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1295,15 +1392,18 @@ type CoreButtonBlockDeprecatedV2Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1313,15 +1413,18 @@ type CoreButtonBlockDeprecatedV3Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1331,15 +1434,18 @@ type CoreButtonBlockDeprecatedV4Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1349,15 +1455,18 @@ type CoreButtonBlockDeprecatedV5Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1367,15 +1476,18 @@ type CoreButtonBlockDeprecatedV6Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1385,15 +1497,18 @@ type CoreButtonBlockDeprecatedV7Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1403,15 +1518,18 @@ type CoreButtonBlockDeprecatedV8Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     linkTarget: String
     placeholder: String
     rel: String
     style: BlockAttributesObject
     text: String
     textColor: String
+    textColorHex: String!
     title: String
     url: String
     width: Float
@@ -1579,10 +1697,13 @@ type CoreColumnBlock implements Block {
 type CoreColumnBlockAttributes {
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
     width: String
 }
@@ -1590,10 +1711,13 @@ type CoreColumnBlockAttributes {
 type CoreColumnBlockDeprecatedV1Attributes {
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
     width: String
 }
@@ -1626,10 +1750,13 @@ type CoreColumnsBlockAttributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -1637,10 +1764,13 @@ type CoreColumnsBlockDeprecatedV1Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -1648,10 +1778,13 @@ type CoreColumnsBlockDeprecatedV2Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -1659,10 +1792,13 @@ type CoreColumnsBlockDeprecatedV3Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -1701,12 +1837,14 @@ type CoreCoverBlockAttributes {
     dimRatio: Float!
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     hasParallax: Boolean!
     id: Float
     isRepeated: Boolean!
     minHeight: Float
     minHeightUnit: String
     overlayColor: String
+    overlayColorHex: String!
     style: BlockAttributesObject
     url: String
 }
@@ -1722,12 +1860,14 @@ type CoreCoverBlockDeprecatedV1Attributes {
     dimRatio: Float!
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     hasParallax: Boolean!
     id: Float
     isRepeated: Boolean!
     minHeight: Float
     minHeightUnit: String
     overlayColor: String
+    overlayColorHex: String!
     style: BlockAttributesObject
     url: String
 }
@@ -1743,12 +1883,14 @@ type CoreCoverBlockDeprecatedV2Attributes {
     dimRatio: Float!
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     hasParallax: Boolean!
     id: Float
     isRepeated: Boolean!
     minHeight: Float
     minHeightUnit: String
     overlayColor: String
+    overlayColorHex: String!
     style: BlockAttributesObject
     url: String
 }
@@ -1764,12 +1906,14 @@ type CoreCoverBlockDeprecatedV3Attributes {
     dimRatio: Float!
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     hasParallax: Boolean!
     id: Float
     isRepeated: Boolean!
     minHeight: Float
     minHeightUnit: String
     overlayColor: String
+    overlayColorHex: String!
     style: BlockAttributesObject
     url: String
 }
@@ -1785,12 +1929,14 @@ type CoreCoverBlockDeprecatedV4Attributes {
     dimRatio: Float!
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     hasParallax: Boolean!
     id: Float
     isRepeated: Boolean!
     minHeight: Float
     minHeightUnit: String
     overlayColor: String
+    overlayColorHex: String!
     style: BlockAttributesObject
     url: String
 }
@@ -1806,12 +1952,14 @@ type CoreCoverBlockDeprecatedV5Attributes {
     dimRatio: Float!
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     hasParallax: Boolean!
     id: Float
     isRepeated: Boolean!
     minHeight: Float
     minHeightUnit: String
     overlayColor: String
+    overlayColorHex: String!
     style: BlockAttributesObject
     url: String
 }
@@ -1827,12 +1975,14 @@ type CoreCoverBlockDeprecatedV6Attributes {
     dimRatio: Float!
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     hasParallax: Boolean!
     id: Float
     isRepeated: Boolean!
     minHeight: Float
     minHeightUnit: String
     overlayColor: String
+    overlayColorHex: String!
     style: BlockAttributesObject
     url: String
 }
@@ -2136,65 +2286,80 @@ type CoreGroupBlockAttributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     borderColor: String
     className: String
     gradient: String
+    gradientHex: String!
     layout: BlockAttributesObject
     style: BlockAttributesObject
     tagName: String!
     textColor: String
+    textColorHex: String!
 }
 
 type CoreGroupBlockDeprecatedV1Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     borderColor: String
     className: String
     gradient: String
+    gradientHex: String!
     layout: BlockAttributesObject
     style: BlockAttributesObject
     tagName: String!
     textColor: String
+    textColorHex: String!
 }
 
 type CoreGroupBlockDeprecatedV2Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     borderColor: String
     className: String
     gradient: String
+    gradientHex: String!
     layout: BlockAttributesObject
     style: BlockAttributesObject
     tagName: String!
     textColor: String
+    textColorHex: String!
 }
 
 type CoreGroupBlockDeprecatedV3Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     borderColor: String
     className: String
     gradient: String
+    gradientHex: String!
     layout: BlockAttributesObject
     style: BlockAttributesObject
     tagName: String!
     textColor: String
+    textColorHex: String!
 }
 
 type CoreGroupBlockDeprecatedV4Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     borderColor: String
     className: String
     gradient: String
+    gradientHex: String!
     layout: BlockAttributesObject
     style: BlockAttributesObject
     tagName: String!
     textColor: String
+    textColorHex: String!
 }
 
 "core/heading block"
@@ -2225,6 +2390,7 @@ type CoreHeadingBlockAttributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
@@ -2233,12 +2399,14 @@ type CoreHeadingBlockAttributes {
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 type CoreHeadingBlockDeprecatedV1Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
@@ -2247,12 +2415,14 @@ type CoreHeadingBlockDeprecatedV1Attributes {
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 type CoreHeadingBlockDeprecatedV2Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
@@ -2261,12 +2431,14 @@ type CoreHeadingBlockDeprecatedV2Attributes {
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 type CoreHeadingBlockDeprecatedV3Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
@@ -2275,12 +2447,14 @@ type CoreHeadingBlockDeprecatedV3Attributes {
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 type CoreHeadingBlockDeprecatedV4Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
@@ -2289,6 +2463,7 @@ type CoreHeadingBlockDeprecatedV4Attributes {
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/html block"
@@ -2355,10 +2530,12 @@ type CoreImageBlockAttributes {
     linkClass: String
     linkDestination: String
     linkTarget: String
+    overwriteTransformations: Boolean
     rel: String
     sizeSlug: String
     style: BlockAttributesObject
     title: String
+    transformations: Boolean
     url: String
     width: Float
 }
@@ -2375,10 +2552,12 @@ type CoreImageBlockDeprecatedV1Attributes {
     linkClass: String
     linkDestination: String
     linkTarget: String
+    overwriteTransformations: Boolean
     rel: String
     sizeSlug: String
     style: BlockAttributesObject
     title: String
+    transformations: Boolean
     url: String
     width: Float
 }
@@ -2395,10 +2574,12 @@ type CoreImageBlockDeprecatedV2Attributes {
     linkClass: String
     linkDestination: String
     linkTarget: String
+    overwriteTransformations: Boolean
     rel: String
     sizeSlug: String
     style: BlockAttributesObject
     title: String
+    transformations: Boolean
     url: String
     width: Float
 }
@@ -2415,10 +2596,12 @@ type CoreImageBlockDeprecatedV3Attributes {
     linkClass: String
     linkDestination: String
     linkTarget: String
+    overwriteTransformations: Boolean
     rel: String
     sizeSlug: String
     style: BlockAttributesObject
     title: String
+    transformations: Boolean
     url: String
     width: Float
 }
@@ -2553,15 +2736,18 @@ type CoreListBlock implements Block {
 type CoreListBlockAttributes {
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     ordered: Boolean!
     placeholder: String
     reversed: Boolean
     start: Float
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     type: String
     values: String!
 }
@@ -2624,9 +2810,11 @@ type CoreMediaTextBlockAttributes {
     align: String!
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     href: String
     imageFill: Boolean
     isStackedOnMobile: Boolean!
@@ -2644,6 +2832,7 @@ type CoreMediaTextBlockAttributes {
     rel: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -2651,9 +2840,11 @@ type CoreMediaTextBlockDeprecatedV1Attributes {
     align: String!
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     href: String
     imageFill: Boolean
     isStackedOnMobile: Boolean!
@@ -2671,6 +2862,7 @@ type CoreMediaTextBlockDeprecatedV1Attributes {
     rel: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -2678,9 +2870,11 @@ type CoreMediaTextBlockDeprecatedV2Attributes {
     align: String!
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     href: String
     imageFill: Boolean
     isStackedOnMobile: Boolean!
@@ -2698,6 +2892,7 @@ type CoreMediaTextBlockDeprecatedV2Attributes {
     rel: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -2705,9 +2900,11 @@ type CoreMediaTextBlockDeprecatedV3Attributes {
     align: String!
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     focalPoint: BlockAttributesObject
     gradient: String
+    gradientHex: String!
     href: String
     imageFill: Boolean
     isStackedOnMobile: Boolean!
@@ -2725,6 +2922,7 @@ type CoreMediaTextBlockDeprecatedV3Attributes {
     rel: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
     verticalAlignment: String
 }
 
@@ -2866,6 +3064,7 @@ type CoreParagraphBlockAttributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     direction: String
@@ -2874,12 +3073,14 @@ type CoreParagraphBlockAttributes {
     placeholder: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreParagraphBlockDeprecatedV1Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     direction: String
@@ -2888,12 +3089,14 @@ type CoreParagraphBlockDeprecatedV1Attributes {
     placeholder: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreParagraphBlockDeprecatedV2Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     direction: String
@@ -2902,12 +3105,14 @@ type CoreParagraphBlockDeprecatedV2Attributes {
     placeholder: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreParagraphBlockDeprecatedV3Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     direction: String
@@ -2916,12 +3121,14 @@ type CoreParagraphBlockDeprecatedV3Attributes {
     placeholder: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreParagraphBlockDeprecatedV4Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     direction: String
@@ -2930,12 +3137,14 @@ type CoreParagraphBlockDeprecatedV4Attributes {
     placeholder: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreParagraphBlockDeprecatedV5Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     direction: String
@@ -2944,6 +3153,7 @@ type CoreParagraphBlockDeprecatedV5Attributes {
     placeholder: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 "core/post-content block"
@@ -3002,14 +3212,17 @@ type CorePostDateBlock implements Block {
 
 type CorePostDateBlockAttributes {
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     format: String
     gradient: String
+    gradientHex: String!
     isLink: Boolean!
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/post-excerpt block"
@@ -3038,14 +3251,17 @@ type CorePostExcerptBlock implements Block {
 
 type CorePostExcerptBlockAttributes {
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     moreText: String
     showMoreOnNewLine: Boolean!
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/post-featured-image block"
@@ -3133,13 +3349,16 @@ type CorePostTermsBlock implements Block {
 
 type CorePostTermsBlockAttributes {
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     term: String
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/post-title block"
@@ -3169,9 +3388,11 @@ type CorePostTitleBlock implements Block {
 type CorePostTitleBlockAttributes {
     align: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     isLink: Boolean!
     level: Float!
     linkTarget: String!
@@ -3179,6 +3400,7 @@ type CorePostTitleBlockAttributes {
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/preformatted block"
@@ -3208,12 +3430,15 @@ type CorePreformattedBlock implements Block {
 type CorePreformattedBlockAttributes {
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 "core/pullquote block"
@@ -3248,7 +3473,9 @@ type CorePullquoteBlockAttributes {
     customMainColor: String
     customTextColor: String
     mainColor: String
+    mainColorHex: String!
     textColor: String
+    textColorHex: String!
     value: String
 }
 
@@ -3260,7 +3487,9 @@ type CorePullquoteBlockDeprecatedV1Attributes {
     customMainColor: String
     customTextColor: String
     mainColor: String
+    mainColorHex: String!
     textColor: String
+    textColorHex: String!
     value: String
 }
 
@@ -3272,7 +3501,9 @@ type CorePullquoteBlockDeprecatedV2Attributes {
     customMainColor: String
     customTextColor: String
     mainColor: String
+    mainColorHex: String!
     textColor: String
+    textColorHex: String!
     value: String
 }
 
@@ -3284,7 +3515,9 @@ type CorePullquoteBlockDeprecatedV3Attributes {
     customMainColor: String
     customTextColor: String
     mainColor: String
+    mainColorHex: String!
     textColor: String
+    textColorHex: String!
     value: String
 }
 
@@ -3296,7 +3529,9 @@ type CorePullquoteBlockDeprecatedV4Attributes {
     customMainColor: String
     customTextColor: String
     mainColor: String
+    mainColorHex: String!
     textColor: String
+    textColorHex: String!
     value: String
 }
 
@@ -3327,29 +3562,35 @@ type CoreQueryBlock implements Block {
 type CoreQueryBlockAttributes {
     align: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     displayLayout: BlockAttributesObject!
     gradient: String
+    gradientHex: String!
     layout: BlockAttributesObject
     query: BlockAttributesObject!
     queryId: Float
     style: BlockAttributesObject
     tagName: String!
     textColor: String
+    textColorHex: String!
 }
 
 type CoreQueryBlockDeprecatedV1Attributes {
     align: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     displayLayout: BlockAttributesObject!
     gradient: String
+    gradientHex: String!
     layout: BlockAttributesObject
     query: BlockAttributesObject!
     queryId: Float
     style: BlockAttributesObject
     tagName: String!
     textColor: String
+    textColorHex: String!
 }
 
 "core/query-pagination block"
@@ -3379,10 +3620,13 @@ type CoreQueryPaginationBlock implements Block {
 type CoreQueryPaginationBlockAttributes {
     align: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 "core/query-pagination-next block"
@@ -3411,12 +3655,15 @@ type CoreQueryPaginationNextBlock implements Block {
 
 type CoreQueryPaginationNextBlockAttributes {
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     label: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 "core/query-pagination-numbers block"
@@ -3473,12 +3720,15 @@ type CoreQueryPaginationPreviousBlock implements Block {
 
 type CoreQueryPaginationPreviousBlockAttributes {
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     label: String
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 "core/query-title block"
@@ -3508,13 +3758,16 @@ type CoreQueryTitleBlock implements Block {
 type CoreQueryTitleBlockAttributes {
     align: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     level: Float!
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
     type: String
 }
 
@@ -3767,12 +4020,15 @@ type CoreSiteTaglineBlock implements Block {
 
 type CoreSiteTaglineBlockAttributes {
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/site-title block"
@@ -3802,13 +4058,16 @@ type CoreSiteTitleBlock implements Block {
 type CoreSiteTitleBlockAttributes {
     align: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     fontSize: String
     gradient: String
+    gradientHex: String!
     level: Float!
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/social-link block"
@@ -3953,16 +4212,19 @@ type CoreTableBlockAttributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     body: [CoreTableBlockAttributesBody]!
     borderColor: String
     caption: String!
     className: String
     foot: [CoreTableBlockAttributesFoot]!
     gradient: String
+    gradientHex: String!
     hasFixedLayout: Boolean!
     head: [CoreTableBlockAttributesHead]!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreTableBlockAttributesBody {
@@ -4002,16 +4264,19 @@ type CoreTableBlockDeprecatedV1Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     body: [CoreTableBlockDeprecatedV1AttributesBody]!
     borderColor: String
     caption: String!
     className: String
     foot: [CoreTableBlockDeprecatedV1AttributesFoot]!
     gradient: String
+    gradientHex: String!
     hasFixedLayout: Boolean!
     head: [CoreTableBlockDeprecatedV1AttributesHead]!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreTableBlockDeprecatedV1AttributesBody {
@@ -4051,16 +4316,19 @@ type CoreTableBlockDeprecatedV2Attributes {
     align: String
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     body: [CoreTableBlockDeprecatedV2AttributesBody]!
     borderColor: String
     caption: String!
     className: String
     foot: [CoreTableBlockDeprecatedV2AttributesFoot]!
     gradient: String
+    gradientHex: String!
     hasFixedLayout: Boolean!
     head: [CoreTableBlockDeprecatedV2AttributesHead]!
     style: BlockAttributesObject
     textColor: String
+    textColorHex: String!
 }
 
 type CoreTableBlockDeprecatedV2AttributesBody {
@@ -4189,25 +4457,31 @@ type CoreVerseBlock implements Block {
 type CoreVerseBlockAttributes {
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 type CoreVerseBlockDeprecatedV1Attributes {
     anchor: String
     backgroundColor: String
+    backgroundColorHex: String!
     className: String
     content: String!
     fontSize: String
     gradient: String
+    gradientHex: String!
     style: BlockAttributesObject
     textAlign: String
     textColor: String
+    textColorHex: String!
 }
 
 "core/video block"
@@ -4244,11 +4518,13 @@ type CoreVideoBlockAttributes {
     id: Float
     loop: Boolean
     muted: Boolean
+    overwriteTransformations: Boolean
     playsInline: Boolean
     poster: String
     preload: String!
     src: String
     tracks: [BlockAttributesObject]!
+    transformations: Boolean
 }
 
 "The payload for the createCategory mutation"
@@ -4487,6 +4763,55 @@ type GeneralSettings {
     url: String
 }
 
+"gumroad/gumroad-block block"
+type GumroadGumroadBlock implements Block {
+    attributes: GumroadGumroadBlockAttributes
+    "Block attributes, JSON encoded"
+    attributesJSON: String
+    "Server side rendered content."
+    dynamicContent: String
+    "Gutenberg blocks"
+    innerBlocks: [Block!]
+    "Is block rendered server side."
+    isDynamic: Boolean!
+    "Name of the block."
+    name: String!
+    order: Int!
+    "Original HTML content."
+    originalContent: String
+    "Parent post."
+    parentNode: Node!
+    "Parent post id."
+    parentNodeDatabaseId: Int!
+    "Original HTML content with inner blocks."
+    saveContent: String
+}
+
+type GumroadGumroadBlockAttributes {
+    button: String!
+    className: String
+    classes: String!
+    id: String!
+    text: String!
+    type: String!
+    url: String!
+    wanted: String!
+}
+
+"Headless Config options"
+type HeadlessConfig {
+    additionalSettings: HeadlessConfig_Additionalsettings
+    pageSlug: String
+    pageTitle: String
+}
+
+"Field Group"
+type HeadlessConfig_Additionalsettings {
+    "Optional. Select a custom 404 page. The content entered on this page will appear on the headless frontend."
+    error404Page: HeadlessConfig_Additionalsettings_Error404Page
+    fieldGroupName: String
+}
+
 "Connection between the HierarchicalContentNode type and the ContentNode type"
 type HierarchicalContentNodeToContentNodeAncestorsConnection {
     "Edges for the HierarchicalContentNodeToContentNodeAncestorsConnection connection"
@@ -4527,6 +4852,12 @@ type HierarchicalContentNodeToContentNodeChildrenConnectionEdge {
 type HierarchicalContentNodeToParentContentNodeConnectionEdge {
     "The node of the connection, without the edges"
     node: ContentNode
+}
+
+"Front and posts archive page data"
+type HomepageSettings {
+    frontPage: Page
+    postsPage: Page
 }
 
 "The payload for the login mutation"
@@ -4950,7 +5281,7 @@ type NodeWithRevisionsToContentNodeConnectionEdge {
 }
 
 "The page type"
-type Page implements BlockEditorContentNode & ContentNode & DatabaseIdentifier & HierarchicalContentNode & MenuItemLinkable & Node & NodeWithAuthor & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable {
+type Page implements BlockEditorContentNode & ContentNode & DatabaseIdentifier & HierarchicalContentNode & MenuItemLinkable & Node & NodeWithAuthor & NodeWithComments & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable {
     "Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root)."
     ancestors(
         "Cursor used along with the \"first\" argument to reference where in the dataset to get data"
@@ -5045,6 +5376,11 @@ type Page implements BlockEditorContentNode & ContentNode & DatabaseIdentifier &
         "The number of items to return before the referenced \"before\" cursor"
         last: Int
     ): ContentNodeToEnqueuedStylesheetConnection
+    "The excerpt of the post."
+    excerpt(
+        "Format of the field output"
+        format: PostObjectFieldFormatEnum
+    ): String
     "Connection between the NodeWithFeaturedImage type and the MediaItem type"
     featuredImage: NodeWithFeaturedImageToMediaItemConnectionEdge
     "The database identifier for the featured image node assigned to the content node"
@@ -5404,7 +5740,7 @@ type Post implements BlockEditorContentNode & ContentNode & DatabaseIdentifier &
 }
 
 "The postFormat type"
-type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable {
+type PostFormat implements DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable {
     "Connection between the postFormat type and the ContentNode type"
     contentNodes(
         "Cursor used along with the \"first\" argument to reference where in the dataset to get data"
@@ -5420,7 +5756,7 @@ type PostFormat implements DatabaseIdentifier & MenuItemLinkable & Node & TermNo
     ): PostFormatToContentNodeConnection
     "The number of objects connected to the object"
     count: Int
-    "The unique resource identifier path"
+    "The unique identifier stored in the database"
     databaseId: Int!
     "The description of the object"
     description: String
@@ -6230,6 +6566,10 @@ type RootQuery {
     discussionSettings: DiscussionSettings
     "Fields of the &#039;GeneralSettings&#039; settings group"
     generalSettings: GeneralSettings
+    "Headless Config options"
+    headlessConfig: HeadlessConfig
+    "Returns front and posts archive page data"
+    homepageSettings: HomepageSettings
     "An object of the mediaItem Type. "
     mediaItem(
         "Whether to return the node as a preview instance"
@@ -7163,17 +7503,29 @@ type SEOTaxonomySchema {
 }
 
 type SEOUser {
+    breadcrumbTitle: String
+    canonical: String
     fullHead: String
+    language: String
     metaDesc: String
     metaRobotsNofollow: String
     metaRobotsNoindex: String
+    opengraphDescription: String
+    opengraphImage: MediaItem
+    opengraphTitle: String
+    region: String
     schema: SEOUserSchema
     social: SEOUserSocial
     title: String
+    twitterDescription: String
+    twitterImage: MediaItem
+    twitterTitle: String
 }
 
 "The Schema types for User"
 type SEOUserSchema {
+    articleType: [String]
+    pageType: [String]
     raw: String
 }
 
@@ -7983,6 +8335,7 @@ type WPPageInfo {
     seo: SEOPostTypePageInfo
     "When paginating backwards, the cursor to continue."
     startCursor: String
+    total: Int
 }
 
 "The writing setting type"
@@ -8274,8 +8627,8 @@ enum MediaItemSizeEnum {
     MEDIUM
     "MediaItem with the medium_large size"
     MEDIUM_LARGE
-    "MediaItem with the post-thumbnail size"
-    POST_THUMBNAIL
+    "MediaItem with the nineteen-twenty size"
+    NINETEEN_TWENTY
     "MediaItem with the thumbnail size"
     THUMBNAIL
     "MediaItem with the 1536x1536 size"
@@ -8306,10 +8659,12 @@ enum MenuItemNodeIdTypeEnum {
 
 "Registered menu locations"
 enum MenuLocationEnum {
-    "Put the menu in the footer location"
-    FOOTER
-    "Put the menu in the primary location"
-    PRIMARY
+    "Put the menu in the footer-menu location"
+    FOOTER_MENU
+    "Put the menu in the mobile-menu location"
+    MOBILE_MENU
+    "Put the menu in the primary-menu location"
+    PRIMARY_MENU
 }
 
 "The Type of Identifier used to fetch a single node. Default is \"ID\". To be used along with the \"id\" field."
@@ -9216,6 +9571,8 @@ input CreatePageInput {
     content: String
     "The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, \"2017\" as the input will use current date with timestamp 20:17 "
     date: String
+    "The excerpt of the object"
+    excerpt: String
     "A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types."
     menuOrder: Int
     "The ID of the parent object"
@@ -11182,6 +11539,8 @@ input UpdatePageInput {
     content: String
     "The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, \"2017\" as the input will use current date with timestamp 20:17 "
     date: String
+    "The excerpt of the object"
+    excerpt: String
     "The ID of the page object"
     id: ID!
     "A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types."
@@ -11690,4 +12049,3 @@ input UsersConnectionOrderbyInput {
 scalar BlockAttributesArray
 
 scalar BlockAttributesObject
-

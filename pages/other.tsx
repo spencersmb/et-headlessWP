@@ -9,19 +9,19 @@ import { addCount } from '../lib/redux/counter/actions'
 import Link from 'next/link';
 
 const Other = (props) => {
-  useEffect(() => {
-    const timer = props.startClock()
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [props])
+  // useEffect(() => {
+  //   const timer = props.startClock()
+  //
+  //   return () => {
+  //     clearInterval(timer)
+  //   }
+  // }, [props])
 
   return (
     <div>
       <h1>{`other`}</h1>
-      <Clock lastUpdate={props.tick.lastUpdate} light={props.tick.light} />
-      <AddCount />
+      {/*<Clock lastUpdate={props.tick.lastUpdate} light={props.tick.light} />*/}
+      {/*<AddCount />*/}
       <nav>
         <Link href={'/'}>
           <a>Navigate</a>
@@ -31,15 +31,16 @@ const Other = (props) => {
   )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(serverRenderClock(true))
-  store.dispatch(addCount())
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
+export const getServerSideProps = () => {
+  // store.dispatch(serverRenderClock(true))
+  // store.dispatch(addCount())
   return{
     props:{
       posts:[]
     }
   }
-})
+}
 const mapStateToProps = (state) => {
   return state
 }
@@ -50,4 +51,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Other)
+// export default connect(mapStateToProps, mapDispatchToProps)(Other)
+export default Other

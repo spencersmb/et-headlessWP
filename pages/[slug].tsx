@@ -1,6 +1,6 @@
 import { addApolloState, initializeApollo } from '../lib/apollo-client'
-import { QUERY_ALL_POSTS } from '../graphqlData/postsData'
-import { flattenAllPosts } from '../lib/posts'
+import { QUERY_ALL_POSTS, QUERY_NEXT_POSTS, QUERY_POST_BY_SLUG } from '../graphqlData/postsData'
+import { flattenAllPosts, getPaginatedPosts } from '../lib/wp/posts'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { NAV_QUERY } from '../lib/apollo-cache'
@@ -8,15 +8,18 @@ import { useEssGridAuth } from '../lib/auth/authContext'
 
 function Post(props){
   // console.log('page props', props)
-  const {data} = useQuery(NAV_QUERY);
-  // console.log('nav data', data.nav)
-  const {state} = useEssGridAuth()
-  console.log('state from index', state)
-
-
+  const {post} = props
+  if(!post.title){
+    return (
+      <div>
+        Loading
+      </div>
+    )
+  }
   return (
     <div>
-      slug
+      <h1>{post.title}</h1>
+      <div dangerouslySetInnerHTML={{__html: post.content}} />
       <Link href='/'>
         <a>home</a>
       </Link>
@@ -25,21 +28,30 @@ function Post(props){
 }
 
 export default Post
-export async function getStaticPaths(params){
-  console.log('params', params)
+export async function getStaticPaths(){
+  // const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPosts()
+  const apolloClient = initializeApollo()
+
+  const data = await apolloClient.query({
+    query: QUERY_NEXT_POSTS,
+    variables: {after: null}
+  })
+  const posts = flattenAllPosts(data?.data.posts) || []
+  const slugs = posts.map(post => post.slug)
+  console.log('slugs', slugs)
+
+  const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
 
   return{
-    paths:[
-      { params: {
-        slug: 'blog'
-        } }
-    ],
-    fallback: false
+    paths:params,
+    fallback: 'blocking'
   }
 }
 export async function getStaticProps(context){
+  const {params} = context
+  console.log('revalidate PID getStaticProps', params)
 
-  // const {initialApolloState, posts, pagination} = await getPaginatedPostsV2()
+  // const {initialApolloState, posts, pagination} = await getPaginatedPosts()
   // return {
   //   props: {
   //     initialApolloState,
@@ -58,25 +70,18 @@ export async function getStaticProps(context){
   const apolloClient = initializeApollo()
 
   const data = await apolloClient.query({
-    query: QUERY_ALL_POSTS,
-    // variables: allPostsQueryVars,
+    query: QUERY_POST_BY_SLUG,
+    variables: {
+      slug: params.slug
+    },
   })
-  console.log('data', data)
-
-  //
-  // await apolloClient.query({
-  //   query: QUERY_POST_PER_PAGE,
-  // });
-  //
-  //
-  const posts = flattenAllPosts(data?.data.posts) || []
 
   return addApolloState(apolloClient, {
     props: {
-      posts,
-      basePath: '/blog'
+      post:data?.data?.postBy || {},
+      basePath: ''
     },
-    revalidate: 5,
+    // revalidate: 5,
   })
 
 }

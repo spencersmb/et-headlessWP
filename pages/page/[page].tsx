@@ -1,13 +1,8 @@
-import { getAllPostsV2, getPagesCountV2, getPaginatedPostsV2 } from '../../lib/posts'
+import { getAllPosts, getPagesCount, getPaginatedPosts } from '../../lib/wp/posts'
 import Pagination from '../../components/pagination'
-import { useQuery } from '@apollo/client'
-import { NAV_QUERY } from '../../lib/apollo-cache'
+import Link from 'next/link'
 
 export default function Posts({ posts, pagination }) {
-  const title = `All Posts`;
-  const slug = 'posts';
-  const {data} = useQuery(NAV_QUERY);
-  console.log('isNav Open', data)
 
   return (
     <div>
@@ -17,9 +12,10 @@ export default function Posts({ posts, pagination }) {
           <ul className={''}>
             {posts.map((post) => {
               return (
-                <li key={post.slug}>
-                  {post.title}
-                  {/*<PostCard post={post} options={postOptions} />*/}
+                <li key={post.id}>
+                  <Link href={`/${post.slug}`}>
+                    {post.title}
+                  </Link>
                 </li>
               );
             })}
@@ -39,22 +35,23 @@ export default function Posts({ posts, pagination }) {
 
 export async function getStaticProps({ params = {} }: any = {}) {
 
-  const { posts, pagination } = await getPaginatedPostsV2(params?.page);
-  return {
+  const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPosts(params?.page)
+  return{
     props: {
+      __APOLLO_STATE__,
       posts,
       pagination: {
         ...pagination,
         basePath: '',
       },
     },
-    revalidate: 60
-  };
+    revalidate: 5
+  }
 }
 
 export async function getStaticPaths() {
-  const { posts } = await getAllPostsV2();
-  const pagesCount = await getPagesCountV2(posts);
+  const { posts } = await getAllPosts();
+  const pagesCount = await getPagesCount(posts);
   const paths = [...new Array(pagesCount)].map((_, i) => {
     return { params: { page: String(i + 1) } };
   });

@@ -6,7 +6,7 @@ import { GrPrevious as PreviousIcon, GrNext as NextIcon } from 'react-icons/gr';
 import { HiOutlineDotsHorizontal as Dots } from 'react-icons/hi';
 import { useQuery } from '@apollo/client'
 import { QUERY_POST_PER_PAGE } from '../../graphqlData/postsData'
-import { getCurrentPage, getPagesCount } from '../../lib/posts'
+import { getCurrentPage } from '../../lib/wp/posts'
 
 interface IProps {
   pagesCount: number
@@ -21,7 +21,7 @@ const { homepage = '' } = config;
 function Pagination ({ pagesCount, currentPage, basePath, addCanonical = true }:IProps) {
   const path = `${basePath}/page/`;
   console.log('path', path)
-  
+
 
   const hasPreviousPage = pagesCount > 1 && currentPage > 1;
   const hasNextPage = pagesCount > 1 && currentPage < pagesCount;
