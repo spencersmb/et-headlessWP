@@ -18,10 +18,12 @@ interface IFeaturedImage {
   srcSet: null | any[]
 }
 
-interface IFeaturedImageRaw {
+interface IFeaturedImageNode {
   node: IFeaturedImage
 }
-
+interface Itag {
+    name: string
+}
 interface IPostRaw {
   author: {
     node: {
@@ -38,11 +40,20 @@ interface IPostRaw {
   categories: {
     edges: ICategoryRaw[]
   }
+  tags: {
+    edges: [{node: Itag}]
+  }
   featuredImage: IFeaturedImageRaw
 }
-
+interface IPostSeo {
+  fullHead: string
+  title: string
+  opengraphPublishedTime: string
+  opengraphModifiedTime: string
+  metaDesc: string
+}
 interface IPost {
-  author?: {
+  author: {
     avatar: {
       height: number
       url: string
@@ -51,12 +62,16 @@ interface IPost {
     id: string
     name: string,
     slug: string
+    uri: string
   }
+  content: string
   categories?: ICategories[]
+  tags:Itag[]
   featuredImage: IFeaturedImage
   title: string
   slug: string
   id: string
+  seo:IPostSeo
 }
 
 interface IPaginate {

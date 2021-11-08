@@ -28,6 +28,7 @@ interface IProps {
 }
 type MyAppProps = IProps & AppProps
 function MyApp(props: MyAppProps) {
+
   const { Component, pageProps, auth, metadata, recentPosts, categories, menus } = props
 
   const apolloClient = useApollo(pageProps)
@@ -42,6 +43,7 @@ function MyApp(props: MyAppProps) {
       }}>
       {/*<Provider store={store} >*/}
         <EssAuthProvider auth={auth}>
+
           <Component {...pageProps} />
         </EssAuthProvider>
       </SiteContext.Provider>
@@ -53,7 +55,6 @@ function MyApp(props: MyAppProps) {
 MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
 
-  console.log('run _app.js')
 
   // const { posts: recentPosts } = await getRecentPosts({
   //   count: 5,
@@ -65,12 +66,12 @@ MyApp.getInitialProps = async (appContext) => {
   //
   const { menus } = await getAllMenus();
 
-  const defaultNavigation = createMenuFromPages({
-    locations: [MENU_LOCATION_NAVIGATION_DEFAULT],
-    pages: await getTopLevelPages(),
-  });
-
-  menus.push(defaultNavigation) // SO far do not need this
+  // const defaultNavigation = createMenuFromPages({
+  //   locations: [MENU_LOCATION_NAVIGATION_DEFAULT],
+  //   pages: await getTopLevelPages(),
+  // });
+  //
+  // menus.push(defaultNavigation) // SO far do not need this
 
   const metadata = await getSiteMetadata()
   // AUTH EXAMPLE

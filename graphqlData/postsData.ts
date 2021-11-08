@@ -1,54 +1,79 @@
 import { gql } from '@apollo/client';
-
+export const CORE_POST_FIELDS = gql`
+    fragment CorePostFields on Post {
+        __typename
+        author {
+            node {
+                avatar {
+                    height
+                    url
+                    width
+                }
+                id
+                name
+                slug
+                uri
+            }
+        }
+        id
+        categories {
+            edges {
+                node {
+                    databaseId
+                    id
+                    name
+                    slug
+                }
+            }
+        }
+        tags{
+            edges{
+                node{
+                    name
+                }
+            }
+        }
+        content
+        date
+        excerpt
+        featuredImage {
+            node {
+                altText
+                caption
+                sourceUrl
+                srcSet
+                sizes
+                id
+            }
+        }
+        modified
+        databaseId
+        title
+        slug
+        isSticky
+        seo{
+            fullHead
+            title
+            opengraphPublishedTime
+            opengraphModifiedTime
+            metaDesc
+            schema{
+                articleType
+                pageType
+                raw
+            }
+        }
+    }
+`;
 export const QUERY_ALL_POSTS = gql`
-    query AllPosts {
-        posts(first: 1000) {
+    ${CORE_POST_FIELDS}
+    query AllPosts($count: Int) {
+        posts(first: $count) {
             __typename
             edges {
                 __typename
                 node {
-                    __typename
-                    author {
-                        node {
-                            avatar {
-                                height
-                                url
-                                width
-                            }
-                            id
-                            name
-                            slug
-                        }
-                    }
-                    id
-                    categories {
-                        edges {
-                            node {
-                                databaseId
-                                id
-                                name
-                                slug
-                            }
-                        }
-                    }
-                    content
-                    date
-                    excerpt
-                    featuredImage {
-                        node {
-                            altText
-                            caption
-                            sourceUrl
-                            srcSet
-                            sizes
-                            id
-                        }
-                    }
-                    modified
-                    databaseId
-                    title
-                    slug
-                    isSticky
+                    ...CorePostFields
                 }
             }
         }
@@ -124,26 +149,10 @@ export const QUERY_NEXT_POSTS = gql`
 `;
 
 export const QUERY_POST_BY_SLUG = gql`
+    ${CORE_POST_FIELDS}
     query postBySlug($slug: String!) {
         postBy(slug: $slug) {
-            id
-            title
-            content
-            date
-            dateGmt
-            featuredImage{
-                node{
-                    sourceUrl
-                }
-            }
-            author {
-                node {
-                    id
-                    firstName
-                    email
-                    username
-                }
-            }
+            ...CorePostFields
         }
     }
 `

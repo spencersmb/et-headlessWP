@@ -4,14 +4,39 @@
 import { initializeApollo } from '../apollo-client'
 import { QUERY_SEO_DATA, QUERY_SITE_DATA } from '../../graphqlData/siteGQL'
 
-interface ISettings {
+export interface ISocialTwitter {
+  username: string
+  cardType: string
+  url: string
+}
+export interface ISocialFacebook {
+  url: string
+  defaultImage: {
+    altText: string
+    mediaDetails: {
+      height: number
+      width: number
+    }
+    sourceUrl: string
+  }
+}
+
+type ISocialSettings = {
+  twitter?: ISocialTwitter
+  facebook?: ISocialFacebook
+  pinterest?: string
+  instagram?: string
+  youtube?: string
+}
+
+export interface IMetaData {
   title: string
+  domain: string
   siteTitle: string
   description: string
   language: string
-  social?: any
+  social?: ISocialSettings
   webmaster?: any
-  twitter?: any
 }
 export async function getSiteMetadata() {
   const apolloClient = initializeApollo();
@@ -31,7 +56,8 @@ export async function getSiteMetadata() {
   const { generalSettings } = siteData?.data;
   let { title, description, language } = generalSettings;
 
-  const settings: ISettings = {
+  const settings: IMetaData = {
+    domain: process.env.NEXT_PUBLIC_APP_ROOT_URL,
     title,
     siteTitle: title,
     description,
@@ -66,12 +92,38 @@ export async function getSiteMetadata() {
     const { webmaster, social } = seoData?.data?.seo;
 
     if (social) {
-      settings.social = {};
+      settings.social = {}
+      // console.log('social pre', social)
+
 
       Object.keys(social).forEach((key) => {
         const { url } = social[key];
+        const keysArray = Object.keys(social[key])
+
+        if(key === 'twitter'){
+          settings.social[key] = {
+            url: `https://twitter.com/${social.twitter.username}`,
+            username: social.twitter.username,
+            cardType: social.twitter.cardType,
+          }
+          return
+        }
+
+        if(key === 'pinterest'){
+          settings.social[key] = url;
+          return
+        }
+
         if (!url || key === '__typename') return;
+
+        if(keysArray.length > 2){
+          settings.social[key] = {
+            ...social[key]
+          }
+          return
+        }
         settings.social[key] = url;
+
       });
     }
 
@@ -82,17 +134,6 @@ export async function getSiteMetadata() {
         if (!webmaster[key] || key === '__typename') return;
         settings.webmaster[key] = webmaster[key];
       });
-    }
-
-    if (social.twitter) {
-      settings.twitter = {
-        username: social.twitter.username,
-        cardType: social.twitter.cardType,
-      };
-
-      settings.social.twitter = {
-        url: `https://twitter.com/${settings.twitter.username}`,
-      };
     }
 
   settings.title = decodeHtmlEntities(settings.title);

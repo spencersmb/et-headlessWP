@@ -9,7 +9,6 @@ import { IsLoggedInVar, NAV_QUERY } from './apollo-cache'
 import { relayStylePagination } from '@apollo/client/utilities'
 
 const API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
-const API_URL_BACKEND = process.env.WP_API_URL;
 let apolloClient;
 
 const typeDefs = gql`

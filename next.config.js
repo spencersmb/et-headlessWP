@@ -1,6 +1,13 @@
+
 module.exports = {
   reactStrictMode: true,
-  // webpack: (config) => {
+  basePath: '',
+  i18n: {
+    locales: ['en-US'],
+    defaultLocale: 'en-US'
+  }
+  // webpack: (c
+  // onfig) => {
   //   config.experiments = { topLevelAwait: true };
   //   return config;
   // },

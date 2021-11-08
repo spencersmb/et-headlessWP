@@ -1,6 +1,14 @@
-import { getAllPosts, getPagesCount, getPaginatedPosts } from '../../lib/wp/posts'
+import {
+  createPaginatedPosts,
+  flattenAllPosts,
+  getAllPosts,
+  getAllPostsApollo,
+  getPagesCount,
+  getPaginatedPosts
+} from '../../lib/wp/posts'
 import Pagination from '../../components/pagination'
 import Link from 'next/link'
+import { addApolloState } from '../../lib/apollo-client'
 
 export default function Posts({ posts, pagination }) {
 
@@ -26,19 +34,18 @@ export default function Posts({ posts, pagination }) {
               pagesCount={pagination?.pagesCount}
               basePath={pagination?.basePath}
             />
-          )}x
+          )}
         </>
       )}
     </div>
   )
 }
-
+//
 export async function getStaticProps({ params = {} }: any = {}) {
 
-  const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPosts(params?.page)
-  return{
+  const {apolloClient, posts, pagination} = await getPaginatedPosts(params?.page)
+  return addApolloState(apolloClient, {
     props: {
-      __APOLLO_STATE__,
       posts,
       pagination: {
         ...pagination,
@@ -46,12 +53,15 @@ export async function getStaticProps({ params = {} }: any = {}) {
       },
     },
     revalidate: 5
-  }
+  });
 }
 
 export async function getStaticPaths() {
-  const { posts } = await getAllPosts();
-  const pagesCount = await getPagesCount(posts);
+  const {data} = await getAllPostsApollo()
+  const postsPerPage = data?.data.allSettings.readingSettingsPostsPerPage
+  const flattendPosts = flattenAllPosts(data?.data.posts) || []
+  const pagesCount = Math.ceil(flattendPosts.length / postsPerPage);
+
   const paths = [...new Array(pagesCount)].map((_, i) => {
     return { params: { page: String(i + 1) } };
   });

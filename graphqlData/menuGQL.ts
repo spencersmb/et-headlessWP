@@ -5,7 +5,9 @@ export const QUERY_ALL_MENUS = gql`
         menus {
             edges {
                 node {
-                    id
+                    name
+                    slug
+                    locations
                     menuItems {
                         edges {
                             node {
@@ -13,15 +15,21 @@ export const QUERY_ALL_MENUS = gql`
                                 id
                                 parentId
                                 label
-                                title
-                                target
                                 path
+                                featured {
+                                    courses {
+                                        __typename
+                                        ... on Course {
+                                            id
+                                            details {
+                                                url
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                    name
-                    slug
-                    locations
                 }
             }
         }
