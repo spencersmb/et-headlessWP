@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react'
 import { BlogJsonLd, BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import useSite from '../../hooks/useState'
 import { useRouter } from 'next/router'
-import parse from 'html-react-parser'
 import Head from 'next/head'
+import { jsonldImageObject, jsonldPerson, jsonldWebpage, jsonldWebsite } from '../../lib/utilities/seo'
 
 interface IProps {
   children: ReactNode
@@ -13,38 +13,8 @@ function Layout ({children, post}: IProps){
   const router = useRouter();
   const { asPath } = router;
   const { metadata } = useSite();
-  console.log('metadata', metadata)
-  console.log('pageSeo', post)
-  const yeostSeo = parse(post.seo.fullHead)
-  console.log('yeostSeo', yeostSeo)
-  const text = {
-    '@context': 'https://schema.org',
-    '@graph': [{
-      '@type': 'WebSite',
-      '@id': 'https://etheadless.local/#website',
-      'url': 'https://etheadless.local/',
-      'name': 'Every-Tuesday',
-      'description': 'Graphic Design Tips, Tricks, Tutorials and Freebies',
-      'potentialAction': [{
-        '@type': 'SearchAction',
-        'target': {'@type': 'EntryPoint', 'urlTemplate': 'https://etheadless.local/?s={search_term_string}'},
-        'query-input': 'required name=search_term_string'
-      }],
-      'inLanguage': 'en-US'
-    }, {
-      '@type': 'ImageObject',
-      '@id': 'https://etheadless.local/freebie-march-2019-desktop-wallpapers#primaryimage',
-      'inLanguage': 'en-US',
-      'url': 'https://res.cloudinary.com/every-tuesday/images/f_auto,q_auto/v1633831042/posts_2019/March/freebie-March-2019-desktop-wallpapers/freebie-March-2019-desktop-wallpapers.jpg?_i=AA',
-      'contentUrl': 'https://res.cloudinary.com/every-tuesday/images/f_auto,q_auto/v1633831042/posts_2019/March/freebie-March-2019-desktop-wallpapers/freebie-March-2019-desktop-wallpapers.jpg?_i=AA',
-      'width': 1920,
-      'height': 928,
-      'caption': 'freebie-March-2019-desktop-wallpapers'
-    },
-      ,
-
-    ]
-  }
+  // console.log('metadata', metadata)
+  // console.log('pageSeo', post)
 
   const seoSettings = {
     defaultTitle: metadata.title,
@@ -74,7 +44,6 @@ function Layout ({children, post}: IProps){
         // video: 'https://youtube.com',
       },
     },
-    additionalMetaTags:[],
     link: [
       {
         rel: 'alternate',
@@ -106,86 +75,93 @@ function Layout ({children, post}: IProps){
         href: '/site.webmanifest',
       },
     ],
+    additionalMetaTags:[],
+  }
+  const jsonWebsiteSettings = {
+    domain:metadata.domain,
+    description:metadata.description,
+    siteTitle:metadata.siteTitle,
+  }
+  const jsonImageOSettings = {
+    pageUrl:metadata.domain + asPath,
+    image:{
+      url: post.featuredImage.sourceUrl,
+        altText: post.featuredImage.altText,
+        width: 1920,
+        height:928
+    },
+  }
+  const jsonWebpageSettings = {
+    pageUrl:metadata.domain + asPath,
+    title:post.seo.title,
+    domain:metadata.domain,
+    publishTime:post.seo.opengraphPublishedTime,
+    modifiedTime:post.seo.opengraphModifiedTime,
+    description:post.seo.metaDesc,
+  }
+  const jsonPersonSettings = {
+    domain:metadata.domain,
+    description: metadata.description,
+    avatarUrl:post.author.avatar.url,
+  }
+  const jsonBlogSettings ={
+    url:`${metadata.domain}${asPath}`,
+    title:post.seo.title,
+    images:[
+      `${post.featuredImage.sourceUrl}`
+      ],
+    datePublished:post.seo.opengraphPublishedTime,
+    dateModified:post.seo.opengraphModifiedTime,
+    authorName:post.author.name,
+    description:post.seo.metaDesc,
+  }
+  const jsonBreadCrumbs = {
+    itemListElements:[
+        {
+          position: 1,
+          name: 'Home',
+          item: `${metadata.domain}`,
+        },
+  {
+    position: 2,
+      name: 'Blog',
+    item: `${metadata.domain}/blog`,
+  },
+  {
+    position: 3,
+      name: `${post.author.name}`,
+    item: `${metadata.domain}${post.author.uri}`
+  },
+]
   }
   return (
     <div>
       <Head>
-        <title>Spencer</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="profile" href="https://gmpg.org/xfn/11"/>
+        <title>${post.title}</title>
+
+        {jsonldWebsite(jsonWebsiteSettings)}
+
+        {/*  JSONLD IMAGE OBJECT  */}
+        {jsonldImageObject(jsonImageOSettings)}
+
+        {/*  JSONLD WEBPAGE  */}
+        {jsonldWebpage(jsonWebpageSettings)}
 
         {/*  JSONLD PERSON  */}
-        <script type="application/ld+json">
-          {`{
-      "@type": "WebPage",
-      "@id": "${metadata.domain}${post.slug}#webpage",
-      "url": "${metadata.domain}${post.slug}",
-      "name": "${post.seo.title}",
-      "isPartOf": {"@id": "${metadata.domain}#website"},
-      "primaryImageOfPage": {"@id": "https://etheadless.local/freebie-march-2019-desktop-wallpapers#primaryimage"},
-      "datePublished": "2019-02-28T13:00:40+00:00",
-      "dateModified": "2021-11-07T22:32:12+00:00",
-      "author": {"@id": "https://etheadless.local/#/schema/person/335aa8508f8baa38bcaf8be0a46d6ecb"},
-      "description": "It\\"s the end of February! That means it\\"s time for your free March 2019 desktop wallpapers (in two sizes, with and without dates)!",
-      "breadcrumb": {"@id": "https://etheadless.local/freebie-march-2019-desktop-wallpapers#breadcrumb"},
-      "inLanguage": "en-US",
-      "potentialAction": [{
-        "@type": "ReadAction",
-        "target": ["https://etheadless.local/freebie-march-2019-desktop-wallpapers"]
-      }]
-    }`}
-          {`{
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "@id": "https://etheadless.local/#/schema/person/335aa8508f8baa38bcaf8be0a46d6ecb",
-            "name": "Teela",
-            "image": {
-            "@type": "ImageObject",
-            "@id": "${metadata.domain}/#personlogo",
-            "inLanguage": "en-US",
-            "url": "${post.author.avatar.url}",
-            "contentUrl": "${post.author.avatar.url}",
-            "caption": "Teela"
-          },
-            "description": "${metadata.description}"
-          }`}
-        </script>
+        {jsonldPerson(jsonPersonSettings)}
 
       </Head>
       <NextSeo
         {...seoSettings}
+        robotsProps={{
+          maxSnippet: -1,
+          maxImagePreview: 'large',
+          maxVideoPreview: -1,
+        }}
       />
-      <BlogJsonLd
-        url={`${metadata.domain}${asPath}`}
-        title={post.seo.title}
-        images={[
-          `${post.featuredImage.sourceUrl}`
-        ]}
-        datePublished={post.seo.opengraphPublishedTime}
-        dateModified={post.seo.opengraphModifiedTime}
-        authorName={post.author.name}
-        description={post.seo.metaDesc}
-      />
-      <BreadcrumbJsonLd
-        itemListElements={[
-          {
-            position: 1,
-            name: 'Home',
-            item: `${metadata.domain}`,
-          },
-          {
-            position: 2,
-            name: 'Blog',
-            item: `${metadata.domain}/blog`,
-          },
-          {
-            position: 3,
-            name: `${post.author.name}`,
-            item: `${metadata.domain}${post.author.uri}`
-          },
-        ]}
-      />
-      {/*<Helmet />*/}
-      {/*<Helmet {...helmetSettings} />*/}
+      <BlogJsonLd {...jsonBlogSettings} />
+      <BreadcrumbJsonLd {...jsonBreadCrumbs}/>
       <nav>Navigation</nav>
       <main>
         {children}

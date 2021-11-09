@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import App from "next/app"
+import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import type { AppProps } from 'next/app'
@@ -14,7 +15,7 @@ import { increment } from '../components/counter/counterSlice'
 import { getCategories } from '../lib/wp/categories'
 import { createMenuFromPages, getAllMenus, MENU_LOCATION_NAVIGATION_DEFAULT } from '../lib/wp/menu'
 import { getTopLevelPages } from '../lib/wp/pages'
-import { getSiteMetadata } from '../lib/wp/site'
+import { getSiteMetadata, IMetaData } from '../lib/wp/site'
 import { QUERY_ALL_POSTS } from '../graphqlData/postsData'
 import { QUERY_ALL_PAGES } from '../graphqlData/pagesGQL'
 import { addCount } from '../lib/redux/counter/actions'
@@ -23,7 +24,7 @@ interface IProps {
   auth: IEssAuthState
   recentPosts: IPost[]
   categories: any
-  metadata: any
+  metadata: IMetaData
   menus: any
 }
 type MyAppProps = IProps & AppProps
@@ -34,21 +35,28 @@ function MyApp(props: MyAppProps) {
   const apolloClient = useApollo(pageProps)
 
   return(
-    <ApolloProvider client={apolloClient}>
-      <SiteContext.Provider value={{
-        menus,
-        metadata,
-        recentPosts,
-        categories
-      }}>
-      {/*<Provider store={store} >*/}
-        <EssAuthProvider auth={auth}>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+        <title>{metadata.title}</title>
+      </Head>
+      <ApolloProvider client={apolloClient}>
+        <SiteContext.Provider value={{
+          menus,
+          metadata,
+          recentPosts,
+          categories
+        }}>
+          {/*<Provider store={store} >*/}
+          <EssAuthProvider auth={auth}>
 
-          <Component {...pageProps} />
-        </EssAuthProvider>
-      </SiteContext.Provider>
-      {/*</Provider>*/}
-    </ApolloProvider>
+            <Component {...pageProps} />
+          </EssAuthProvider>
+        </SiteContext.Provider>
+        {/*</Provider>*/}
+      </ApolloProvider>
+
+    </>
     )
 }
 
