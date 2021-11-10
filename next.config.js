@@ -1,15 +1,11 @@
+const withPlugins = require('next-compose-plugins');
+const sitemap = require('./plugins/sitemap');
 
-module.exports = {
+module.exports = withPlugins([[sitemap]], {
   reactStrictMode: true,
   basePath: '',
   i18n: {
     locales: ['en-US'],
     defaultLocale: 'en-US'
   }
-  // webpack: (c
-  // onfig) => {
-  //   config.experiments = { topLevelAwait: true };
-  //   return config;
-  // },
-
-}
+})
