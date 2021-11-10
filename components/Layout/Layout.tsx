@@ -28,10 +28,10 @@ function Layout ({children, post}: IProps){
       images: [
         // have up to 4 images...
         {
-          url: post.featuredImage.sourceUrl,
+          url: post.featuredImage?.sourceUrl, // need default image
           width: 1920,
           height: 928,
-          alt: post.featuredImage.altText
+          alt: post.featuredImage?.altText
         }
       ],
       article: {
@@ -44,7 +44,12 @@ function Layout ({children, post}: IProps){
         // video: 'https://youtube.com',
       },
     },
-    link: [
+    twitter:{
+      cardType: 'summary_large_image',
+      site: `@${metadata.social.twitter.username}`,
+      handle: `@${metadata.social.twitter.username}`
+    },
+    additionalLinkTags: [
       {
         rel: 'alternate',
         type: 'application/rss+xml',
@@ -75,7 +80,24 @@ function Layout ({children, post}: IProps){
         href: '/site.webmanifest',
       },
     ],
-    additionalMetaTags:[],
+    additionalMetaTags:[
+      {
+        name: 'twitter:label1',
+        content: 'Written By'
+      },
+      {
+        name: 'twitter:data1',
+        content: post.author.name
+      },
+      {
+        name: 'twitter:label2',
+        content: 'Est. reading time'
+      },
+      {
+        name: 'twitter:data2',
+        content: `${post.seo.readingTime} minutes`
+      }
+    ],
   }
   const jsonWebsiteSettings = {
     domain:metadata.domain,
@@ -85,8 +107,8 @@ function Layout ({children, post}: IProps){
   const jsonImageOSettings = {
     pageUrl:metadata.domain + asPath,
     image:{
-      url: post.featuredImage.sourceUrl,
-        altText: post.featuredImage.altText,
+      url: post.featuredImage?.sourceUrl , // need default image
+        altText: post.featuredImage?.altText,
         width: 1920,
         height:928
     },
@@ -108,7 +130,7 @@ function Layout ({children, post}: IProps){
     url:`${metadata.domain}${asPath}`,
     title:post.seo.title,
     images:[
-      `${post.featuredImage.sourceUrl}`
+      `${post.featuredImage?.sourceUrl}` // need default image
       ],
     datePublished:post.seo.opengraphPublishedTime,
     dateModified:post.seo.opengraphModifiedTime,
@@ -117,22 +139,22 @@ function Layout ({children, post}: IProps){
   }
   const jsonBreadCrumbs = {
     itemListElements:[
-        {
-          position: 1,
-          name: 'Home',
-          item: `${metadata.domain}`,
-        },
-  {
-    position: 2,
-      name: 'Blog',
-    item: `${metadata.domain}/blog`,
-  },
-  {
-    position: 3,
-      name: `${post.author.name}`,
-    item: `${metadata.domain}${post.author.uri}`
-  },
-]
+      {
+        position: 1,
+        name: 'Home',
+        item: `${metadata.domain}`,
+      },
+      {
+        position: 2,
+        name: 'Blog',
+        item: `${metadata.domain}/blog`,
+      },
+      {
+        position: 3,
+        name: `${post.title}`,
+        item: `${metadata.domain}${asPath}`
+      },
+    ]
   }
   return (
     <div>

@@ -37,7 +37,11 @@ function MyApp(props: MyAppProps) {
   return(
     <>
       <Head>
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="application-name" content="Every-Tuesday"/>
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+        <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny"/>
+        <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l"/>
         <title>{metadata.title}</title>
       </Head>
       <ApolloProvider client={apolloClient}>

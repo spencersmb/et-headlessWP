@@ -57,11 +57,7 @@ export const CORE_POST_FIELDS = gql`
             opengraphPublishedTime
             opengraphModifiedTime
             metaDesc
-            schema{
-                articleType
-                pageType
-                raw
-            }
+            readingTime
         }
     }
 `;

@@ -14,7 +14,7 @@ interface IFeaturedImage {
   caption: string
   id: string
   sizes: string
-  sourceUrl: string
+  sourceUrl?: string
   srcSet: null | any[]
 }
 
@@ -51,6 +51,7 @@ interface IPostSeo {
   opengraphPublishedTime: string
   opengraphModifiedTime: string
   metaDesc: string
+  readingTime: string
 }
 interface IPost {
   author: {
