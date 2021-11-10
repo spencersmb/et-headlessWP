@@ -69,10 +69,12 @@ function createApolloClient(url) {
  * getAllPosts
  */
 
-async function getAllPosts(apolloClient, process, verbose = false) {
+async function getAllPosts(apolloClient, process, verbose = false, count) {
+
   const query = gql`
+      query AllPosts($count: Int)
       {
-          posts(first: 10000) {
+          posts(first: $count) {
               edges {
                   node {
                       title
@@ -98,11 +100,15 @@ async function getAllPosts(apolloClient, process, verbose = false) {
           }
       }
   `;
-
   let posts = [];
 
   try {
-    const data = await apolloClient.query({ query });
+    const data = await apolloClient.query({
+      query,
+      variables:{
+        count: parseInt(count, 10)
+      }
+    });
     const nodes = [...data.data.posts.edges.map(({ node = {} }) => node)];
 
     posts = nodes.map((post) => {
@@ -125,7 +131,7 @@ async function getAllPosts(apolloClient, process, verbose = false) {
       return data;
     });
 
-    verbose && console.log(`[${process}] Successfully fetched posts from ${apolloClient.link.options.uri}`);
+    verbose && console.log(`[${process}] Successfully fetched ${posts.length} posts from ${apolloClient.link.options.uri}`);
     return {
       posts,
     };
@@ -214,9 +220,10 @@ async function getPages(apolloClient, process, verbose = false) {
  * getFeedData
  */
 
-async function getFeedData(apolloClient, process, verbose = false) {
+async function getFeedData(apolloClient, process, verbose = false, count) {
+
   const metadata = await getSiteMetadata(apolloClient, process, verbose);
-  const posts = await getAllPosts(apolloClient, process, verbose);
+  const posts = await getAllPosts(apolloClient, process, verbose, count);
 
   return {
     ...metadata,
@@ -228,8 +235,8 @@ async function getFeedData(apolloClient, process, verbose = false) {
  * getFeedData
  */
 
-async function getSitemapData(apolloClient, process, verbose = false) {
-  const posts = await getAllPosts(apolloClient, process, verbose);
+async function getSitemapData(apolloClient, process, count, verbose = false) {
+  const posts = await getAllPosts(apolloClient, process, count, verbose);
   const pages = await getPages(apolloClient, process, verbose);
 
   return {
@@ -258,8 +265,8 @@ function generateFeed({ posts = [], metadata = {} }) {
   posts.map((post) => {
     feed.item({
       title: post.title,
-      guid: `${homepage}/posts/${post.slug}`,
-      url: `${homepage}/posts/${post.slug}`,
+      guid: `${homepage}/${post.slug}`,
+      url: `${homepage}/${post.slug}`,
       date: post.date,
       description: post.excerpt,
       author: post.author,

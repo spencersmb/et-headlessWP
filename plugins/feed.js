@@ -1,17 +1,17 @@
 const path = require('path');
-const { getSitemapData, generateSitemap, generateRobotsTxt } = require('./util');
+const { getFeedData, generateFeed } = require('./util');
 
 const WebpackPluginCompiler = require('./plugin-compiler');
 
-module.exports = function sitemap(nextConfig = {}) {
-  const {env, outputDirectory, outputName, verbose = false} = nextConfig;
+module.exports = function feed(nextConfig = {}) {
+  const { env, outputDirectory, outputName, verbose = false } = nextConfig;
+
   const plugin = {
-    name: 'Sitemap',
+    name: 'Feed',
     outputDirectory: outputDirectory || './public',
-    outputName: outputName || 'sitemap.xml',
-    getData: getSitemapData,
-    generate: generateSitemap,
-    postcreate: generateRobotsTxt,
+    outputName: outputName || 'feed.xml',
+    getData: getFeedData,
+    generate: generateFeed,
   };
 
   return Object.assign({}, nextConfig, {
@@ -24,8 +24,8 @@ module.exports = function sitemap(nextConfig = {}) {
         new WebpackPluginCompiler({
           url: process.env.NEXT_PUBLIC_WP_API_URL,
           plugin,
+          count: process.env.NEXT_GET_ALL_PAGES_COUNT,
           verbose,
-          count: process.env.NEXT_GET_ALL_PAGES_COUNT
         })
       );
 
@@ -36,4 +36,4 @@ module.exports = function sitemap(nextConfig = {}) {
       return config;
     },
   });
-}
+};
