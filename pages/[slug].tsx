@@ -25,7 +25,6 @@ function Post(props: IProps){
 
 export default Post
 export async function getStaticPaths(context){
-  console.log('context', context)
 
   // const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPosts()
   const apolloClient = initializeApollo()
