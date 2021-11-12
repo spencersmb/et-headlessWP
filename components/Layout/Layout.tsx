@@ -1,9 +1,11 @@
 import React, { ReactNode } from 'react'
 import { BlogJsonLd, BreadcrumbJsonLd, NextSeo } from 'next-seo'
-import useSite from '../../hooks/useState'
+import useSite from '../../hooks/useSite'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { jsonldImageObject, jsonldPerson, jsonldWebpage, jsonldWebsite } from '../../lib/utilities/seo'
+import Nav from '../nav/nav'
+import Footer from '../footer/footer'
 
 interface IProps {
   children: ReactNode
@@ -19,12 +21,12 @@ function Layout ({children, post}: IProps){
   const seoSettings = {
     defaultTitle: metadata.title,
     title: post.seo.title,
-    description: metadata.description,
+    description: post.seo.metaDesc,
     canonical: `${metadata.domain}${asPath}`,
     openGraph: {
       type: 'article',
       title: post.seo.title,
-      description: 'Open Graph Spencer Description',
+      description: post.seo.metaDesc,
       images: [
         // have up to 4 images...
         {
@@ -77,7 +79,7 @@ function Layout ({children, post}: IProps){
       },
       {
         rel: 'manifest',
-        href: '/site.webmanifest',
+        href: '/manifest.json',
       },
     ],
     additionalMetaTags:[
@@ -156,6 +158,7 @@ function Layout ({children, post}: IProps){
       },
     ]
   }
+
   return (
     <div>
       <Head>
@@ -184,13 +187,11 @@ function Layout ({children, post}: IProps){
       />
       <BlogJsonLd {...jsonBlogSettings} />
       <BreadcrumbJsonLd {...jsonBreadCrumbs}/>
-      <nav>Navigation</nav>
+      <Nav/>
       <main>
         {children}
       </main>
-      <footer>
-        Create footer
-      </footer>
+      <Footer />
     </div>
   )
 }

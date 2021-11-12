@@ -20,8 +20,6 @@ const { homepage = '' } = config;
 
 function Pagination ({ pagesCount, currentPage, basePath, addCanonical = true }:IProps) {
   const path = `${basePath}/page/`;
-  console.log('path', path)
-
 
   const hasPreviousPage = pagesCount > 1 && currentPage > 1;
   const hasNextPage = pagesCount > 1 && currentPage < pagesCount;

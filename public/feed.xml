@@ -4,9 +4,9 @@
         <description><![CDATA[Graphic Design Tips, Tricks, Tutorials and Freebies]]></description>
         <link>https://every-tuesday.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 10 Nov 2021 05:02:40 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 12 Nov 2021 23:01:50 GMT</lastBuildDate>
         <atom:link href="https://every-tuesday.com/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 10 Nov 2021 05:02:40 GMT</pubDate>
+        <pubDate>Fri, 12 Nov 2021 23:01:50 GMT</pubDate>
         <copyright><![CDATA[2021 Every-Tuesday]]></copyright>
         <language><![CDATA[en]]></language>
         <item>
@@ -14,7 +14,6 @@
             <link>https://every-tuesday.com/test-1</link>
             <guid isPermaLink="false">https://every-tuesday.com/test-1</guid>
             <category><![CDATA[Uncategorized]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 14 Oct 2021 20:00:39 GMT</pubDate>
         </item>
         <item>
@@ -27,7 +26,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 28 Feb 2019 13:00:40 GMT</pubDate>
         </item>
         <item>
@@ -39,7 +37,6 @@
             <category><![CDATA[Illustration]]></category>
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Tutorials]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 26 Feb 2019 13:01:10 GMT</pubDate>
         </item>
         <item>
@@ -53,7 +50,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[vector]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 12 Feb 2019 13:01:18 GMT</pubDate>
         </item>
         <item>
@@ -66,7 +62,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 31 Jan 2019 13:00:58 GMT</pubDate>
         </item>
         <item>
@@ -79,7 +74,6 @@
             <category><![CDATA[iPad Lettering]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Typography]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 29 Jan 2019 13:01:16 GMT</pubDate>
         </item>
         <item>
@@ -94,7 +88,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Resources]]></category>
             <category><![CDATA[Tutorials]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 15 Jan 2019 13:01:21 GMT</pubDate>
         </item>
         <item>
@@ -109,7 +102,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 01 Jan 2019 13:01:10 GMT</pubDate>
         </item>
         <item>
@@ -122,7 +114,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 27 Dec 2018 13:00:50 GMT</pubDate>
         </item>
         <item>
@@ -138,7 +129,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 11 Dec 2018 13:01:18 GMT</pubDate>
         </item>
         <item>
@@ -151,7 +141,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 29 Nov 2018 13:00:21 GMT</pubDate>
         </item>
         <item>
@@ -165,7 +154,6 @@
             <category><![CDATA[Holiday]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 27 Nov 2018 13:01:49 GMT</pubDate>
         </item>
         <item>
@@ -176,7 +164,6 @@
             <guid isPermaLink="false">https://every-tuesday.com/3d-lettering-in-procreate</guid>
             <category><![CDATA[Courses]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Wed, 14 Nov 2018 15:01:07 GMT</pubDate>
         </item>
         <item>
@@ -188,7 +175,6 @@
             <category><![CDATA[Advanced]]></category>
             <category><![CDATA[iPad Lettering]]></category>
             <category><![CDATA[Tutorials]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 06 Nov 2018 13:01:10 GMT</pubDate>
         </item>
         <item>
@@ -201,7 +187,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 25 Oct 2018 12:00:13 GMT</pubDate>
         </item>
         <item>
@@ -215,7 +200,6 @@
             <category><![CDATA[Holiday]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 23 Oct 2018 12:01:50 GMT</pubDate>
         </item>
         <item>
@@ -229,7 +213,6 @@
             <category><![CDATA[Patterns]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[vector]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 09 Oct 2018 12:01:59 GMT</pubDate>
         </item>
         <item>
@@ -242,7 +225,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 27 Sep 2018 12:00:32 GMT</pubDate>
         </item>
         <item>
@@ -255,7 +237,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[vector]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 25 Sep 2018 12:01:34 GMT</pubDate>
         </item>
         <item>
@@ -269,7 +250,6 @@
             <category><![CDATA[Roundups]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Typography]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 11 Sep 2018 12:01:20 GMT</pubDate>
         </item>
         <item>
@@ -282,7 +262,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 30 Aug 2018 12:00:03 GMT</pubDate>
         </item>
         <item>
@@ -297,7 +276,6 @@
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 28 Aug 2018 12:01:25 GMT</pubDate>
         </item>
         <item>
@@ -310,7 +288,6 @@
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
             <category><![CDATA[Tutorials]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 14 Aug 2018 12:01:58 GMT</pubDate>
         </item>
         <item>
@@ -324,7 +301,6 @@
             <category><![CDATA[Illustration]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 31 Jul 2018 12:01:55 GMT</pubDate>
         </item>
         <item>
@@ -337,7 +313,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 26 Jul 2018 12:00:48 GMT</pubDate>
         </item>
         <item>
@@ -352,7 +327,6 @@
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Typography]]></category>
             <category><![CDATA[vector]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 17 Jul 2018 12:01:36 GMT</pubDate>
         </item>
         <item>
@@ -365,7 +339,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Patterns]]></category>
             <category><![CDATA[Tutorials]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 03 Jul 2018 12:01:55 GMT</pubDate>
         </item>
         <item>
@@ -378,7 +351,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 28 Jun 2018 12:00:14 GMT</pubDate>
         </item>
         <item>
@@ -391,7 +363,6 @@
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[Resources]]></category>
             <category><![CDATA[Tutorials]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 19 Jun 2018 12:01:37 GMT</pubDate>
         </item>
         <item>
@@ -406,7 +377,6 @@
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 05 Jun 2018 12:01:25 GMT</pubDate>
         </item>
         <item>
@@ -419,7 +389,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 31 May 2018 12:00:47 GMT</pubDate>
         </item>
         <item>
@@ -432,7 +401,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Typography]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 22 May 2018 12:01:06 GMT</pubDate>
         </item>
         <item>
@@ -448,7 +416,6 @@
             <category><![CDATA[Textures]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 08 May 2018 12:01:02 GMT</pubDate>
         </item>
         <item>
@@ -461,7 +428,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 26 Apr 2018 12:00:33 GMT</pubDate>
         </item>
         <item>
@@ -475,7 +441,6 @@
             <category><![CDATA[Illustrator]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Typography]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 24 Apr 2018 12:01:27 GMT</pubDate>
         </item>
         <item>
@@ -490,7 +455,6 @@
             <category><![CDATA[Illustration]]></category>
             <category><![CDATA[iPad Lettering]]></category>
             <category><![CDATA[Tutorials]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 10 Apr 2018 12:01:17 GMT</pubDate>
         </item>
         <item>
@@ -503,7 +467,6 @@
             <category><![CDATA[Freebies]]></category>
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[iPad Lettering]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Thu, 29 Mar 2018 12:00:07 GMT</pubDate>
         </item>
         <item>
@@ -518,7 +481,6 @@
             <category><![CDATA[Illustration]]></category>
             <category><![CDATA[Skillshare]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 27 Mar 2018 12:01:18 GMT</pubDate>
         </item>
         <item>
@@ -533,7 +495,6 @@
             <category><![CDATA[Illustration]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 20 Mar 2018 12:01:39 GMT</pubDate>
         </item>
         <item>
@@ -547,7 +508,6 @@
             <category><![CDATA[Hand Lettering]]></category>
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
-            <dc:creator><![CDATA[Teela]]></dc:creator>
             <pubDate>Tue, 06 Mar 2018 13:01:19 GMT</pubDate>
         </item>
     </channel>

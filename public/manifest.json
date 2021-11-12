@@ -1,0 +1,11 @@
+{
+  "short_name": "Every-Tuesday",
+  "name": "Every-Tuesday Blog",
+  "description": "Design, Tips and Tricks",
+  "icons": [],
+  "start_url": "/",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#000000"
+}

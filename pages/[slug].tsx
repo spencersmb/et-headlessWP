@@ -12,13 +12,6 @@ interface IProps {
 function Post(props: IProps){
   // console.log('page props', props)
   const {post} = props
-  if(!post.title){
-    return (
-      <div>
-        Loading
-      </div>
-    )
-  }
   return (
     <Layout post={post}>
       <h1>{post.title}</h1>
@@ -31,7 +24,9 @@ function Post(props: IProps){
 }
 
 export default Post
-export async function getStaticPaths(){
+export async function getStaticPaths(context){
+  console.log('context', context)
+
   // const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPosts()
   const apolloClient = initializeApollo()
 
@@ -45,13 +40,12 @@ export async function getStaticPaths(){
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
 
   return{
-    paths:params,
+    paths: params,
     fallback: 'blocking'
   }
 }
 export async function getStaticProps(context){
   const {params} = context
-  console.log('revalidate PID getStaticProps', params)
 
   // const {initialApolloState, posts, pagination} = await getPaginatedPosts()
   // return {
@@ -79,6 +73,13 @@ export async function getStaticProps(context){
   })
 
   const post = flattenPost(data?.data?.postBy)
+
+  if (Object.keys(post).length === 0) {
+    return addApolloState(apolloClient, {
+        notFound: true,
+      }
+    )
+  }
 
   return addApolloState(apolloClient, {
     props: {

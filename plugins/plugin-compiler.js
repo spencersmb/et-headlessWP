@@ -35,7 +35,13 @@ class WebpackPlugin {
 
       //If there is an aditional action to perform
       if (plugin.postcreate) {
-        plugin.postcreate(plugin);
+
+        if(Array.isArray(plugin.postcreate)){
+          plugin.postcreate.forEach(func => func(plugin))
+        }else{
+          plugin.postcreate(plugin);
+        }
+
       }
 
       !verbose && console.log(`Successfully created: ${terminalColor(plugin.outputName, 'info')}`);

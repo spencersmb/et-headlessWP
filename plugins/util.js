@@ -83,11 +83,6 @@ async function getAllPosts(apolloClient, process, verbose = false, count) {
                       slug
                       date
                       modified
-                      author {
-                          node {
-                              name
-                          }
-                      }
                       categories {
                           edges {
                               node {
@@ -238,7 +233,6 @@ async function getFeedData(apolloClient, process, verbose = false, count) {
 async function getSitemapData(apolloClient, process, count, verbose = false) {
   const posts = await getAllPosts(apolloClient, process, count, verbose);
   const pages = await getPages(apolloClient, process, verbose);
-
   return {
     ...posts,
     ...pages,
@@ -305,7 +299,7 @@ function generateIndexSearch({ posts }) {
 }
 
 /**
- * getSitemapData
+ * generateSitemapData
  */
 
 function generateSitemap({ posts = [], pages = [] }) {

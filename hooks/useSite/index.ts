@@ -1,11 +1,39 @@
 import { useContext, createContext} from 'react'
 import { IMetaData } from '../../lib/wp/site'
 
+export interface IMenu{
+  menuItems: IMenuItem[]
+  name: string
+  slug: string
+}
+
+interface IMenuCourse {
+  details: {
+    url: string
+    name: string
+  }
+}
+
+export interface IMenuItem {
+  featured:{
+    courses: IMenuCourse[]
+  }
+  childItems: {
+    edges: {node: IMenuItem}[]
+  }
+  id: string
+  label: string
+  path: string
+  target: string
+  title: string
+  parentId: string | null
+}
+
 export interface ISiteContextState {
   recentPosts: IPost[]
   categories: any[]
   metadata: IMetaData
-  menus: any
+  menus: IMenu[]
 }
 export const siteInitialState: ISiteContextState  = {
   recentPosts: [],
@@ -18,7 +46,7 @@ export const siteInitialState: ISiteContextState  = {
     social: {},
     title: '',
   },
-  menus:{}
+  menus:[]
 }
 export const SiteContext = createContext<ISiteContextState>(siteInitialState)
 SiteContext.displayName = 'SiteContext'
