@@ -11,6 +11,7 @@ const CursorPagination = () => {
   const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_NEXT_POSTS,{
     notifyOnNetworkStatusChange: true,
   });
+  console.log('data', data)
   console.log('loading', loading)
   console.log('networkStatus', networkStatus)
 
@@ -24,7 +25,7 @@ const CursorPagination = () => {
   const pageInfo = data?.posts.pageInfo
   const posts = flattenAllPosts(data?.posts) || []
 
-  // console.log('data', data)
+  console.log('pageInfo', pageInfo)
 
   return (
     <div className={styles.container}>
@@ -40,7 +41,7 @@ const CursorPagination = () => {
           ))}
       </ul>
       <nav className={styles.nav} role="navigation" aria-label="Pagination Navigation">
-        {pageInfo.hasPreviousPage && (
+        {pageInfo?.hasPreviousPage && (
           // <Link href={`${path}${currentPage - 1}`}>
             <button className={styles.prev} aria-label="Goto Previous Page">
               <PreviousIcon />
@@ -49,7 +50,7 @@ const CursorPagination = () => {
           // </Link>
         )}
 
-        {pageInfo.hasNextPage && (
+        {pageInfo?.hasNextPage && (
           // <Link href={`${path}${currentPage + 1}`}>
             <button className={styles.next} aria-label="Goto Next Page" onClick={handleGetNextPosts}>
               Next
