@@ -151,21 +151,21 @@ export const getStaticProps = async () => {
    * WITH-APOLLO Way to wrap component
    */
 
-  // const {apolloClient, posts, pagination} = await getPaginatedPosts()
+  const {apolloClient, posts, pagination} = await getPaginatedPosts()
 
-  const apolloClient = initializeApollo()
-
-  const data = await apolloClient.query({
-    query: QUERY_NEXT_POSTS,
-    variables: {after: null}
-  })
-  const pageInfo = data?.data.posts.pageInfo
-  const posts = flattenAllPosts(data?.data.posts) || []
+  // const apolloClient = initializeApollo()
+  //
+  // const data = await apolloClient.query({
+  //   query: QUERY_NEXT_POSTS,
+  //   variables: {after: null}
+  // })
+  // const pageInfo = data?.data.posts.pageInfo
+  // const posts = flattenAllPosts(data?.data.posts) || []
 
   return addApolloState(apolloClient, {
     props: {
       posts,
-      pageInfo,
+      // pageInfo,
       // pagination: {
       //   ...pagination,
       //   basePath: '',

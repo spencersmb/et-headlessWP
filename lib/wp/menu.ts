@@ -6,7 +6,6 @@ import { QUERY_ALL_MENUS } from '../../graphqlData/menuGQL'
 
 export const MENU_LOCATION_NAVIGATION_DEFAULT = 'DEFAULT_NAVIGATION';
 export async function getAllMenus() {
-  console.log('getMenu')
 
   const apolloClient = initializeApollo();
 
