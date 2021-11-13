@@ -20,7 +20,7 @@ const CursorPagination = () => {
 
 
   const [preloadedCount, setPreloadedCount] = useState(1)
-  const preloadedPages = 6
+  const preloadedPages = 1
 
   function handleGetNextPosts(){
     if(preloadedCount < preloadedPages){

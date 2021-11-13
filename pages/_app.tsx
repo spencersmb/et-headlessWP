@@ -7,6 +7,7 @@ import type { AppProps } from 'next/app'
 import EssAuthProvider from '../lib/auth/authProvider'
 import { SiteContext } from '../hooks/useSite'
 import { IEssAuthState } from '../lib/auth/authContext'
+import NextNProgress from 'nextjs-progressbar';
 import { Provider } from 'react-redux'
 import { wrapper } from '../lib/redux/store'
 import store from '../lib/redux-toolkit/store'
@@ -81,10 +82,12 @@ function MyApp(props: MyAppProps) {
           categories
         }}>
           <SearchProvider>
+            <NextNProgress height={4} color={`#0070f3`} />
             {/*<Provider store={store} >*/}
             <EssAuthProvider auth={auth}>
               <Component {...pageProps} />
             </EssAuthProvider>
+
           </SearchProvider>
 
         </SiteContext.Provider>
