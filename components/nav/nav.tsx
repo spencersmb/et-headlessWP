@@ -158,7 +158,7 @@ const Nav = () => {
       <section className={styles.navSection}>
         {/* LOGO */}
         <p className={styles.navName}>
-          <Link href="/">
+          <Link href="/" >
             <a>{metadata.title}</a>
           </Link>
         </p>
