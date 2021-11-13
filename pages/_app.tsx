@@ -120,6 +120,7 @@ MyApp.getInitialProps = async (appContext) => {
   // menus.push(defaultNavigation) // SO far do not need this
 
   const metadata = await getSiteMetadata()
+
   // AUTH EXAMPLE
   // const auth = await getUser(appContext.ctx)
   const auth = {

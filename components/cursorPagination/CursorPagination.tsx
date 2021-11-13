@@ -41,11 +41,11 @@ const CursorPagination = () => {
         query: { page: `${preloadedCount + 1}` },
       })
     }else {
-      // fetchMore({
-      //   variables:{
-      //     after: data?.posts.pageInfo.endCursor
-      //   }
-      // })
+      fetchMore({
+        variables:{
+          after: data?.posts.pageInfo.endCursor
+        }
+      })
     }
 
   }
@@ -86,7 +86,8 @@ const CursorPagination = () => {
         {/*  // </Link>*/}
         {/*)}*/}
 
-        {morePages && (
+        {/*{morePages && (*/}
+        {pageInfo?.hasNextPage && (
           // <Link href={`${path}${currentPage + 1}`}>
             <button className={styles.next} aria-label="Goto Next Page" onClick={handleGetNextPosts}>
               Next
