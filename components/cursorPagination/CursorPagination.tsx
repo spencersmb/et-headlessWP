@@ -5,6 +5,7 @@ import { HiOutlineDotsHorizontal as Dots } from 'react-icons/hi'
 import { useQuery } from '@apollo/client'
 import { QUERY_NEXT_POSTS } from '../../graphqlData/postsData'
 import { flattenAllPosts } from '../../lib/wp/posts'
+import { useState } from 'react'
 
 const CursorPagination = () => {
 
@@ -14,24 +15,37 @@ const CursorPagination = () => {
   console.log('data', data)
   console.log('loading', loading)
   console.log('networkStatus', networkStatus)
+  const [preloadedCount, setPreloadedCount] = useState(1)
+  const preloadedPages = 6
 
   function handleGetNextPosts(){
-    fetchMore({
-      variables:{
-        after: data?.posts.pageInfo.endCursor
-      }
-    })
+    if(preloadedCount < preloadedPages){
+      setPreloadedCount(preloadedCount + 1)
+    }else {
+      fetchMore({
+        variables:{
+          after: data?.posts.pageInfo.endCursor
+        }
+      })
+    }
+
   }
   const pageInfo = data?.posts.pageInfo
   const posts = flattenAllPosts(data?.posts) || []
 
-  console.log('pageInfo', pageInfo)
+  console.log('pageInfo', preloadedCount)
 
   return (
     <div className={styles.container}>
       <ul>
         {posts
-          // .filter((post,index) => index < 10 )
+          .filter((post,index) => {
+            if(preloadedCount < preloadedPages){
+              return index < preloadedCount * 10
+            }else{
+              return index
+            }
+          } )
           .map((post) => (
             <li key={post.id}>
               <Link href={`/${post.slug}`}>
@@ -41,14 +55,14 @@ const CursorPagination = () => {
           ))}
       </ul>
       <nav className={styles.nav} role="navigation" aria-label="Pagination Navigation">
-        {pageInfo?.hasPreviousPage && (
-          // <Link href={`${path}${currentPage - 1}`}>
-            <button className={styles.prev} aria-label="Goto Previous Page">
-              <PreviousIcon />
-              Previous
-            </button>
-          // </Link>
-        )}
+        {/*{pageInfo?.hasPreviousPage && (*/}
+        {/*  // <Link href={`${path}${currentPage - 1}`}>*/}
+        {/*    <button className={styles.prev} aria-label="Goto Previous Page">*/}
+        {/*      <PreviousIcon />*/}
+        {/*      Previous*/}
+        {/*    </button>*/}
+        {/*  // </Link>*/}
+        {/*)}*/}
 
         {pageInfo?.hasNextPage && (
           // <Link href={`${path}${currentPage + 1}`}>
