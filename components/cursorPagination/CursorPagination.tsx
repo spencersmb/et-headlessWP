@@ -15,6 +15,10 @@ const CursorPagination = () => {
   console.log('data', data)
   console.log('loading', loading)
   console.log('networkStatus', networkStatus)
+
+  // check if localstate has a default count set of pages already viewed
+
+
   const [preloadedCount, setPreloadedCount] = useState(1)
   const preloadedPages = 6
 
