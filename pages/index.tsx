@@ -85,26 +85,26 @@ function Home(props) {
       </p>
       {/*<Test />*/}
       <div>
-        <h3>Posts</h3>
-        <ul>
-          {props.posts
-            // .filter((post,index) => index < 10 )
-            .map((post) => (
-            <li key={post.id}>
-              <Link href={`/${post.slug}`}>
-                {post.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {/*<h3>Posts</h3>*/}
+        {/*<ul>*/}
+        {/*  {props.posts*/}
+        {/*    // .filter((post,index) => index < 10 )*/}
+        {/*    .map((post) => (*/}
+        {/*    <li key={post.id}>*/}
+        {/*      <Link href={`/${post.slug}`}>*/}
+        {/*        {post.title}*/}
+        {/*      </Link>*/}
+        {/*    </li>*/}
+        {/*  ))}*/}
+        {/*</ul>*/}
       </div>
 
       <div>
         <h3>Pagination</h3>
-        {/*<CursorPagination />*/}
-        <Pagination
-          {...props.pagination}
-        />
+        <CursorPagination />
+        {/*<Pagination*/}
+        {/*  {...props.pagination}*/}
+        {/*/>*/}
       </div>
 
       <footer className={styles.footer}>
@@ -151,25 +151,25 @@ export const getStaticProps = async () => {
    * WITH-APOLLO Way to wrap component
    */
 
-  const {apolloClient, posts, pagination} = await getPaginatedPosts()
+  // const {apolloClient, posts, pagination} = await getPaginatedPosts()
 
-  // const apolloClient = initializeApollo()
-  //
-  // const data = await apolloClient.query({
-  //   query: QUERY_NEXT_POSTS,
-  //   variables: {after: null}
-  // })
-  // const pageInfo = data?.data.posts.pageInfo
-  // const posts = flattenAllPosts(data?.data.posts) || []
+  const apolloClient = initializeApollo()
+
+  const data = await apolloClient.query({
+    query: QUERY_NEXT_POSTS,
+    variables: {after: null}
+  })
+  const pageInfo = data?.data.posts.pageInfo
+  const posts = flattenAllPosts(data?.data.posts) || []
 
   return addApolloState(apolloClient, {
     props: {
       posts,
-      // pageInfo,
-      pagination: {
-        ...pagination,
-        basePath: '',
-      },
+      pageInfo,
+      // pagination: {
+      //   ...pagination,
+      //   basePath: '',
+      // },
       basePath: ''
     },
     revalidate: 15,

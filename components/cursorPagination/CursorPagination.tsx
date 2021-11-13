@@ -5,39 +5,57 @@ import { HiOutlineDotsHorizontal as Dots } from 'react-icons/hi'
 import { useQuery } from '@apollo/client'
 import { QUERY_NEXT_POSTS } from '../../graphqlData/postsData'
 import { flattenAllPosts } from '../../lib/wp/posts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const CursorPagination = () => {
+  const router = useRouter();
+  const path = router.asPath
 
   const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_NEXT_POSTS,{
     notifyOnNetworkStatusChange: true,
   });
-  console.log('data', data)
-  console.log('loading', loading)
-  console.log('networkStatus', networkStatus)
-
-  // check if localstate has a default count set of pages already viewed
-
+  const pageInfo = data?.posts.pageInfo
+  const posts = flattenAllPosts(data?.posts) || []
 
   const [preloadedCount, setPreloadedCount] = useState(1)
-  const preloadedPages = 1
+  const preloadedPages = Math.ceil(posts.length / 10)
+  const morePages = preloadedCount < preloadedPages
+
+  useEffect(()=>{
+    let {page} = Object.fromEntries(new URLSearchParams(path.slice(2)));
+
+    if(page && page !== '1'){
+      setPreloadedCount(parseInt(page))
+    }
+
+  },[path])
 
   function handleGetNextPosts(){
     if(preloadedCount < preloadedPages){
       setPreloadedCount(preloadedCount + 1)
-    }else {
-      fetchMore({
-        variables:{
-          after: data?.posts.pageInfo.endCursor
-        }
+      // router.query.page = `${preloadedCount}`
+      // router.push(router)
+      router.replace({
+        pathname: '/',
+        query: { page: `${preloadedCount + 1}` },
       })
+    }else {
+      // fetchMore({
+      //   variables:{
+      //     after: data?.posts.pageInfo.endCursor
+      //   }
+      // })
     }
 
   }
-  const pageInfo = data?.posts.pageInfo
-  const posts = flattenAllPosts(data?.posts) || []
 
-  console.log('pageInfo', preloadedCount)
+
+  console.log('total pages', preloadedPages)
+  console.log('current Page', preloadedCount)
+  console.log('morePages', morePages)
+
+
 
   return (
     <div className={styles.container}>
@@ -68,7 +86,7 @@ const CursorPagination = () => {
         {/*  // </Link>*/}
         {/*)}*/}
 
-        {pageInfo?.hasNextPage && (
+        {morePages && (
           // <Link href={`${path}${currentPage + 1}`}>
             <button className={styles.next} aria-label="Goto Next Page" onClick={handleGetNextPosts}>
               Next
