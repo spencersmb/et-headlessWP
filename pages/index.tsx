@@ -166,10 +166,10 @@ export const getStaticProps = async () => {
     props: {
       posts,
       // pageInfo,
-      // pagination: {
-      //   ...pagination,
-      //   basePath: '',
-      // },
+      pagination: {
+        ...pagination,
+        basePath: '',
+      },
       basePath: ''
     },
     revalidate: 15,

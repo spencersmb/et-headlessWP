@@ -8,8 +8,7 @@ import {
 } from '../../lib/wp/posts'
 import Pagination from '../../components/pagination'
 import Link from 'next/link'
-import { addApolloState, initializeApollo } from '../../lib/apollo-client'
-import { QUERY_NEXT_POSTS } from '../../graphqlData/postsData'
+import { addApolloState } from '../../lib/apollo-client'
 
 export default function Posts({ posts, pagination }) {
 
@@ -58,31 +57,16 @@ export async function getStaticProps({ params = {} }: any = {}) {
 }
 
 export async function getStaticPaths() {
-  // const {data} = await getAllPostsApollo()
-  // const postsPerPage = data?.data.allSettings.readingSettingsPostsPerPage
-  // const flattendPosts = flattenAllPosts(data?.data.posts) || []
-  // const pagesCount = Math.ceil(flattendPosts.length / postsPerPage);
-  //
-  // const paths = [...new Array(pagesCount)].map((_, i) => {
-  //   return { params: { page: String(i + 1) } };
-  // });
-  // const apolloClient = initializeApollo()
-  //
-  // const data = await apolloClient.query({
-  //   query: QUERY_NEXT_POSTS,
-  //   variables: {after: null}
-  // })
-  // const postsPerPage = data?.data.allSettings.readingSettingsPostsPerPage
-  // const posts = flattenAllPosts(data?.data.posts) || []
-  const {apolloClient, posts, postsPerPage} = await getPaginatedPosts()
+  const {data} = await getAllPostsApollo()
+  const postsPerPage = data?.data.allSettings.readingSettingsPostsPerPage
+  const flattendPosts = flattenAllPosts(data?.data.posts) || []
+  const pagesCount = Math.ceil(flattendPosts.length / postsPerPage);
 
-  const pagesCount = Math.ceil(posts.length / postsPerPage);
   const paths = [...new Array(pagesCount)].map((_, i) => {
     return { params: { page: String(i + 1) } };
   });
-
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 }
