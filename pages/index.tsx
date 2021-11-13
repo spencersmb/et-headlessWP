@@ -85,26 +85,26 @@ function Home(props) {
       </p>
       {/*<Test />*/}
       <div>
-        {/*<h3>Posts</h3>*/}
-        {/*<ul>*/}
-        {/*  {props.posts*/}
-        {/*    // .filter((post,index) => index < 10 )*/}
-        {/*    .map((post) => (*/}
-        {/*    <li key={post.id}>*/}
-        {/*      <Link href={`/${post.slug}`}>*/}
-        {/*        {post.title}*/}
-        {/*      </Link>*/}
-        {/*    </li>*/}
-        {/*  ))}*/}
-        {/*</ul>*/}
+        <h3>Posts</h3>
+        <ul>
+          {props.posts
+            // .filter((post,index) => index < 10 )
+            .map((post) => (
+            <li key={post.id}>
+              <Link href={`/${post.slug}`}>
+                {post.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div>
         <h3>Pagination</h3>
-        <CursorPagination />
-        {/*<Pagination*/}
-        {/*  {...props.pagination}*/}
-        {/*/>*/}
+        {/*<CursorPagination />*/}
+        <Pagination
+          {...props.pagination}
+        />
       </div>
 
       <footer className={styles.footer}>
