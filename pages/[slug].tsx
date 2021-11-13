@@ -7,6 +7,9 @@ import { NAV_QUERY } from '../lib/apollo-cache'
 import { useEssGridAuth } from '../lib/auth/authContext'
 import Layout from '../components/Layout/Layout'
 import { getSearchData } from '../lib/search/searchApi'
+import path from 'path'
+import fs from 'fs/promises'
+
 interface IProps {
   post: IPost
 }
@@ -33,10 +36,14 @@ export async function getStaticPaths(context){
   //   variables: {after: null}
   // })
   // const posts = flattenAllPosts(data?.data.posts) || []
+  const filePath = path.join(process.cwd(), 'public', 'wp-search.json')
+  const jsonData: any = await fs.readFile(filePath,  'utf-8',)
+  const data = JSON.parse(jsonData)
+  console.log('data', data.posts)
 
-  const response = await fetch('http://localhost:3000/wp-search.json');
-  const data = await response.json();
 
+  // const response = await fetch('http://localhost:3000/wp-search.json');
+  // const data = await response.json();
   // const slugs = posts.map(post => post.slug)
   const slugs = data.posts.map(post => post.slug)
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
