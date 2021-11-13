@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client'
 import { NAV_QUERY } from '../lib/apollo-cache'
 import { useEssGridAuth } from '../lib/auth/authContext'
 import Layout from '../components/Layout/Layout'
+import { getSearchData } from '../lib/search/searchApi'
 interface IProps {
   post: IPost
 }
@@ -25,24 +26,26 @@ function Post(props: IProps){
 
 export default Post
 export async function getStaticPaths(context){
+  //
+  // const apolloClient = initializeApollo()
+  // const data = await apolloClient.query({
+  //   query: QUERY_NEXT_POSTS,
+  //   variables: {after: null}
+  // })
+  // const posts = flattenAllPosts(data?.data.posts) || []
 
-  // const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPosts()
-  const apolloClient = initializeApollo()
+  const response = await fetch('http://localhost:3000/wp-search.json');
+  const data = await response.json();
 
-  const data = await apolloClient.query({
-    query: QUERY_NEXT_POSTS,
-    variables: {after: null}
-  })
-
-  // const {apolloClient, posts, pagination} = await getPaginatedPosts()
-  const posts = flattenAllPosts(data?.data.posts) || []
-  const slugs = posts.map(post => post.slug)
-
+  // const slugs = posts.map(post => post.slug)
+  const slugs = data.posts.map(post => post.slug)
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
+  console.log('params', params)
+
 
   return{
     paths: params,
-    fallback: false
+    fallback: "blocking"
   }
 }
 export async function getStaticProps(context){

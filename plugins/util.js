@@ -374,6 +374,19 @@ async function generateRobotsTxt({ outputDirectory, outputName }) {
 }
 
 /**
+ * generateStaticWpData
+ */
+
+function generateStaticWpData({posts = {}}) {
+  const staticWpJson = JSON.stringify({
+    generated: Date.now(),
+    posts,
+  });
+
+  return staticWpJson;
+}
+
+/**
  * resolvePathname
  */
 
@@ -430,6 +443,7 @@ module.exports = {
   getFeedData,
   generateFeed,
   generateIndexSearch,
+  generateStaticWpData,
   getPages,
   getSitemapData,
   generateSitemap,
