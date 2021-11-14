@@ -60,9 +60,9 @@ export async function getStaticPaths(context){
   }
 }
 export async function getStaticProps(context){
-  const postsDirectory = path.join(process.cwd(), 'public')
-  const filenames = await fs.readdir(postsDirectory)
-  console.log('filenames', filenames)
+  // const postsDirectory = path.join(process.cwd(), 'public')
+  // const filenames = await fs.readdir(postsDirectory)
+  // console.log('filenames', filenames)
 
   const {params} = context
 
@@ -103,7 +103,7 @@ export async function getStaticProps(context){
   return addApolloState(apolloClient, {
     props: {
       post,
-      filenames
+      filenames: ''
     },
     // revalidate: 5,
   })
