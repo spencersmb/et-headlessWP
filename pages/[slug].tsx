@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client'
 import { NAV_QUERY } from '../lib/apollo-cache'
 import { useEssGridAuth } from '../lib/auth/authContext'
 import Layout from '../components/Layout/Layout'
-import { getStaticSiteMetadata } from '../lib/wp/site'
+import { getStaticMenus } from '../lib/wp/menu'
 // import path from 'path'
 // import fs from 'fs/promises'
 // import { getLocalJsonFile } from '../lib/utilities/localApi'
@@ -88,7 +88,7 @@ export async function getStaticProps(context){
     )
   }
 
-  const metadata = await getStaticSiteMetadata()
+  const metadata = await getStaticMenus()
 
   return addApolloState(apolloClient, {
     props: {
