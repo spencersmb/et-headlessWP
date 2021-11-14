@@ -8,6 +8,8 @@ import { useEssGridAuth } from '../lib/auth/authContext'
 import Layout from '../components/Layout/Layout'
 import { getStaticMenus } from '../lib/wp/menu'
 import { getLocalJsonFile } from '../lib/utilities/localApi'
+import path from 'path'
+import fs from 'fs/promises'
 // import path from 'path'
 // import fs from 'fs/promises'
 // import { getLocalJsonFile } from '../lib/utilities/localApi'
@@ -16,9 +18,11 @@ interface IProps {
   post: IPost
 }
 function Post(props: IProps){
+  console.log('slug props', props)
+
   const {post} = props
   return (
-    // <Layout post={post}>
+    <Layout post={post}>
       <div>
         <h1>{post.title}</h1>
         <div dangerouslySetInnerHTML={{__html: post.content}} />
@@ -26,7 +30,7 @@ function Post(props: IProps){
           <a>home</a>
         </Link>
       </div>
-    // </Layout>
+    </Layout>
   )
 }
 
@@ -52,6 +56,10 @@ export async function getStaticPaths(context){
   }
 }
 export async function getStaticProps(context){
+  const postsDirectory = path.join(process.cwd(), 'public')
+  const filenames = await fs.readdir(postsDirectory)
+  console.log('filenames', filenames)
+
   const {params} = context
 
   // const {initialApolloState, posts, pagination} = await getPaginatedPosts()
@@ -91,6 +99,7 @@ export async function getStaticProps(context){
   return addApolloState(apolloClient, {
     props: {
       post,
+      filenames
     },
     // revalidate: 5,
   })

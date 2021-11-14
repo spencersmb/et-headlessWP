@@ -15,7 +15,6 @@ function Layout ({children, post}: IProps){
   const router = useRouter();
   const { asPath } = router;
   const { metadata } = useSite();
-  // console.log('metadata', metadata)
   // console.log('pageSeo', post)
 
   const seoSettings = {

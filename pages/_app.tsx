@@ -22,7 +22,7 @@ import {
   MENU_LOCATION_NAVIGATION_DEFAULT
 } from '../lib/wp/menu'
 import { getTopLevelPages } from '../lib/wp/pages'
-import { getSiteMetadata, getStaticSiteMetadata, IMetaData } from '../lib/wp/site'
+import { getMenu, getMetadata, getSiteMetadata, getStaticSiteMetadata, IMetaData } from '../lib/wp/site'
 import { QUERY_ALL_POSTS } from '../graphqlData/postsData'
 import { QUERY_ALL_PAGES } from '../graphqlData/pagesGQL'
 import { addCount } from '../lib/redux/counter/actions'
@@ -38,17 +38,16 @@ interface IProps {
   categories: any
   metadata: IMetaData
   menus: any
-  testPath: any
 }
 type MyAppProps = IProps & AppProps
 function MyApp(props: MyAppProps) {
 
-  const { Component, pageProps, auth, metadata, recentPosts, categories, menus, testPath } = props
+  const { Component, pageProps, auth, metadata, recentPosts, categories, menus } = props
   const router = useRouter();
   const { asPath } = router;
   const apolloClient = useApollo(pageProps)
   console.log('asPath', asPath)
-  console.log('testPath', testPath)
+
 
   // const DEFAULT_SEO = {
   //   title: `Home - ${metadata.title}`,
@@ -121,7 +120,7 @@ MyApp.getInitialProps = async (appContext) => {
   //   count: 5,
   // });
   //
-  // const { menus } = await getStaticMenus()
+  const { menus } = getMenu()
 
   // const defaultNavigation = createMenuFromPages({
   //   locations: [MENU_LOCATION_NAVIGATION_DEFAULT],
@@ -130,7 +129,7 @@ MyApp.getInitialProps = async (appContext) => {
   //
   // menus.push(defaultNavigation) // SO far do not need this
 
-  // const metadata = await getStaticSiteMetadata()
+  const metadata = getMetadata()
 
   // AUTH EXAMPLE
   // const auth = await getUser(appContext.ctx)
@@ -159,9 +158,8 @@ MyApp.getInitialProps = async (appContext) => {
   return {
     ...appProps,
     auth,
-    testPath: filePath
-    // menus,
-    // metadata
+    menus,
+    metadata
   }
 }
 
