@@ -47,27 +47,27 @@ function MyApp(props: MyAppProps) {
   const apolloClient = useApollo(pageProps)
   console.log('asPath', asPath)
 
-  const DEFAULT_SEO = {
-    title: `Home - ${metadata.title}`,
-    description: metadata.description,
-    openGraph: {
-      type: 'website',
-      locale: 'en_IE',
-      url: metadata.domain + asPath,
-      title: metadata.title,
-      description: metadata.description,
-      image:
-        // need defaul image
-        'https://prismic-io.s3.amazonaws.com/gary-blog%2F3297f290-a885-4cc6-9b19-3235e3026646_default.jpg',
-      site_name: metadata.siteTitle,
-      imageWidth: 1200,
-      imageHeight: 1200
-    },
-    twitter: {
-      handle: `@${metadata.social.twitter.username}`,
-      cardType: 'summary_large_image'
-    }
-  };
+  // const DEFAULT_SEO = {
+  //   title: `Home - ${metadata.title}`,
+  //   description: metadata.description,
+  //   openGraph: {
+  //     type: 'website',
+  //     locale: 'en_IE',
+  //     url: metadata.domain + asPath,
+  //     title: metadata.title,
+  //     description: metadata.description,
+  //     image:
+  //       // need defaul image
+  //       'https://prismic-io.s3.amazonaws.com/gary-blog%2F3297f290-a885-4cc6-9b19-3235e3026646_default.jpg',
+  //     site_name: metadata.siteTitle,
+  //     imageWidth: 1200,
+  //     imageHeight: 1200
+  //   },
+  //   twitter: {
+  //     handle: `@${metadata.social.twitter.username}`,
+  //     cardType: 'summary_large_image'
+  //   }
+  // };
 
 
   return(
@@ -78,9 +78,9 @@ function MyApp(props: MyAppProps) {
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
         <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny"/>
         <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l"/>
-        <title>Home - {metadata.title}</title>
+        {/*<title>Home - {metadata.title}</title>*/}
       </Head>
-      <NextSeo {...DEFAULT_SEO} />
+      {/*<NextSeo {...DEFAULT_SEO} />*/}
       <ApolloProvider client={apolloClient}>
         <SiteContext.Provider value={{
           menus,
