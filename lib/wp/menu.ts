@@ -3,6 +3,7 @@
  */
 import { initializeApollo } from '../apollo-client'
 import { QUERY_ALL_MENUS } from '../../graphqlData/menuGQL'
+import { getLocalJsonFile } from '../utilities/localApi'
 
 export const MENU_LOCATION_NAVIGATION_DEFAULT = 'DEFAULT_NAVIGATION';
 export async function getAllMenus() {
@@ -19,6 +20,18 @@ export async function getAllMenus() {
     menus,
   };
 }
+
+
+export async function getStaticMenus() {
+
+  const {menus}: any = await getLocalJsonFile('public', 'wp-static-data.json')
+
+  return {
+    menus
+  };
+}
+
+
 
 /**
  * mapMenuData
@@ -47,7 +60,6 @@ export function mapMenuData(menu:IRawMenus) {
 
   return data;
 }
-
 
 /**
  * createMenuFromPages

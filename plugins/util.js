@@ -3,7 +3,6 @@ const he = require('he');
 const { gql, ApolloClient, InMemoryCache } = require('@apollo/client');
 const RSS = require('rss');
 const prettier = require('prettier');
-
 const config = require('../package.json');
 
 /**
@@ -133,6 +132,194 @@ async function getAllPosts(apolloClient, process, verbose = false, count) {
   } catch (e) {
     throw new Error(`[${process}] Failed to fetch posts from ${apolloClient.link.options.uri}: ${e.message}`);
   }
+}/**
+
+ /**
+ * getAllStaticData
+ */
+
+async function getAllStaticData(apolloClient, process, verbose = false, count) {
+
+  const MENU_ITEM_FIELDS = gql`
+      fragment MenuItemFields on MenuItem {
+          __typename
+          id
+          title
+          cssClasses
+          id
+          parentId
+          label
+          path
+          target
+          title
+          featured {
+              courses {
+                  __typename
+                  ... on Course {
+                      id
+                      details {
+                          url
+                      }
+                  }
+              }
+          }
+      }
+  `;
+  const query = gql`
+      ${MENU_ITEM_FIELDS}
+      query AllStaticData($count: Int)
+      {
+          posts(first: $count) {
+              edges {
+                  node {
+                      title
+                      excerpt
+                      databaseId
+                      slug
+                      date
+                      modified
+                      categories {
+                          edges {
+                              node {
+                                  name
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+          menus {
+              edges {
+                  node {
+                      name
+                      slug
+                      locations
+                      menuItems {
+                          edges {
+                              node {
+                                  ...MenuItemFields
+                                  childItems {
+                                      edges {
+                                          node {
+                                              ...MenuItemFields
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+          generalSettings {
+              description
+              language
+              title
+          }
+          seo {
+              webmaster {
+                  yandexVerify
+                  msVerify
+                  googleVerify
+                  baiduVerify
+              }
+              social {
+                  youTube {
+                      url
+                  }
+                  wikipedia {
+                      url
+                  }
+                  twitter {
+                      username
+                      cardType
+                  }
+                  pinterest {
+                      metaTag
+                      url
+                  }
+                  mySpace {
+                      url
+                  }
+                  linkedIn {
+                      url
+                  }
+                  instagram {
+                      url
+                  }
+                  facebook {
+                      url
+                      defaultImage {
+                          altText
+                          sourceUrl
+                          mediaDetails {
+                              height
+                              width
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  `;
+  let posts = [];
+
+  try {
+    const data = await apolloClient.query({
+      query,
+      variables:{
+        count: parseInt(count, 10)
+      }
+    });
+    const nodes = [...data.data.posts.edges.map(({ node = {} }) => node)];
+
+    posts = nodes.map((post) => {
+      const data = { ...post };
+
+      if (data.author) {
+        data.author = data.author.node.name;
+      }
+
+      if (data.categories) {
+        data.categories = data.categories.edges.map(({ node }) => node.name);
+      }
+
+      if (data.excerpt) {
+        //Sanitize the excerpt by removing all HTML tags
+        const regExHtmlTags = /(<([^>]+)>)/g;
+        data.excerpt = data.excerpt.replace(regExHtmlTags, '');
+      }
+
+      return data;
+    });
+
+    let menus = data?.data.menus.edges.map(mapMenuData)
+
+    let generalSettings = data?.data.generalSettings
+    let seo = data?.data.seo
+
+    verbose && console.log(`[${process}] Successfully fetched ${posts.length} posts from ${apolloClient.link.options.uri}`);
+    return {
+      posts,
+      menus,
+      generalSettings,
+      seo
+    };
+  } catch (e) {
+    throw new Error(`[${process}] Failed to fetch posts from ${apolloClient.link.options.uri}: ${e.message}`);
+  }
+}
+
+function mapMenuData(menu) {
+
+  const { node } = menu;
+  const data = { ...node };
+
+  data.menuItems = data.menuItems.edges.map(({ node }) => {
+    return { ...node };
+  });
+
+  return data;
 }
 
 /**
@@ -377,10 +564,13 @@ async function generateRobotsTxt({ outputDirectory, outputName }) {
  * generateStaticWpData
  */
 
-function generateStaticWpData({posts = {}}) {
+function generateStaticWpData({posts = {}, menus = {}, seo={}, generalSettings = {}}) {
   const staticWpJson = JSON.stringify({
     generated: Date.now(),
     posts,
+    menus,
+    seo,
+    generalSettings
   });
 
   return staticWpJson;
@@ -439,6 +629,7 @@ module.exports = {
   mkdirp,
   createApolloClient,
   getAllPosts,
+  getAllStaticData,
   getSiteMetadata,
   getFeedData,
   generateFeed,

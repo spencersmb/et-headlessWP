@@ -55,19 +55,17 @@ const CursorPagination = () => {
   console.log('current Page', preloadedCount)
   console.log('morePages', morePages)
 
-
-
   return (
     <div className={styles.container}>
       <ul>
         {posts
-          .filter((post,index) => {
-            if(preloadedCount < preloadedPages){
-              return index < preloadedCount * 10
-            }else{
-              return index
-            }
-          } )
+          // .filter((post,index) => {
+          //   if(preloadedCount < preloadedPages){
+          //     return index < preloadedCount * 10
+          //   }else{
+          //     return index
+          //   }
+          // } )
           .map((post) => (
             <li key={post.id}>
               <Link href={`/${post.slug}`}>

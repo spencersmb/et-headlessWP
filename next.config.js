@@ -19,5 +19,9 @@ module.exports = withPlugins([[staticWpData],[searchIndex],[feed],[sitemap]], {
   i18n: {
     locales: ['en-US'],
     defaultLocale: 'en-US'
-  }
+  },
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, path: false };
+    return config;
+  },
 })

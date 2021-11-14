@@ -1,5 +1,5 @@
 const path = require('path');
-const { getAllPosts, generateStaticWpData} = require('./util');
+const { generateStaticWpData, getAllStaticData} = require('./util');
 
 const WebpackPluginCompiler = require('./plugin-compiler');
 
@@ -10,7 +10,7 @@ module.exports = function indexSearch(nextConfig = {}) {
     name: 'WpStaticData',
     outputDirectory: outputDirectory || './public',
     outputName: outputName || 'wp-static-data.json',
-    getData: getAllPosts,
+    getData: getAllStaticData,
     generate: generateStaticWpData,
   };
 

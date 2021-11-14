@@ -14,15 +14,22 @@ import store from '../lib/redux-toolkit/store'
 import { flattenAllPosts, getRecentPosts } from '../lib/wp/posts'
 import { increment } from '../components/counter/counterSlice'
 import { getCategories } from '../lib/wp/categories'
-import { createMenuFromPages, getAllMenus, MENU_LOCATION_NAVIGATION_DEFAULT } from '../lib/wp/menu'
+import {
+  createMenuFromPages,
+  getAllMenus,
+  getStaticMenus,
+  mapMenuData,
+  MENU_LOCATION_NAVIGATION_DEFAULT
+} from '../lib/wp/menu'
 import { getTopLevelPages } from '../lib/wp/pages'
-import { getSiteMetadata, IMetaData } from '../lib/wp/site'
+import { getSiteMetadata, getStaticSiteMetadata, IMetaData } from '../lib/wp/site'
 import { QUERY_ALL_POSTS } from '../graphqlData/postsData'
 import { QUERY_ALL_PAGES } from '../graphqlData/pagesGQL'
 import { addCount } from '../lib/redux/counter/actions'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { SearchProvider } from '../hooks/useSearch'
+
 
 interface IProps {
   auth: IEssAuthState
@@ -110,7 +117,7 @@ MyApp.getInitialProps = async (appContext) => {
   //   count: 5,
   // });
   //
-  const { menus } = await getAllMenus();
+  const { menus } = await getStaticMenus()
 
   // const defaultNavigation = createMenuFromPages({
   //   locations: [MENU_LOCATION_NAVIGATION_DEFAULT],
@@ -119,7 +126,7 @@ MyApp.getInitialProps = async (appContext) => {
   //
   // menus.push(defaultNavigation) // SO far do not need this
 
-  const metadata = await getSiteMetadata()
+  const metadata = await getStaticSiteMetadata()
 
   // AUTH EXAMPLE
   // const auth = await getUser(appContext.ctx)
@@ -148,8 +155,6 @@ MyApp.getInitialProps = async (appContext) => {
   return {
     ...appProps,
     auth,
-    // recentPosts,
-    // categories,
     menus,
     metadata
   }

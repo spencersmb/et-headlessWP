@@ -30,15 +30,17 @@ function Post(props: IProps){
 export default Post
 export async function getStaticPaths(context){
   //
-  // const apolloClient = initializeApollo()
-  // const data = await apolloClient.query({
-  //   query: QUERY_NEXT_POSTS,
-  //   variables: {after: null}
-  // })
-  // const posts = flattenAllPosts(data?.data.posts) || []
-  // const slugs = posts.map(post => post.slug)
-  const data = await getLocalJsonFile('public', 'wp-search.json')
-  const slugs = data.posts.map(post => post.slug)
+  const apolloClient = initializeApollo()
+  const data = await apolloClient.query({
+    query: QUERY_NEXT_POSTS,
+    variables: {after: null}
+  })
+  const posts = flattenAllPosts(data?.data.posts) || []
+  const slugs = posts.map(post => post.slug)
+
+
+  // const data = await getLocalJsonFile('public', 'wp-search.json')
+  // const slugs = data.posts.map(post => post.slug)
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
 
 
