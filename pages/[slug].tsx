@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client'
 import { NAV_QUERY } from '../lib/apollo-cache'
 import { useEssGridAuth } from '../lib/auth/authContext'
 import Layout from '../components/Layout/Layout'
+import { getStaticSiteMetadata } from '../lib/wp/site'
 // import path from 'path'
 // import fs from 'fs/promises'
 // import { getLocalJsonFile } from '../lib/utilities/localApi'
@@ -87,9 +88,12 @@ export async function getStaticProps(context){
     )
   }
 
+  const metadata = await getStaticSiteMetadata()
+
   return addApolloState(apolloClient, {
     props: {
-      post
+      post,
+      metadata
     },
     // revalidate: 5,
   })
