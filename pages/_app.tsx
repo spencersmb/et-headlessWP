@@ -38,15 +38,17 @@ interface IProps {
   categories: any
   metadata: IMetaData
   menus: any
+  testPath: any
 }
 type MyAppProps = IProps & AppProps
 function MyApp(props: MyAppProps) {
 
-  const { Component, pageProps, auth, metadata, recentPosts, categories, menus } = props
+  const { Component, pageProps, auth, metadata, recentPosts, categories, menus, testPath } = props
   const router = useRouter();
   const { asPath } = router;
   const apolloClient = useApollo(pageProps)
   console.log('asPath', asPath)
+  console.log('testPath', testPath)
 
   // const DEFAULT_SEO = {
   //   title: `Home - ${metadata.title}`,
@@ -109,8 +111,7 @@ function MyApp(props: MyAppProps) {
 MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
   const filePath = path.join(process.cwd(), 'public', 'wp-static-data.json')
-  console.log('filePath', filePath)
-  
+
 
   // const { posts: recentPosts } = await getRecentPosts({
   //   count: 5,
@@ -158,6 +159,7 @@ MyApp.getInitialProps = async (appContext) => {
   return {
     ...appProps,
     auth,
+    testPath: filePath
     // menus,
     // metadata
   }
