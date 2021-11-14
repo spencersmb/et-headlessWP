@@ -29,6 +29,7 @@ import { addCount } from '../lib/redux/counter/actions'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { SearchProvider } from '../hooks/useSearch'
+import path from 'path'
 
 
 interface IProps {
@@ -107,6 +108,9 @@ function MyApp(props: MyAppProps) {
 
 MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
+  const filePath = path.join(process.cwd(), 'public', 'wp-static-data.json')
+  console.log('filePath', filePath)
+  
 
   // const { posts: recentPosts } = await getRecentPosts({
   //   count: 5,
@@ -116,7 +120,7 @@ MyApp.getInitialProps = async (appContext) => {
   //   count: 5,
   // });
   //
-  const { menus } = await getStaticMenus()
+  // const { menus } = await getStaticMenus()
 
   // const defaultNavigation = createMenuFromPages({
   //   locations: [MENU_LOCATION_NAVIGATION_DEFAULT],
@@ -154,7 +158,7 @@ MyApp.getInitialProps = async (appContext) => {
   return {
     ...appProps,
     auth,
-    menus,
+    // menus,
     // metadata
   }
 }
