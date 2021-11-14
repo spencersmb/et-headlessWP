@@ -41,11 +41,11 @@ const CursorPagination = () => {
         query: { page: `${preloadedCount + 1}` },
       })
     }else {
-      fetchMore({
-        variables:{
-          after: data?.posts.pageInfo.endCursor
-        }
-      })
+      // fetchMore({
+      //   variables:{
+      //     after: data?.posts.pageInfo.endCursor
+      //   }
+      // })
     }
 
   }

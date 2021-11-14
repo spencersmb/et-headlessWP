@@ -172,7 +172,7 @@ export const getStaticProps = async () => {
       // },
       basePath: ''
     },
-    revalidate: 15,
+    // revalidate: 15,
   })
 }
 

@@ -46,7 +46,6 @@ export async function getStaticPaths(context){
   const slugs = data.posts.map(post => post.slug)
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
 
-
   return{
     paths: params,
     fallback: false
