@@ -7,6 +7,7 @@ import { NAV_QUERY } from '../lib/apollo-cache'
 import { useEssGridAuth } from '../lib/auth/authContext'
 import Layout from '../components/Layout/Layout'
 import { getStaticMenus } from '../lib/wp/menu'
+import { getLocalJsonFile } from '../lib/utilities/localApi'
 // import path from 'path'
 // import fs from 'fs/promises'
 // import { getLocalJsonFile } from '../lib/utilities/localApi'
@@ -32,23 +33,23 @@ function Post(props: IProps){
 export default Post
 export async function getStaticPaths(context){
   //
-  const apolloClient = initializeApollo()
-  const data = await apolloClient.query({
-    query: QUERY_NEXT_POSTS,
-    variables: {after: null}
-  })
-  const posts = flattenAllPosts(data?.data.posts) || []
-  const slugs = posts.map(post => post.slug)
+  // const apolloClient = initializeApollo()
+  // const data = await apolloClient.query({
+  //   query: QUERY_NEXT_POSTS,
+  //   variables: {after: null}
+  // })
+  // const posts = flattenAllPosts(data?.data.posts) || []
+  // const slugs = posts.map(post => post.slug)
 
 
-  // const data = await getLocalJsonFile('public', 'wp-search.json')
-  // const slugs = data.posts.map(post => post.slug)
+  const data = await getLocalJsonFile('public', 'wp-search.json')
+  const slugs = data.posts.map(post => post.slug)
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
 
 
   return{
     paths: params,
-    fallback: "blocking"
+    fallback: false
   }
 }
 export async function getStaticProps(context){
@@ -88,12 +89,9 @@ export async function getStaticProps(context){
     )
   }
 
-  const metadata = await getStaticMenus()
-
   return addApolloState(apolloClient, {
     props: {
       post,
-      metadata
     },
     // revalidate: 5,
   })
