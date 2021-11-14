@@ -36,6 +36,8 @@ function Post(props: IProps){
 
 export default Post
 export async function getStaticPaths(context){
+  console.log('run get getStaticPaths')
+
   //
   // const apolloClient = initializeApollo()
   // const data = await apolloClient.query({
@@ -52,7 +54,7 @@ export async function getStaticPaths(context){
 
   return{
     paths: params,
-    fallback: false
+    fallback: "blocking"
   }
 }
 export async function getStaticProps(context){
