@@ -117,7 +117,7 @@ MyApp.getInitialProps = async (appContext) => {
   //   count: 5,
   // });
   //
-  const { menus } = await getStaticMenus()
+  // const { menus } = await getStaticMenus()
 
   // const defaultNavigation = createMenuFromPages({
   //   locations: [MENU_LOCATION_NAVIGATION_DEFAULT],
@@ -126,7 +126,7 @@ MyApp.getInitialProps = async (appContext) => {
   //
   // menus.push(defaultNavigation) // SO far do not need this
 
-  const metadata = await getStaticSiteMetadata()
+  // const metadata = await getStaticSiteMetadata()
 
   // AUTH EXAMPLE
   // const auth = await getUser(appContext.ctx)
@@ -155,8 +155,8 @@ MyApp.getInitialProps = async (appContext) => {
   return {
     ...appProps,
     auth,
-    menus,
-    metadata
+    // menus,
+    // metadata
   }
 }
 

@@ -6,10 +6,9 @@ import { useQuery } from '@apollo/client'
 import { NAV_QUERY } from '../lib/apollo-cache'
 import { useEssGridAuth } from '../lib/auth/authContext'
 import Layout from '../components/Layout/Layout'
-import { getSearchData } from '../lib/search/searchApi'
-import path from 'path'
-import fs from 'fs/promises'
-import { getLocalJsonFile } from '../lib/utilities/localApi'
+// import path from 'path'
+// import fs from 'fs/promises'
+// import { getLocalJsonFile } from '../lib/utilities/localApi'
 
 interface IProps {
   post: IPost
@@ -17,13 +16,15 @@ interface IProps {
 function Post(props: IProps){
   const {post} = props
   return (
-    <Layout post={post}>
-      <h1>{post.title}</h1>
-      <div dangerouslySetInnerHTML={{__html: post.content}} />
-      <Link href='/'>
-        <a>home</a>
-      </Link>
-    </Layout>
+    // <Layout post={post}>
+      <div>
+        <h1>{post.title}</h1>
+        <div dangerouslySetInnerHTML={{__html: post.content}} />
+        <Link href='/'>
+          <a>home</a>
+        </Link>
+      </div>
+    // </Layout>
   )
 }
 
