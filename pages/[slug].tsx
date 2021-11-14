@@ -16,9 +16,10 @@ import fs from 'fs/promises'
 
 interface IProps {
   post: IPost
+  filenames: string
 }
 function Post(props: IProps){
-  console.log('slug props', props)
+  console.log('slug props', props.filenames)
 
   const {post} = props
   return (
@@ -38,18 +39,19 @@ export default Post
 export async function getStaticPaths(context){
   console.log('run get getStaticPaths')
 
+
+  const apolloClient = initializeApollo()
+  const data = await apolloClient.query({
+    query: QUERY_NEXT_POSTS,
+    variables: {after: null}
+  })
+  const posts = flattenAllPosts(data?.data.posts) || []
+  const slugs = posts.map(post => post.slug)
+
   //
-  // const apolloClient = initializeApollo()
-  // const data = await apolloClient.query({
-  //   query: QUERY_NEXT_POSTS,
-  //   variables: {after: null}
-  // })
-  // const posts = flattenAllPosts(data?.data.posts) || []
-  // const slugs = posts.map(post => post.slug)
+  // const data = await getLocalJsonFile('public', 'wp-search.json')
+  // const slugs = data.posts.map(post => post.slug)
 
-
-  const data = await getLocalJsonFile('public', 'wp-search.json')
-  const slugs = data.posts.map(post => post.slug)
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
 
   return{
