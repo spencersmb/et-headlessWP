@@ -36,27 +36,35 @@ function Post(props: IProps){
 }
 
 export default Post
+
+
+// to build all postsStatically
+// - must have fallback set to false
+// - local env set to 100
+
 export async function getStaticPaths(context){
   console.log('run get getStaticPaths')
 
 
-  const apolloClient = initializeApollo()
-  const data = await apolloClient.query({
-    query: QUERY_NEXT_POSTS,
-    variables: {after: null}
-  })
-  const posts = flattenAllPosts(data?.data.posts) || []
-  const slugs = posts.map(post => post.slug)
+
+
+  // const apolloClient = initializeApollo()
+  // const data = await apolloClient.query({
+  //   query: QUERY_NEXT_POSTS,
+  //   variables: {after: null}
+  // })
+  // const posts = flattenAllPosts(data?.data.posts) || []
+  // const slugs = posts.map(post => post.slug)
 
   //
-  // const data = await getLocalJsonFile('public', 'wp-search.json')
-  // const slugs = data.posts.map(post => post.slug)
+  const data = await getLocalJsonFile('public', 'wp-search.json')
+  const slugs = data.posts.map(post => post.slug)
 
   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
 
   return{
     paths: params,
-    fallback: "blocking"
+    fallback: false
   }
 }
 export async function getStaticProps(context){
@@ -66,24 +74,23 @@ export async function getStaticProps(context){
 
   const {params} = context
 
-  // const {initialApolloState, posts, pagination} = await getPaginatedPosts()
-  // return {
-  //   props: {
-  //     initialApolloState,
-  //     posts,
-  //     pagination: {
-  //       ...pagination,
-  //       basePath: '',
-  //     },
-  //   },
-  //   revalidate: 5
-  // };
+
+  /**
+   * STATIC
+   */
+  // const postsDirectory = path.join(process.cwd(), 'public')
+  // const filenames = await fs.readdir(postsDirectory)
+  // const dataJsonfile = filenames.find(file => file === 'wp-static-data.json')
+  // const filePath = path.join(postsDirectory, dataJsonfile)
+  // const jsonData: any = await fs.readFile(filePath, 'utf8')
+  // const data = await JSON.parse(jsonData)
+  //
+  // const post = data.posts[params.slug]
 
   /**
    * WITH-APOLLO
    */
   const apolloClient = initializeApollo()
-
   const data = await apolloClient.query({
     query: QUERY_POST_BY_SLUG,
     variables: {

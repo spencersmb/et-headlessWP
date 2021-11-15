@@ -39,6 +39,7 @@
     "redux-thunk": "^2.3.0",
     "rss": "^1.2.2",
     "sass": "^1.43.2",
+    "swr": "^1.0.1",
     "typescript": "^4.4.4"
   },
   "devDependencies": {

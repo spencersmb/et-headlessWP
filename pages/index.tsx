@@ -157,7 +157,10 @@ export const getStaticProps = async () => {
 
   const data = await apolloClient.query({
     query: QUERY_NEXT_POSTS,
-    variables: {after: null}
+    variables: {
+      after: null,
+      first: 500
+    }
   })
   const pageInfo = data?.data.posts.pageInfo
   const posts = flattenAllPosts(data?.data.posts) || []

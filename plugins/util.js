@@ -172,18 +172,63 @@ async function getAllStaticData(apolloClient, process, verbose = false, count) {
           posts(first: $count) {
               edges {
                   node {
-                      title
-                      excerpt
-                      databaseId
-                      slug
-                      date
-                      modified
+                      __typename
+                      author {
+                          node {
+                              avatar {
+                                  height
+                                  url
+                                  width
+                              }
+                              id
+                              name
+                              slug
+                              uri
+                          }
+                      }
+                      id
                       categories {
                           edges {
                               node {
+                                  databaseId
+                                  id
+                                  name
+                                  slug
+                              }
+                          }
+                      }
+                      tags{
+                          edges{
+                              node{
                                   name
                               }
                           }
+                      }
+                      content
+                      date
+                      excerpt
+                      featuredImage {
+                          node {
+                              altText
+                              caption
+                              sourceUrl
+                              srcSet
+                              sizes
+                              id
+                          }
+                      }
+                      modified
+                      databaseId
+                      title
+                      slug
+                      isSticky
+                      seo{
+                          fullHead
+                          title
+                          opengraphPublishedTime
+                          opengraphModifiedTime
+                          metaDesc
+                          readingTime
                       }
                   }
               }
@@ -565,9 +610,17 @@ async function generateRobotsTxt({ outputDirectory, outputName }) {
  */
 
 function generateStaticWpData({posts = {}, menus = {}, seo={}, generalSettings = {}}) {
+
+  const formattedPosts = {}
+
+  posts.forEach(post => {
+    formattedPosts[post.slug] = post
+  })
+
+
   const staticWpJson = JSON.stringify({
     generated: Date.now(),
-    posts,
+    posts: formattedPosts,
     menus,
     seo,
     generalSettings

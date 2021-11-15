@@ -14,6 +14,9 @@ const CursorPagination = () => {
 
   const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_NEXT_POSTS,{
     notifyOnNetworkStatusChange: true,
+    variables: {
+      first: 10
+    }
   });
   const pageInfo = data?.posts.pageInfo
   const posts = flattenAllPosts(data?.posts) || []
