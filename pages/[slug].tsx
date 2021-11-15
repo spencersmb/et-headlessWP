@@ -1,6 +1,6 @@
 import { addApolloState, initializeApollo } from '../lib/apollo-client'
 import { QUERY_ALL_POSTS, QUERY_NEXT_POSTS, QUERY_POST_BY_SLUG } from '../graphqlData/postsData'
-import { flattenAllPosts, flattenPost, getPaginatedPosts } from '../lib/wp/posts'
+import { flattenAllPosts, flattenPost, getPaginatedPosts, mapPostData, mapStaticPostData } from '../lib/wp/posts'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { NAV_QUERY } from '../lib/apollo-cache'
@@ -19,8 +19,6 @@ interface IProps {
   filenames: string
 }
 function Post(props: IProps){
-  console.log('slug props', props.filenames)
-
   const {post} = props
   return (
     <Layout post={post}>
@@ -46,8 +44,6 @@ export async function getStaticPaths(context){
   console.log('run get getStaticPaths')
 
 
-
-
   // const apolloClient = initializeApollo()
   // const data = await apolloClient.query({
   //   query: QUERY_NEXT_POSTS,
@@ -64,7 +60,7 @@ export async function getStaticPaths(context){
 
   return{
     paths: params,
-    fallback: false
+    fallback: "blocking"
   }
 }
 export async function getStaticProps(context){
@@ -73,24 +69,38 @@ export async function getStaticProps(context){
   // console.log('filenames', filenames)
 
   const {params} = context
+  const apolloClient = initializeApollo()
 
 
   /**
    * STATIC
    */
-  // const postsDirectory = path.join(process.cwd(), 'public')
-  // const filenames = await fs.readdir(postsDirectory)
-  // const dataJsonfile = filenames.find(file => file === 'wp-static-data.json')
-  // const filePath = path.join(postsDirectory, dataJsonfile)
-  // const jsonData: any = await fs.readFile(filePath, 'utf8')
-  // const data = await JSON.parse(jsonData)
-  //
-  // const post = data.posts[params.slug]
+  let staticPost = {}
+  const postsDirectory = path.join(process.cwd(), 'public')
+  const filenames = await fs.readdir(postsDirectory)
+  const dataJsonfile = filenames.find(file => file === 'wp-static-data.json')
+  if(dataJsonfile){
+    const filePath = path.join(postsDirectory, dataJsonfile)
+    const jsonData: any = await fs.readFile(filePath, 'utf8')
+
+    const data = await JSON.parse(jsonData)
+    // const post = mapStaticPostData(data.posts[params.slug])
+    staticPost = mapPostData(data.posts[params.slug])
+    const post = mapPostData(data.posts[params.slug])
+
+    return addApolloState(apolloClient, {
+      props: {
+        post,
+        filenames: ''
+      },
+      // revalidate: 5,
+    })
+  }
+
 
   /**
    * WITH-APOLLO
    */
-  const apolloClient = initializeApollo()
   const data = await apolloClient.query({
     query: QUERY_POST_BY_SLUG,
     variables: {
@@ -110,7 +120,7 @@ export async function getStaticProps(context){
   return addApolloState(apolloClient, {
     props: {
       post,
-      filenames: ''
+      staticPost
     },
     // revalidate: 5,
   })

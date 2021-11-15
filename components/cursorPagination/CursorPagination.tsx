@@ -5,7 +5,7 @@ import { HiOutlineDotsHorizontal as Dots } from 'react-icons/hi'
 import { useQuery } from '@apollo/client'
 import { QUERY_NEXT_POSTS } from '../../graphqlData/postsData'
 import { flattenAllPosts } from '../../lib/wp/posts'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
 const CursorPagination = () => {
@@ -15,12 +15,11 @@ const CursorPagination = () => {
   const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_NEXT_POSTS,{
     notifyOnNetworkStatusChange: true,
     variables: {
-      first: 10
     }
   });
   const pageInfo = data?.posts.pageInfo
   const posts = flattenAllPosts(data?.posts) || []
-
+  const preloaded = useRef(false)
   const [currentPage, setPage] = useState(1)
   const preloadedPages = Math.ceil(posts.length / 10)
   // const morePages = currentPage < preloadedPages
@@ -52,7 +51,9 @@ const CursorPagination = () => {
         after: data?.posts.pageInfo.endCursor
       }
     })
+    if(currentPage >= preloadedPages){
 
+    }
   }
 
 
@@ -62,15 +63,22 @@ const CursorPagination = () => {
 
   return (
     <div className={styles.container}>
-      <ul>
+      <ol>
         {posts
-          // .filter((post,index) => {
-          //   if(currentPage < preloadedPages){
-          //     return index < currentPage * 10
-          //   }else{
-          //     return index
-          //   }
-          // } )
+          .filter((post,index) => {
+            // if(preloaded.current){
+            //   return index < 11
+            // }else{
+            //   return index
+            // }
+            // return totalItems - 10
+            // if(currentPage < preloadedPages){
+            //   return index < currentPage * 10
+            // }else{
+            //   return index
+            // }
+            return index
+          } )
           .map((post) => (
             <li key={post.id}>
               <Link href={`/${post.slug}`}>
@@ -78,7 +86,7 @@ const CursorPagination = () => {
               </Link>
             </li>
           ))}
-      </ul>
+      </ol>
       <nav className={styles.nav} role="navigation" aria-label="Pagination Navigation">
         {/*{pageInfo?.hasPreviousPage && (*/}
         {/*  // <Link href={`${path}${currentPage - 1}`}>*/}

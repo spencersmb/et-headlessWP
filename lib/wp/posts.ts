@@ -66,6 +66,27 @@ export function mapPostData(post:IPostRaw | {} = {}): IPost {
 
 }
 
+export function mapStaticPostData(post:IPostRaw): IPost {
+  const data = { ...post };
+  let modifiedData: any = {...post}
+
+  // Clean up the featured image to make them more easy to access
+  if (data.featuredImage) {
+    modifiedData.featuredImage = data.featuredImage.node;
+  }
+
+  if (data.tags) {
+    modifiedData.tags = data.tags.edges.map(({ node }) => {
+      return {
+        name: node.name,
+      };
+    });
+  }
+
+  return modifiedData
+
+}
+
 export function getCurrentPage({
                                     pagesCount,
                                     currentPage = 1

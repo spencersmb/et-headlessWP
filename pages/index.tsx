@@ -154,12 +154,10 @@ export const getStaticProps = async () => {
   // const {apolloClient, posts, pagination} = await getPaginatedPosts()
 
   const apolloClient = initializeApollo()
-
   const data = await apolloClient.query({
     query: QUERY_NEXT_POSTS,
     variables: {
-      after: null,
-      first: 500
+      after: null
     }
   })
   const pageInfo = data?.data.posts.pageInfo

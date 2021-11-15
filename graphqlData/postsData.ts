@@ -80,8 +80,8 @@ export const QUERY_ALL_POSTS = gql`
 `;
 
 export const QUERY_NEXT_POSTS = gql`
-    query NextPosts($after: String, $first: Int) {
-        posts(first: $first, after: $after) {
+    query NextPosts($after: String) {
+        posts(first: 10, after: $after) {
             __typename
             pageInfo{
                 endCursor

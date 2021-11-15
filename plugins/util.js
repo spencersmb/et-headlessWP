@@ -316,27 +316,7 @@ async function getAllStaticData(apolloClient, process, verbose = false, count) {
         count: parseInt(count, 10)
       }
     });
-    const nodes = [...data.data.posts.edges.map(({ node = {} }) => node)];
-
-    posts = nodes.map((post) => {
-      const data = { ...post };
-
-      if (data.author) {
-        data.author = data.author.node.name;
-      }
-
-      if (data.categories) {
-        data.categories = data.categories.edges.map(({ node }) => node.name);
-      }
-
-      if (data.excerpt) {
-        //Sanitize the excerpt by removing all HTML tags
-        const regExHtmlTags = /(<([^>]+)>)/g;
-        data.excerpt = data.excerpt.replace(regExHtmlTags, '');
-      }
-
-      return data;
-    });
+    const posts = [...data.data.posts.edges.map(({ node = {} }) => node)];
 
     let menus = data?.data.menus.edges.map(mapMenuData)
 
