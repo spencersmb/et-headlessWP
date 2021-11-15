@@ -86,10 +86,14 @@ export async function getStaticProps(context){
 
   if(dataJsonfile) {
     foundFile = true
-    const filePath = path.join(postsDirectory, dataJsonfile)
-    const jsonData: any = await fs.readFile(filePath, 'utf8')
-    data = await JSON.parse(jsonData)
-    postsLoaded = data.posts.length >= 423
+    try {
+      const filePath = path.join(postsDirectory, dataJsonfile)
+      const jsonData: any = await fs.readFile(filePath, 'utf8')
+      data = await JSON.parse(jsonData)
+      postsLoaded = data.posts.length >= 423
+    }catch (e){
+
+    }
   }
 
   if(dataJsonfile && postsLoaded && typeof data.posts[params.slug] === "object") {
