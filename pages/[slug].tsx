@@ -92,7 +92,7 @@ export async function getStaticProps(context){
     postsLoaded = data.posts.length >= 423
   }
 
-  if(dataJsonfile && postsLoaded) {
+  if(dataJsonfile && postsLoaded && typeof data.posts[params.slug] === "object") {
     post = mapPostData(data.posts[params.slug])
   }else {
     data = await apolloClient.query({
