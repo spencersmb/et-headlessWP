@@ -76,40 +76,37 @@ export async function getStaticProps(context){
    * STATIC
    */
   let staticPost = {}
+  let post = {}
+  let data: any = {}
+  let hasStatic = false
   const postsDirectory = path.join(process.cwd(), 'public')
   const filenames = await fs.readdir(postsDirectory)
   const dataJsonfile = filenames.find(file => file === 'wp-static-data.json')
+
   if(dataJsonfile){
     const filePath = path.join(postsDirectory, dataJsonfile)
     const jsonData: any = await fs.readFile(filePath, 'utf8')
 
-    const data = await JSON.parse(jsonData)
+    data = await JSON.parse(jsonData)
+    console.log('data.posts.length', data.posts.length)
+    if(data.posts.length < 424){
+      hasStatic = true
+      data = await apolloClient.query({
+        query: QUERY_POST_BY_SLUG,
+        variables: {
+          slug: params.slug
+        },
+      })
+      post = flattenPost(data?.data?.postBy)
+
+    }
     // const post = mapStaticPostData(data.posts[params.slug])
-    staticPost = mapPostData(data.posts[params.slug])
-    const post = mapPostData(data.posts[params.slug])
-
-    return addApolloState(apolloClient, {
-      props: {
-        post,
-        filenames: ''
-      },
-      // revalidate: 5,
-    })
+    // staticPost = mapPostData(data.posts[params.slug])
+    post = mapPostData(data.posts[params.slug])
   }
-
-
   /**
    * WITH-APOLLO
    */
-  const data = await apolloClient.query({
-    query: QUERY_POST_BY_SLUG,
-    variables: {
-      slug: params.slug
-    },
-  })
-
-  const post = flattenPost(data?.data?.postBy)
-
   if (Object.keys(post).length === 0) {
     return addApolloState(apolloClient, {
         notFound: true,
