@@ -59,15 +59,6 @@ export function jsonldImageObject (data: IjsonldImageProps) {
   )
 }
 
-interface IjsonldWebpage {
-  pageUrl: string
-  title: string
-  domain: string
-  publishTime: string
-  modifiedTime: string
-  description: string
-}
-
 export function jsonldWebpage (props: IjsonldWebpage) {
   const {pageUrl, title, domain, publishTime, modifiedTime, description} = props
   return (

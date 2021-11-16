@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { GrNext as NextIcon, GrPrevious as PreviousIcon } from 'react-icons/gr'
 import { HiOutlineDotsHorizontal as Dots } from 'react-icons/hi'
 import { useQuery } from '@apollo/client'
-import { QUERY_NEXT_POSTS } from '../../graphqlData/postsData'
+import { QUERY_ALL_POSTS, QUERY_NEXT_POSTS } from '../../graphqlData/postsData'
 import { flattenAllPosts } from '../../lib/wp/posts'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -12,9 +12,10 @@ const CursorPagination = () => {
   const router = useRouter();
   const path = router.asPath
 
-  const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_NEXT_POSTS,{
+  const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_ALL_POSTS,{
     notifyOnNetworkStatusChange: true,
     variables: {
+      count: process.env.NEXT_GET_ALL_PAGES_COUNT
     }
   });
   const pageInfo = data?.posts.pageInfo

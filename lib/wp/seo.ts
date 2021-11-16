@@ -60,3 +60,12 @@ export const metadata = {
     }
   },
 }
+
+export const defaultSeoImages = {
+  generic: {
+    url: '',
+    alt: '',
+    width: 123,
+    height: 123
+  }
+}

@@ -139,7 +139,16 @@ async function getAllPosts(apolloClient, process, verbose = false, count) {
  */
 
 async function getAllStaticData(apolloClient, process, verbose = false, count) {
-
+  const SEO_ITEM_FIELDS = gql`
+    fragment SeoItemFields on PostTypeSEO {
+        fullHead
+        title
+        opengraphPublishedTime
+        opengraphModifiedTime
+        metaDesc
+        readingTime
+    }
+  `
   const MENU_ITEM_FIELDS = gql`
       fragment MenuItemFields on MenuItem {
           __typename
@@ -165,74 +174,97 @@ async function getAllStaticData(apolloClient, process, verbose = false, count) {
           }
       }
   `;
+  const POST_FIELD = gql`
+    ${SEO_ITEM_FIELDS}
+    fragment PostField on Post {
+        __typename
+        author {
+            node {
+                avatar {
+                    height
+                    url
+                    width
+                }
+                id
+                name
+                slug
+                uri
+            }
+        }
+        id
+        categories {
+            edges {
+                node {
+                    databaseId
+                    id
+                    name
+                    slug
+                }
+            }
+        }
+        tags{
+            edges{
+                node{
+                    name
+                }
+            }
+        }
+        content
+        date
+        excerpt
+        featuredImage {
+            node {
+                altText
+                caption
+                sourceUrl
+                srcSet
+                sizes
+                id
+            }
+        }
+        modified
+        databaseId
+        title
+        slug
+        isSticky
+        seo{
+            ...SeoItemFields
+        }
+    }
+  `
   const query = gql`
       ${MENU_ITEM_FIELDS}
+      ${POST_FIELD}
+      ${SEO_ITEM_FIELDS}
       query AllStaticData($count: Int)
       {
           posts(first: $count) {
               edges {
                   node {
-                      __typename
-                      author {
-                          node {
-                              avatar {
-                                  height
-                                  url
-                                  width
-                              }
-                              id
-                              name
-                              slug
-                              uri
-                          }
-                      }
-                      id
-                      categories {
-                          edges {
-                              node {
-                                  databaseId
-                                  id
-                                  name
-                                  slug
-                              }
-                          }
-                      }
-                      tags{
-                          edges{
-                              node{
-                                  name
-                              }
-                          }
-                      }
-                      content
-                      date
-                      excerpt
-                      featuredImage {
-                          node {
-                              altText
-                              caption
-                              sourceUrl
-                              srcSet
-                              sizes
-                              id
-                          }
-                      }
-                      modified
-                      databaseId
-                      title
-                      slug
-                      isSticky
-                      seo{
-                          fullHead
-                          title
-                          opengraphPublishedTime
-                          opengraphModifiedTime
-                          metaDesc
-                          readingTime
-                      }
+                      ...PostField
                   }
               }
           }
+          pages{
+            edges{
+                node{
+                    author{
+                        node{
+                            avatar{
+                                url
+                            }
+                        }
+                        
+                    }
+                    id
+                    title
+                    slug
+                    seo{
+                       ...SeoItemFields
+                    }
+                }
+            }
+          }     
           menus {
               edges {
                   node {
@@ -307,7 +339,6 @@ async function getAllStaticData(apolloClient, process, verbose = false, count) {
           }
       }
   `;
-  let posts = [];
 
   try {
     const data = await apolloClient.query({
@@ -317,6 +348,7 @@ async function getAllStaticData(apolloClient, process, verbose = false, count) {
       }
     });
     const posts = [...data.data.posts.edges.map(({ node = {} }) => node)];
+    const pages = [...data.data.pages.edges.map(({ node = {} }) => node)];
 
     let menus = data?.data.menus.edges.map(mapMenuData)
 
@@ -325,6 +357,7 @@ async function getAllStaticData(apolloClient, process, verbose = false, count) {
 
     verbose && console.log(`[${process}] Successfully fetched ${posts.length} posts from ${apolloClient.link.options.uri}`);
     return {
+      pages,
       posts,
       menus,
       generalSettings,
@@ -589,17 +622,23 @@ async function generateRobotsTxt({ outputDirectory, outputName }) {
  * generateStaticWpData
  */
 
-function generateStaticWpData({posts = {}, menus = {}, seo={}, generalSettings = {}}) {
+function generateStaticWpData({posts = [], menus = {}, seo={}, generalSettings = {}, pages = []}) {
 
   const formattedPosts = {}
+  const formattedPages = {}
 
   posts.forEach(post => {
     formattedPosts[post.slug] = post
   })
 
+  pages.forEach(page => {
+    formattedPages[page.slug] = page
+  })
+
 
   const staticWpJson = JSON.stringify({
     generated: Date.now(),
+    pages: formattedPages,
     posts: formattedPosts,
     menus,
     seo,

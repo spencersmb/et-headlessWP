@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { createPaginatedPosts, flattenAllPosts, getAllPostsApollo, getPaginatedPosts } from '../lib/wp/posts'
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
-import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE, QUERY_NEXT_POSTS } from '../graphqlData/postsData'
+import { QUERY_POST_PER_PAGE, QUERY_ALL_POSTS } from '../graphqlData/postsData'
 import { useQuery, gql, useMutation, useReactiveVar } from '@apollo/client'
 import { IsLoggedInVar, NAV_QUERY } from '../lib/apollo-cache'
 import Test from '../components/test'
@@ -23,10 +23,9 @@ import { loginUserAction } from '../lib/redux/user/actions'
 // import Counter from '../components/counter/counter'
 import { QUERY_ALL_MENUS } from '../graphqlData/menuGQL'
 import CursorPagination from '../components/cursorPagination/CursorPagination'
+import Layout from '../components/Layout/Layout'
 
 function Home(props) {
-
-  // console.log('props', props)
 
   useEffect(() => {
     // const timer = props.startClock()
@@ -38,24 +37,14 @@ function Home(props) {
 
   // const isLoggedIn = useReactiveVar(IsLoggedInVar)
   // console.log('isLoggedIn', isLoggedIn)
-  //
-  // const {state} = useEssGridAuth()
-  // const {logUserIn, logoutAction}= useEssGridAuth()
-  //
+
   // function LogIn(){
   //   IsLoggedInVar(true)
   // }
 
-  // const {loading, error, data, fetchMore} = useQuery(QUERY_NEXT_POSTS, {
-  //   variables: {after: null}
-  // });
-  // console.log('index loading', loading)
-
-  // console.log('index data', data)
-  // const posts = flattenAllPosts(data?.posts) || []
-
 
   return (
+    <Layout>
     <div className={styles.container}>
 
       <h1 className={styles.title}>Welcome to our demo blog!</h1>
@@ -83,7 +72,6 @@ function Home(props) {
           <a>blog articles page</a>
         </Link>
       </p>
-      {/*<Test />*/}
       <div>
         {/*<h3>Posts</h3>*/}
         {/*<ul>*/}
@@ -120,6 +108,7 @@ function Home(props) {
         </a>
       </footer>
     </div>
+    </Layout>
   )
 }
 
@@ -128,24 +117,11 @@ function Home(props) {
 export const getStaticProps = async () => {
 
   /**
-   * CUSTOM Alternate way to wrap component
+   * Redux
    */
-  // const {__APOLLO_STATE__, posts, pagination} = await getPaginatedPosts()
-  // // store.dispatch(serverRenderClock(true))
-  // // store.dispatch(loginUserAction())
-  // // store.dispatch(addCount())
-  //
-  // return{
-  //   props: {
-  //     __APOLLO_STATE__,
-  //     posts,
-  //     pagination: {
-  //       ...pagination,
-  //       basePath: '',
-  //     },
-  //   },
-  //   revalidate: 5
-  // }
+  // store.dispatch(serverRenderClock(true))
+  // store.dispatch(loginUserAction())
+  // store.dispatch(addCount())
 
   /**
    * WITH-APOLLO Way to wrap component
@@ -155,18 +131,16 @@ export const getStaticProps = async () => {
 
   const apolloClient = initializeApollo()
   const data = await apolloClient.query({
-    query: QUERY_NEXT_POSTS,
+    query: QUERY_ALL_POSTS,
     variables: {
-      after: null
+      count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)
     }
   })
-  const pageInfo = data?.data.posts.pageInfo
   const posts = flattenAllPosts(data?.data.posts) || []
 
   return addApolloState(apolloClient, {
     props: {
       posts,
-      pageInfo,
       // pagination: {
       //   ...pagination,
       //   basePath: '',

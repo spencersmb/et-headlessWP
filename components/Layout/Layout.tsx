@@ -6,44 +6,32 @@ import Head from 'next/head'
 import { jsonldImageObject, jsonldPerson, jsonldWebpage, jsonldWebsite } from '../../lib/utilities/seo'
 import Nav from '../nav/nav'
 import Footer from '../footer/footer'
+import { defaultSeoImages } from '../../lib/wp/seo'
 
 interface IProps {
   children: ReactNode
-  post: IPost
+  post?: IPost
+  page?: {
+    seo:{
+      title: string
+    }
+  }
 }
-function Layout ({children, post}: IProps){
+function Layout ({children, post, page}: IProps){
   const router = useRouter();
   const { asPath } = router;
   const { metadata } = useSite();
-  // console.log('pageSeo', post)
 
-  const seoSettings = {
+  const seoSettings:ISEOSETTINGS = {
     defaultTitle: metadata.title,
-    title: post.seo.title,
-    description: post.seo.metaDesc,
+    title: metadata.title,
+    description: metadata.description,
     canonical: `${metadata.domain}${asPath}`,
     openGraph: {
-      type: 'article',
-      title: post.seo.title,
-      description: post.seo.metaDesc,
-      images: [
-        // have up to 4 images...
-        {
-          url: post.featuredImage?.sourceUrl, // need default image
-          width: 1920,
-          height: 928,
-          alt: post.featuredImage?.altText
-        }
-      ],
-      article: {
-        publishedTime: post.seo.opengraphPublishedTime,
-        modifiedTime: post.seo.opengraphModifiedTime,
-        authors: [
-          `${metadata.domain}${post.author.uri}`
-        ],
-        tags: post.tags.map(tag => tag.name),
-        // video: 'https://youtube.com',
-      },
+      type: 'website',
+      title: metadata.title,
+      description: metadata.description,
+      images: [{...defaultSeoImages.generic}],
     },
     twitter:{
       cardType: 'summary_large_image',
@@ -56,9 +44,7 @@ function Layout ({children, post}: IProps){
         type: 'application/rss+xml',
         href: '/feed.xml',
       },
-
       // Favicon sizes and manifest generated via https://favicon.io/
-
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
@@ -80,8 +66,70 @@ function Layout ({children, post}: IProps){
         rel: 'manifest',
         href: '/manifest.json',
       },
-    ],
-    additionalMetaTags:[
+    ]
+  }
+  const jsonWebsiteSettings = {
+    domain:metadata.domain,
+    description:metadata.description,
+    siteTitle:metadata.siteTitle,
+  }
+  const jsonImageOSettings = {
+    pageUrl:metadata.domain + asPath,
+    image:{
+      url: defaultSeoImages.generic.url,
+      altText: defaultSeoImages.generic.alt,
+      width: defaultSeoImages.generic.width,
+      height: defaultSeoImages.generic.height
+    },
+  }
+  let jsonWebpageSettings: IjsonldWebpage = {
+    pageUrl:metadata.domain + asPath,
+    title:metadata.title,
+    domain:metadata.domain,
+    modifiedTime: Date.now().toString(), //TODO GET MODIFIED TIME FROM PAGE PROPS?
+    description:metadata.description
+  }
+  const jsonPersonSettings = {
+    domain:metadata.domain,
+    description: metadata.description,
+    avatarUrl: "https://secure.gravatar.com/avatar/64857a955396b7ae5131db1265407d77?s=96&d=mm&r=g",
+  }
+  const jsonBreadCrumbs = {
+    itemListElements:[
+      {
+        position: 1,
+        name: 'Home',
+        item: `${metadata.domain}`,
+      },
+    ]
+  }
+
+  if(post){
+    seoSettings.title = post.seo.title
+    seoSettings.description = post.seo.metaDesc
+    seoSettings.openGraph = {
+      type: 'article',
+        title: post.seo.title,
+        description: post.seo.metaDesc,
+        images: [
+          {
+            url: post ? post.featuredImage?.sourceUrl : defaultSeoImages.generic.url, // need default image
+            width: post ? 1920 : defaultSeoImages.generic.width,
+            height: post ? 928 : defaultSeoImages.generic.height,
+            alt: post ? post.featuredImage?.altText : defaultSeoImages.generic.alt
+          }
+        ],
+        article: {
+          publishedTime: post.seo.opengraphPublishedTime,
+          modifiedTime: post.seo.opengraphModifiedTime,
+          authors: [
+          `${metadata.domain}${post.author.uri}`
+        ],
+          tags: post.tags.map(tag => tag.name),
+        // video: 'https://youtube.com',
+      },
+    }
+    seoSettings.additionalMetaTags = [
       {
         name: 'twitter:label1',
         content: 'Written By'
@@ -98,53 +146,24 @@ function Layout ({children, post}: IProps){
         name: 'twitter:data2',
         content: `${post.seo.readingTime} minutes`
       }
-    ],
-  }
-  const jsonWebsiteSettings = {
-    domain:metadata.domain,
-    description:metadata.description,
-    siteTitle:metadata.siteTitle,
-  }
-  const jsonImageOSettings = {
-    pageUrl:metadata.domain + asPath,
-    image:{
+    ]
+
+    jsonImageOSettings.image = {
       url: post.featuredImage?.sourceUrl , // need default image
-        altText: post.featuredImage?.altText,
-        width: 1920,
-        height:928
-    },
-  }
-  const jsonWebpageSettings = {
-    pageUrl:metadata.domain + asPath,
-    title:post.seo.title,
-    domain:metadata.domain,
-    publishTime:post.seo.opengraphPublishedTime,
-    modifiedTime:post.seo.opengraphModifiedTime,
-    description:post.seo.metaDesc,
-  }
-  const jsonPersonSettings = {
-    domain:metadata.domain,
-    description: metadata.description,
-    avatarUrl:post.author.avatar.url,
-  }
-  const jsonBlogSettings ={
-    url:`${metadata.domain}${asPath}`,
-    title:post.seo.title,
-    images:[
-      `${post.featuredImage?.sourceUrl}` // need default image
-      ],
-    datePublished:post.seo.opengraphPublishedTime,
-    dateModified:post.seo.opengraphModifiedTime,
-    authorName:post.author.name,
-    description:post.seo.metaDesc,
-  }
-  const jsonBreadCrumbs = {
-    itemListElements:[
-      {
-        position: 1,
-        name: 'Home',
-        item: `${metadata.domain}`,
-      },
+      altText: post.featuredImage?.altText,
+      width: 1920,
+      height:928
+    }
+
+    jsonWebpageSettings = {
+      ...jsonWebpageSettings,
+      title: post.seo.title,
+      publishTime: post.seo.opengraphPublishedTime,
+      modifiedTime: post.seo.opengraphModifiedTime,
+      description: post.seo.metaDesc,
+    }
+
+    jsonBreadCrumbs.itemListElements.concat([
       {
         position: 2,
         name: 'Blog',
@@ -154,15 +173,18 @@ function Layout ({children, post}: IProps){
         position: 3,
         name: `${post.title}`,
         item: `${metadata.domain}${asPath}`
-      },
-    ]
+      },])
+  }
+
+  if(page){
+    seoSettings.title = page.seo.title
   }
 
   return (
     <div>
       <Head>
         <link rel="profile" href="https://gmpg.org/xfn/11"/>
-        <title>${post.title}</title>
+        <title>${seoSettings.title}</title>
 
         {jsonldWebsite(jsonWebsiteSettings)}
 
@@ -184,7 +206,17 @@ function Layout ({children, post}: IProps){
           maxVideoPreview: -1,
         }}
       />
-      <BlogJsonLd {...jsonBlogSettings} />
+      {post && <BlogJsonLd
+        url={`${metadata.domain}${asPath}`}
+        title={post.seo.title}
+        images={[
+          `${post.featuredImage?.sourceUrl}` // need default image
+        ]}
+        datePublished={post.seo.opengraphPublishedTime}
+        dateModified={post.seo.opengraphModifiedTime}
+        authorName={post.author.name}
+        description={post.seo.metaDesc}
+      />}
       <BreadcrumbJsonLd {...jsonBreadCrumbs}/>
       <Nav/>
       <main>
