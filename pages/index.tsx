@@ -130,6 +130,7 @@ export const getStaticProps = async () => {
 
   // const {apolloClient, posts, pagination} = await getPaginatedPosts()
 
+  // NEED TO CONVERT THIS TO A STATIC QUERY
   const apolloClient = initializeApollo()
   const data = await apolloClient.query({
     query: QUERY_ALL_POSTS,
