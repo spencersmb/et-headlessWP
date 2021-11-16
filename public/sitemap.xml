@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://every-tuesday.com</loc>
-    <lastmod>2021-11-16T05:20:11.227Z</lastmod>
+    <lastmod>2021-11-16T18:40:32.062Z</lastmod>
   </url>
   <url>
     <loc>https://every-tuesday.com/homepage</loc>
@@ -156,12 +156,8 @@
   </url>
 
   <url>
-    <loc>https://every-tuesday.com/test-1</loc>
-    <lastmod>2021-11-07T22:28:06.000Z</lastmod>
-  </url>
-  <url>
     <loc>https://every-tuesday.com/freebie-march-2019-desktop-wallpapers</loc>
-    <lastmod>2021-11-07T22:32:12.000Z</lastmod>
+    <lastmod>2021-10-10T02:32:21.000Z</lastmod>
   </url>
   <url>
     <loc>https://every-tuesday.com/cute-notebook-icon-adobe-illustrator</loc>
@@ -274,5 +270,9 @@
   <url>
     <loc>https://every-tuesday.com/fathers-day-card-using-brusho</loc>
     <lastmod>2021-10-10T01:59:50.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://every-tuesday.com/freebie-june-2018-desktop-wallpapers</loc>
+    <lastmod>2021-10-10T01:59:56.000Z</lastmod>
   </url>
 </urlset>

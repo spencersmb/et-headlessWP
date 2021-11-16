@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { createPaginatedPosts, flattenAllPosts, getAllPostsApollo, getPaginatedPosts } from '../lib/wp/posts'
 import Pagination from '../components/pagination';
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
-import { QUERY_POST_PER_PAGE, QUERY_ALL_POSTS } from '../graphqlData/postsData'
+import { QUERY_POST_PER_PAGE, QUERY_ALL_POSTS, QUERY_NEXT_POSTS } from '../graphqlData/postsData'
 import { useQuery, gql, useMutation, useReactiveVar } from '@apollo/client'
 import { IsLoggedInVar, NAV_QUERY } from '../lib/apollo-cache'
 import Test from '../components/test'
@@ -25,6 +25,7 @@ import { QUERY_ALL_MENUS } from '../graphqlData/menuGQL'
 import CursorPagination from '../components/cursorPagination/CursorPagination'
 import Layout from '../components/Layout/Layout'
 import { getSingleStaticPage } from '../lib/staticApi/staticApi'
+import CursorPaginationDynamic from '../components/cursorPagination/cursorPaginationDynamic'
 
 function Home(props) {
 
@@ -90,7 +91,7 @@ function Home(props) {
 
       <div>
         <h3>Pagination</h3>
-        <CursorPagination />
+        <CursorPaginationDynamic />
         {/*<Pagination*/}
         {/*  {...props.pagination}*/}
         {/*/>*/}
@@ -131,13 +132,21 @@ export const getStaticProps = async () => {
   // const {apolloClient, posts, pagination} = await getPaginatedPosts()
 
   // NEED TO CONVERT THIS TO A STATIC QUERY
+  // const apolloClient = initializeApollo()
+  // const data = await apolloClient.query({
+  //   query: QUERY_ALL_POSTS,
+  //   variables: {
+  //     count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)
+  //   }
+  // })
+  // const posts = flattenAllPosts(data?.data.posts) || []
   const apolloClient = initializeApollo()
+
   const data = await apolloClient.query({
-    query: QUERY_ALL_POSTS,
-    variables: {
-      count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)
-    }
+    query: QUERY_NEXT_POSTS,
+    variables: {after: null}
   })
+  const pageInfo = data?.data.posts.pageInfo
   const posts = flattenAllPosts(data?.data.posts) || []
   const {page} = await getSingleStaticPage({pageSlug: 'homepage', pageID: 8674})
 
@@ -145,6 +154,7 @@ export const getStaticProps = async () => {
     props: {
       posts,
       page,
+      pageInfo,
       // pagination: {
       //   ...pagination,
       //   basePath: '',

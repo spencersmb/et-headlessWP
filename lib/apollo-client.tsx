@@ -1,12 +1,14 @@
 import {
   ApolloClient,
-  gql, InMemoryCache,
+  gql, HttpLink, InMemoryCache,
 } from '@apollo/client'
 import { useMemo } from 'react'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { IsLoggedInVar, NAV_QUERY } from './apollo-cache'
 import { relayStylePagination } from '@apollo/client/utilities'
+import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries'
+import { sha256 } from 'crypto-hash'
 
 const API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 let apolloClient;
@@ -76,6 +78,8 @@ const mutations = {
 WITH-APOLLO DOCS
  */
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
+const httpLink = new HttpLink({ uri: API_URL });
+const persistedQueriesLink = createPersistedQueryLink({ sha256 });
 /**
  * Creates and provides the apolloContext
  * to a next.js PageTree. Use it by wrapping
@@ -92,11 +96,6 @@ function _createApolloClient() {
     //   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     // }),
     uri: API_URL,
-    defaultOptions:{
-        query:{
-          // notifyOnNetworkStatusChange: true
-        }
-    },
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
       typePolicies: {
@@ -133,7 +132,8 @@ function _createApolloClient() {
           }
         },
       },
-    })
+    }),
+    // link: persistedQueriesLink.concat(httpLink)
   })
 }
 

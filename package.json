@@ -18,6 +18,7 @@
     "@apollo/client": "^3.4.16",
     "@reduxjs/toolkit": "^1.6.2",
     "@types/react-helmet": "^6.1.4",
+    "crypto-hash": "^2.0.0",
     "date-fns": "^2.25.0",
     "deepmerge": "^4.2.2",
     "fuse.js": "^6.4.6",

@@ -4,18 +4,11 @@
         <description><![CDATA[Graphic Design Tips, Tricks, Tutorials and Freebies]]></description>
         <link>https://every-tuesday.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 16 Nov 2021 05:20:16 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 16 Nov 2021 18:40:31 GMT</lastBuildDate>
         <atom:link href="https://every-tuesday.com/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 16 Nov 2021 05:20:16 GMT</pubDate>
+        <pubDate>Tue, 16 Nov 2021 18:40:31 GMT</pubDate>
         <copyright><![CDATA[2021 Every-Tuesday]]></copyright>
         <language><![CDATA[en]]></language>
-        <item>
-            <title><![CDATA[Test-1-1]]></title>
-            <link>https://every-tuesday.com/test-1</link>
-            <guid isPermaLink="false">https://every-tuesday.com/test-1</guid>
-            <category><![CDATA[Uncategorized]]></category>
-            <pubDate>Thu, 14 Oct 2021 20:00:39 GMT</pubDate>
-        </item>
         <item>
             <title><![CDATA[Freebie: March 2019 Desktop Wallpapers]]></title>
             <description><![CDATA[It&#8217;s the last Thursday in February (and also my 33rd birthday!), which means it&#8217;s time for your free March 2019 desktop wallpapers! This month&#8217;s wallpaper was entirely created in Procreate, with just the dates added in using Photoshop and my font, Miss Magnolia. Like last month, I used some of the tips from my 3D [&hellip;]
@@ -378,6 +371,18 @@
             <category><![CDATA[Tutorials]]></category>
             <category><![CDATA[Watercolor]]></category>
             <pubDate>Tue, 05 Jun 2018 12:01:25 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Freebie: June 2018 Desktop Wallpapers]]></title>
+            <description><![CDATA[It&#8217;s the last Thursday in May, which means it&#8217;s time for your free June 2018 desktop wallpapers! This month&#8217;s wallpaper was entirely created in Procreate, with just the dates added in using Photoshop and my font, Miss Magnolia. I decided to use a soft, simple palette this month with some simple foliage doodles. I used [&hellip;]
+]]></description>
+            <link>https://every-tuesday.com/freebie-june-2018-desktop-wallpapers</link>
+            <guid isPermaLink="false">https://every-tuesday.com/freebie-june-2018-desktop-wallpapers</guid>
+            <category><![CDATA[Desktop Wallpapers]]></category>
+            <category><![CDATA[Freebies]]></category>
+            <category><![CDATA[Hand Lettering]]></category>
+            <category><![CDATA[iPad Lettering]]></category>
+            <pubDate>Thu, 31 May 2018 12:00:47 GMT</pubDate>
         </item>
     </channel>
 </rss>
