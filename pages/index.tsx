@@ -24,6 +24,7 @@ import { loginUserAction } from '../lib/redux/user/actions'
 import { QUERY_ALL_MENUS } from '../graphqlData/menuGQL'
 import CursorPagination from '../components/cursorPagination/CursorPagination'
 import Layout from '../components/Layout/Layout'
+import { getSingleStaticPage } from '../lib/staticApi/staticApi'
 
 function Home(props) {
 
@@ -44,7 +45,7 @@ function Home(props) {
 
 
   return (
-    <Layout>
+    <Layout page={props.page}>
     <div className={styles.container}>
 
       <h1 className={styles.title}>Welcome to our demo blog!</h1>
@@ -137,10 +138,12 @@ export const getStaticProps = async () => {
     }
   })
   const posts = flattenAllPosts(data?.data.posts) || []
+  const {page} = await getSingleStaticPage({pageSlug: 'homepage', pageID: 8674})
 
   return addApolloState(apolloClient, {
     props: {
       posts,
+      page,
       // pagination: {
       //   ...pagination,
       //   basePath: '',

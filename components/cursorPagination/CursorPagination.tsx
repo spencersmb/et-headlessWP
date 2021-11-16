@@ -11,54 +11,28 @@ import { useRouter } from 'next/router'
 const CursorPagination = () => {
   const router = useRouter();
   const path = router.asPath
-
+  const {page} = Object.fromEntries(new URLSearchParams(path.slice(2)));
   const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_ALL_POSTS,{
     notifyOnNetworkStatusChange: true,
     variables: {
       count: process.env.NEXT_GET_ALL_PAGES_COUNT
     }
   });
-  const pageInfo = data?.posts.pageInfo
   const posts = flattenAllPosts(data?.posts) || []
-  const preloaded = useRef(false)
-  const [currentPage, setPage] = useState(1)
-  const preloadedPages = Math.ceil(posts.length / 10)
-  // const morePages = currentPage < preloadedPages
-
-  // SET PAGE state whenever the url param gets changed
-  useEffect(()=>{
-    let {page} = Object.fromEntries(new URLSearchParams(path.slice(2)));
-
-    if(page && page !== '1'){
-      setPage(parseInt(page))
-    }
-
-  },[path])
+  const [currentPage, setPage] = useState(page === '1' ? 1 : parseInt(page))
+  const morePages = currentPage < posts.length / 10
 
   function handleGetNextPosts(){
-
     setPage(currentPage + 1)
-    // router.query.page = `${currentPage}`
-    // router.push(router)
     router.replace({
       pathname: '/',
       query: { page: `${currentPage + 1}` },
     }, undefined, {
       shallow: true
     })
-
-    fetchMore({
-      variables:{
-        after: data?.posts.pageInfo.endCursor
-      }
-    })
-    if(currentPage >= preloadedPages){
-
-    }
   }
 
 
-  console.log('total pages', preloadedPages)
   console.log('current Page', currentPage)
   console.log('loading', loading)
 
@@ -67,6 +41,7 @@ const CursorPagination = () => {
       <ol>
         {posts
           .filter((post,index) => {
+            return index < currentPage * 10
             // if(preloaded.current){
             //   return index < 11
             // }else{
@@ -78,7 +53,6 @@ const CursorPagination = () => {
             // }else{
             //   return index
             // }
-            return index
           } )
           .map((post) => (
             <li key={post.id}>
@@ -98,8 +72,8 @@ const CursorPagination = () => {
         {/*  // </Link>*/}
         {/*)}*/}
 
-        {/*{morePages && (*/}
-        {pageInfo?.hasNextPage && !loading && (
+        {/*{pageInfo?.hasNextPage && !loading && (*/}
+        {morePages && (
           // <Link href={`${path}${currentPage + 1}`}>
             <button className={styles.next} aria-label="Goto Next Page" onClick={handleGetNextPosts}>
               Next

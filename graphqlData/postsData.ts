@@ -52,7 +52,6 @@ export const CORE_POST_FIELDS = gql`
         slug
         isSticky
         seo{
-            fullHead
             title
             opengraphPublishedTime
             opengraphModifiedTime
@@ -61,6 +60,31 @@ export const CORE_POST_FIELDS = gql`
         }
     }
 `;
+
+export const CORE_PAGE_FIELDS = gql`
+    fragment CorePageFields on Page {
+        author{
+            node{
+                name
+                avatar{
+                    url
+                }
+            }
+
+        }
+        id
+        title
+        slug
+        seo{
+            title
+            opengraphPublishedTime
+            opengraphModifiedTime
+            metaDesc
+            readingTime
+        }
+    }
+`
+
 export const QUERY_ALL_POSTS = gql`
     ${CORE_POST_FIELDS}
     query AllPosts($count: Int) {
@@ -149,6 +173,15 @@ export const QUERY_POST_BY_SLUG = gql`
     query postBySlug($slug: String!) {
         postBy(slug: $slug) {
             ...CorePostFields
+        }
+    }
+`
+
+export const QUERY_PAGE_BY_ID = gql`
+    ${CORE_PAGE_FIELDS}
+    query postBySlug($pageID: Int!) {
+        pageBy(pageId: $pageID) {
+            ...CorePageFields
         }
     }
 `

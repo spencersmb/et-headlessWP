@@ -141,7 +141,6 @@ async function getAllPosts(apolloClient, process, verbose = false, count) {
 async function getAllStaticData(apolloClient, process, verbose = false, count) {
   const SEO_ITEM_FIELDS = gql`
     fragment SeoItemFields on PostTypeSEO {
-        fullHead
         title
         opengraphPublishedTime
         opengraphModifiedTime
@@ -250,6 +249,7 @@ async function getAllStaticData(apolloClient, process, verbose = false, count) {
                 node{
                     author{
                         node{
+                            name
                             avatar{
                                 url
                             }

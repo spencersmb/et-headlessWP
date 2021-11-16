@@ -14,6 +14,7 @@ interface IProps {
   page?: {
     seo:{
       title: string
+      opengraphModifiedTime: string
     }
   }
 }
@@ -109,24 +110,24 @@ function Layout ({children, post, page}: IProps){
     seoSettings.description = post.seo.metaDesc
     seoSettings.openGraph = {
       type: 'article',
-        title: post.seo.title,
-        description: post.seo.metaDesc,
-        images: [
-          {
-            url: post ? post.featuredImage?.sourceUrl : defaultSeoImages.generic.url, // need default image
-            width: post ? 1920 : defaultSeoImages.generic.width,
-            height: post ? 928 : defaultSeoImages.generic.height,
-            alt: post ? post.featuredImage?.altText : defaultSeoImages.generic.alt
-          }
-        ],
-        article: {
-          publishedTime: post.seo.opengraphPublishedTime,
-          modifiedTime: post.seo.opengraphModifiedTime,
-          authors: [
-          `${metadata.domain}${post.author.uri}`
-        ],
-          tags: post.tags.map(tag => tag.name),
-        // video: 'https://youtube.com',
+      title: post.seo.title,
+      description: post.seo.metaDesc,
+      images: [
+        {
+          url: post ? post.featuredImage?.sourceUrl : defaultSeoImages.generic.url, // need default image
+          width: post ? 1920 : defaultSeoImages.generic.width,
+          height: post ? 928 : defaultSeoImages.generic.height,
+          alt: post ? post.featuredImage?.altText : defaultSeoImages.generic.alt
+        }
+      ],
+      article: {
+        publishedTime: post.seo.opengraphPublishedTime,
+        modifiedTime: post.seo.opengraphModifiedTime,
+        authors: [
+        `${metadata.domain}${post.author.uri}`
+      ],
+        tags: post.tags.map(tag => tag.name),
+      // video: 'https://youtube.com',
       },
     }
     seoSettings.additionalMetaTags = [
@@ -178,6 +179,16 @@ function Layout ({children, post, page}: IProps){
 
   if(page){
     seoSettings.title = page.seo.title
+    seoSettings.openGraph = {
+      ...seoSettings.openGraph,
+      title: page.seo.title,
+    }
+    seoSettings.additionalMetaTags = [
+      {
+        property: 'article:modified_time',
+        content: page.seo.opengraphModifiedTime
+      }
+    ]
   }
 
   return (

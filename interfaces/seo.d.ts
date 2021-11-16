@@ -1,3 +1,15 @@
+interface IMetaTagName {
+  name: string
+  content: string
+}
+
+interface IMetaTagProperty {
+  property: string
+  content: string
+}
+
+type IMeta = IMetaTagName | IMetaTagProperty
+
 interface ISEOSETTINGS {
   defaultTitle: string,
   title: string
@@ -22,7 +34,7 @@ interface ISEOSETTINGS {
     handle: string
   },
   additionalLinkTags?: any[],
-  additionalMetaTags?: any[],
+  additionalMetaTags?: IMeta[],
 }
 
 interface IjsonldWebpage {
