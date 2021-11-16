@@ -67,7 +67,7 @@ export async function getAllStaticPaths(){
     dir: 'public'
   })
 
-  if(foundFile && Array.isArray(result.posts)) {
+  if(foundFile && Array.isArray(result.posts) && result.posts.length > 420) {
     posts = result.posts.map(post => mapPostData(post))
   }else {
     data = await apolloClient.query({
