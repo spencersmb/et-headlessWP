@@ -58,12 +58,39 @@ export async function getSingleStaticPost(pageParams){
   }
 }
 
-export async function getAllStaticPostsArray(){
+export async function getAllStaticPaths(){
   const apolloClient = initializeApollo()
   let posts = []
   let data: any = {}
   const {result, foundFile} = await getStaticFile({
     fileName: 'wp-search.json',
+    dir: 'public'
+  })
+
+  if(foundFile && Array.isArray(result.posts)) {
+    posts = result.posts.map(post => mapPostData(post))
+  }else {
+    data = await apolloClient.query({
+      query: QUERY_ALL_POSTS,
+      variables: {
+        count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)
+      },
+    })
+    posts = flattenAllPosts(data?.data.posts) || []
+  }
+
+  return {
+    posts,
+    apolloClient,
+  }
+}
+
+export async function getAllStaticPosts(){
+  const apolloClient = initializeApollo()
+  let posts = []
+  let data: any = {}
+  const {result, foundFile} = await getStaticFile({
+    fileName: 'wp-static-data.json',
     dir: 'public'
   })
 

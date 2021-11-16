@@ -19,7 +19,7 @@ const CursorPagination = () => {
     }
   });
   const posts = flattenAllPosts(data?.posts) || []
-  const [currentPage, setPage] = useState(page === '1' ? 1 : parseInt(page))
+  const [currentPage, setPage] = useState(!page ? 1 : parseInt(page))
   const morePages = currentPage < posts.length / 10
 
   function handleGetNextPosts(){
@@ -31,7 +31,6 @@ const CursorPagination = () => {
       shallow: true
     })
   }
-
 
   console.log('current Page', currentPage)
   console.log('loading', loading)

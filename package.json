@@ -5,10 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run preclean & next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "preclean": "node clean.js"
   },
   "resolutions": {
     "webpack": "^5.0.0-beta.30"

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Layout from '../components/Layout/Layout'
 import path from 'path'
 import fs from 'fs/promises'
-import { getAllStaticPostsArray, getSingleStaticPost } from '../lib/staticApi/staticApi'
+import { getAllStaticPaths, getSingleStaticPost } from '../lib/staticApi/staticApi'
 
 interface IProps {
   post: IPost
@@ -39,7 +39,7 @@ export async function getStaticPaths(context){
   console.log('run get getStaticPaths')
 
   //rewrite this similar to getStaticProps
-  const {posts} = await getAllStaticPostsArray()
+  const {posts} = await getAllStaticPaths()
   // const apolloClient = initializeApollo()
 
   /*
