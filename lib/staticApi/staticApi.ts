@@ -57,17 +57,35 @@ export async function getSingleStaticPost(pageParams){
     foundStaticFile
   }
 }
+function isJson(item) {
+  item = typeof item !== "string"
+    ? JSON.stringify(item)
+    : item;
 
+  try {
+    item = JSON.parse(item);
+  } catch (e) {
+    return false;
+  }
+
+  return typeof item === "object" && item !== null;
+}
 export async function getAllStaticPaths(){
   const apolloClient = initializeApollo()
   let posts = []
+  let validJson = false
   let data: any = {}
   const {result, foundFile} = await getStaticFile({
     fileName: 'wp-search.json',
     dir: 'public'
   })
-
-  if(foundFile && Array.isArray(result.posts) && result.posts.length > 420) {
+  try{
+    JSON.parse(result)
+    validJson = true
+  }catch (e){
+    
+  }
+  if(foundFile && validJson) {
     posts = result.posts.map(post => mapPostData(post))
   }else {
     data = await apolloClient.query({
