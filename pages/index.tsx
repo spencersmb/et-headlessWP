@@ -90,7 +90,7 @@ function Home(props) {
       </div>
 
       <div>
-        <h3>Pagination</h3>
+        <h2>Pagination</h2>
         <CursorPaginationDynamic />
         {/*<Pagination*/}
         {/*  {...props.pagination}*/}
@@ -116,7 +116,55 @@ function Home(props) {
 
 // REDUX Standard way
 // export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-export const getStaticProps = async () => {
+// export const getStaticProps = async () => {
+//
+//   /**
+//    * Redux
+//    */
+//   // store.dispatch(serverRenderClock(true))
+//   // store.dispatch(loginUserAction())
+//   // store.dispatch(addCount())
+//
+//   /**
+//    * WITH-APOLLO Way to wrap component
+//    */
+//
+//   // const {apolloClient, posts, pagination} = await getPaginatedPosts()
+//
+//   // NEED TO CONVERT THIS TO A STATIC QUERY
+//   // const apolloClient = initializeApollo()
+//   // const data = await apolloClient.query({
+//   //   query: QUERY_ALL_POSTS,
+//   //   variables: {
+//   //     count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)
+//   //   }
+//   // })
+//   // const posts = flattenAllPosts(data?.data.posts) || []
+//   const apolloClient = initializeApollo()
+//
+//   const data = await apolloClient.query({
+//     query: QUERY_NEXT_POSTS,
+//     variables: {after: null}
+//   })
+//   const pageInfo = data?.data.posts.pageInfo
+//   const posts = flattenAllPosts(data?.data.posts) || []
+//   const {page} = await getSingleStaticPage({pageSlug: 'homepage', pageID: 8674})
+//
+//   return addApolloState(apolloClient, {
+//     props: {
+//       posts,
+//       page,
+//       pageInfo,
+//       // pagination: {
+//       //   ...pagination,
+//       //   basePath: '',
+//       // },
+//       basePath: ''
+//     },
+//     // revalidate: 15,
+//   })
+// }
+export const getServerSideProps = async () => {
 
   /**
    * Redux
@@ -129,17 +177,17 @@ export const getStaticProps = async () => {
    * WITH-APOLLO Way to wrap component
    */
 
-  // const {apolloClient, posts, pagination} = await getPaginatedPosts()
+    // const {apolloClient, posts, pagination} = await getPaginatedPosts()
 
-  // NEED TO CONVERT THIS TO A STATIC QUERY
-  // const apolloClient = initializeApollo()
-  // const data = await apolloClient.query({
-  //   query: QUERY_ALL_POSTS,
-  //   variables: {
-  //     count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)
-  //   }
-  // })
-  // const posts = flattenAllPosts(data?.data.posts) || []
+    // NEED TO CONVERT THIS TO A STATIC QUERY
+    // const apolloClient = initializeApollo()
+    // const data = await apolloClient.query({
+    //   query: QUERY_ALL_POSTS,
+    //   variables: {
+    //     count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)
+    //   }
+    // })
+    // const posts = flattenAllPosts(data?.data.posts) || []
   const apolloClient = initializeApollo()
 
   const data = await apolloClient.query({
@@ -164,7 +212,6 @@ export const getStaticProps = async () => {
     // revalidate: 15,
   })
 }
-
 const mapDispatchToProps = (dispatch) => {
   return {
     addCount: bindActionCreators(addCount, dispatch),

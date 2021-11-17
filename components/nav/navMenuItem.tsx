@@ -17,7 +17,7 @@ const NavMenuItem = (props: IProps) => {
         </Link>
       )}
       {item.path.includes('http') && (
-        <a href={item.path} title={item.title} target={item.target}>
+        <a href={item.path} title={item.title} target={item.target} rel="noopener">
           {item.label}
         </a>
       )}

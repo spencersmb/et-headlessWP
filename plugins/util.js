@@ -609,7 +609,7 @@ async function generateRobotsTxt({ outputDirectory, outputName }) {
     }
 
     // Robots content using sitemap final URL
-    const robots = `User-agent: *\nSitemap: ${sitemapUrl}`;
+    const robots = `User-agent: *\nAllow: /\nSitemap: ${sitemapUrl}`;
 
     // Create robots.txt always at root directory
     await createFile(robots, 'Robots.txt', './public', './public/robots.txt');
