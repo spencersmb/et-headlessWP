@@ -1,2 +1,3 @@
 User-agent: *
+Allow: /
 Sitemap: https://every-tuesday.com/sitemap.xml

@@ -46,7 +46,7 @@ function Home(props) {
 
 
   return (
-    <Layout page={props.page}>
+    <Layout >
     <div className={styles.container}>
 
       <h1 className={styles.title}>Welcome to our demo blog!</h1>
@@ -196,12 +196,12 @@ export const getServerSideProps = async () => {
   })
   const pageInfo = data?.data.posts.pageInfo
   const posts = flattenAllPosts(data?.data.posts) || []
-  const {page} = await getSingleStaticPage({pageSlug: 'homepage', pageID: 8674})
+  // const {page} = await getSingleStaticPage({pageSlug: 'homepage', pageID: 8674})
 
   return addApolloState(apolloClient, {
     props: {
       posts,
-      page,
+      page:{},
       pageInfo,
       // pagination: {
       //   ...pagination,
