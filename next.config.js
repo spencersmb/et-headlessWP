@@ -4,7 +4,7 @@ const feed = require('./plugins/feed');
 const searchIndex = require('./plugins/searchIndex');
 const staticWpData = require('./plugins/staticWpData');
 
-module.exports = withPlugins([[staticWpData],[searchIndex],[feed],[sitemap]], {
+module.exports = withPlugins([[searchIndex],[feed],[sitemap]], {
   // env: {
   //   WORDPRESS_GRAPHQL_ENDPOINT: process.env.NEXT_PUBLIC_WP_API_URL,
   //   // WORDPRESS_MENU_LOCATION_NAVIGATION: process.env.WORDPRESS_MENU_LOCATION_NAVIGATION || 'PRIMARY',
