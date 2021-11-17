@@ -38,18 +38,17 @@ export default Post
 export async function getStaticPaths(context){
   console.log('run get getStaticPaths')
 
-  //rewrite this similar to getStaticProps
-  const {posts} = await getAllStaticPaths()
-  // const apolloClient = initializeApollo()
+  // const {posts} = await getAllStaticPaths()
+  const apolloClient = initializeApollo()
 
   /*
   Change to QUERY_NEXT_POST if switching to real pagination method
    */
-  // const data = await apolloClient.query({
-  //   query: QUERY_ALL_POSTS,
-  //   variables: {count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)}
-  // })
-  // const posts = flattenAllPosts(data?.data.posts) || []
+  const data = await apolloClient.query({
+    query: QUERY_ALL_POSTS,
+    variables: {count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)}
+  })
+  const posts = flattenAllPosts(data?.data.posts) || []
   const slugs = posts.map(post => post.slug)
 
   //

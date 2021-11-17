@@ -1,4 +1,4 @@
-schema: 'https://etheadless.wpengine.com/graphql/'
+schema: './schema.graphql'
 passThroughOnly: false
 rootTypeNames:
   query: RootQuery
@@ -11,3 +11,4 @@ rules:
     description: Cache everything (default)
 name: etheadless
 originUrl: 'https://etheadless.wpengine.com/graphql/'
+
