@@ -72,45 +72,23 @@ export async function getStaticProps(context){
   /**
    * STATIC
    */
-  // let staticPost = {}
-  // let data: any = {}
-  // let hasStatic = false
-  // let foundFile = false
-  // let postsLoaded = false
-  // const postsDirectory = path.join(process.cwd(), 'public')
-  // const filenames = await fs.readdir(postsDirectory)
-  // const dataJsonfile = filenames.find(file => file === 'wp-static-data.json')
-  //
-  // if(dataJsonfile) {
-  //   try {
-  //     const filePath = path.join(postsDirectory, dataJsonfile)
-  //     const jsonData: any = await fs.readFile(filePath, 'utf8')
-  //     data = await JSON.parse(jsonData)
-  //   }catch (e){
-  //
-  //   }
-  // }
 
-  // let post = {}
-  // let data: any = {}
-  //
-  // if(foundFile && typeof result.posts[params.slug] === "object") {
-  //   post = mapPostData(result.posts[params.slug])
-  // }else {
-  //   data = await apolloClient.query({
-  //     query: QUERY_POST_BY_SLUG,
-  //     variables: {
-  //       slug: params.slug
-  //     },
-  //   })
-  //   post = flattenPost(data?.data?.postBy)
-  // }
-
-  const {post, apolloClient, foundStaticFile} = await getSingleStaticPost(params)
+  // const {post, apolloClient, foundStaticFile} = await getSingleStaticPost(params)
 
   /**
    * WITH-APOLLO
    */
+  const apolloClient = initializeApollo()
+
+  const data = await apolloClient.query({
+    query: QUERY_POST_BY_SLUG,
+    variables: {
+      slug: params.slug
+    },
+  })
+
+  const post = flattenPost(data?.data?.postBy)
+
   if (Object.keys(post).length === 0) {
     return addApolloState(apolloClient, {
         notFound: true,
@@ -121,7 +99,7 @@ export async function getStaticProps(context){
   return addApolloState(apolloClient, {
     props: {
       post,
-      foundStaticFile
+      foundStaticFile: false
     },
     // revalidate: 5,
   })
