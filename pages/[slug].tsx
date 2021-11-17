@@ -1,5 +1,5 @@
 import { addApolloState, initializeApollo } from '../lib/apollo-client'
-import { QUERY_ALL_POSTS, QUERY_POST_BY_SLUG } from '../graphqlData/postsData'
+import { QUERY_ALL_POSTS, QUERY_NEXT_POSTS, QUERY_POST_BY_SLUG } from '../graphqlData/postsData'
 import { flattenAllPosts, flattenPost, mapPostData } from '../lib/wp/posts'
 import Link from 'next/link'
 import Layout from '../components/Layout/Layout'
@@ -45,8 +45,8 @@ export async function getStaticPaths(context){
   Change to QUERY_NEXT_POST if switching to real pagination method
    */
   const data = await apolloClient.query({
-    query: QUERY_ALL_POSTS,
-    variables: {count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)}
+    query: QUERY_NEXT_POSTS,
+    // variables: {count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)}
   })
   const posts = flattenAllPosts(data?.data.posts) || []
   const slugs = posts.map(post => post.slug)
