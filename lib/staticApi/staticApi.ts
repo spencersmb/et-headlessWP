@@ -83,7 +83,7 @@ export async function getAllStaticPaths(){
     JSON.parse(result)
     validJson = true
   }catch (e){
-    
+
   }
   if(foundFile && validJson) {
     posts = result.posts.map(post => mapPostData(post))

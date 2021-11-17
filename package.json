@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc",
-    "preclean": "node clean.js"
+    "preclean": "node clean.js",
+    "graphCDN": "npx graphcdn push"
   },
   "resolutions": {
     "webpack": "^5.0.0-beta.30"
