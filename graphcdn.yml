@@ -1,4 +1,4 @@
-schema: null
+schema: 'https://etheadless.wpengine.com/graphql/'
 passThroughOnly: false
 rootTypeNames:
   query: RootQuery
