@@ -4,9 +4,9 @@ import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import type { AppProps } from 'next/app'
-import EssAuthProvider from '../lib/auth/authProvider'
+import EssAuthProvider from '../lib/authContext/authProvider'
 import { SiteContext } from '../hooks/useSite'
-import { IEssAuthState } from '../lib/auth/authContext'
+import { IEssAuthState } from '../lib/authContext/authContext'
 import NextNProgress from 'nextjs-progressbar';
 import { Provider } from 'react-redux'
 import { wrapper } from '../lib/redux/store'
@@ -81,6 +81,7 @@ function MyApp(props: MyAppProps) {
         <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny"/>
         <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l"/>
         {/*<title>Home - {metadata.title}</title>*/}
+
       </Head>
       {/*<NextSeo {...DEFAULT_SEO} />*/}
       <ApolloProvider client={apolloClient}>
@@ -109,7 +110,6 @@ function MyApp(props: MyAppProps) {
 
 MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
-  const filePath = path.join(process.cwd(), 'public', 'wp-static-data.json')
 
 
   // const { posts: recentPosts } = await getRecentPosts({

@@ -126,7 +126,7 @@ function Layout ({children, post, page}: IProps){
         authors: [
         `${metadata.domain}${post.author.uri}`
       ],
-        tags: post.tags.map(tag => tag.name),
+        tags: Array.isArray(post.tags) ? post.tags.map(tag => tag.name) : [],
       // video: 'https://youtube.com',
       },
     }

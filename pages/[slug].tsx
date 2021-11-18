@@ -35,38 +35,40 @@ export default Post
 // - must have fallback set to false
 // - local env set to 100
 
-export async function getStaticPaths(context){
-  console.log('run get getStaticPaths')
-
-  // const {posts} = await getAllStaticPaths()
-  const apolloClient = initializeApollo()
-
-  /*
-  Change to QUERY_NEXT_POST if switching to real pagination method
-   */
-  const data = await apolloClient.query({
-    query: QUERY_NEXT_POSTS,
-    // variables: {count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)}
-  })
-  const posts = flattenAllPosts(data?.data.posts) || []
-  const slugs = posts.map(post => post.slug)
-
-  //
-  // const data = await getLocalJsonFile('public', 'wp-search.json')
-  // const slugs = data.posts.map(post => post.slug)
-  const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
-
-  return{
-    paths: params,
-    fallback: "blocking"
-  }
-}
-export async function getStaticProps(context){
+// export async function getStaticPaths(){
+//   console.log('run get getStaticPaths')
+//
+//   // const {posts} = await getAllStaticPaths()
+//   const apolloClient = initializeApollo()
+//
+//   /*
+//   Change to QUERY_NEXT_POST if switching to real pagination method
+//    */
+//   const data = await apolloClient.query({
+//     query: QUERY_NEXT_POSTS,
+//     // variables: {count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)}
+//   })
+//   const posts = flattenAllPosts(data?.data.posts) || []
+//   const slugs = posts.map(post => post.slug)
+//
+//   //
+//   // const data = await getLocalJsonFile('public', 'wp-search.json')
+//   // const slugs = data.posts.map(post => post.slug)
+//   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
+//
+//   return{
+//     paths: params,
+//     fallback: "blocking"
+//   }
+// }
+export async function getServerSideProps(context){
   // const postsDirectory = path.join(process.cwd(), 'public')
   // const filenames = await fs.readdir(postsDirectory)
   // console.log('filenames', filenames)
 
+  console.log('context', context)
   const {params} = context
+
   // const apolloClient = initializeApollo()
 
   /**
@@ -101,7 +103,7 @@ export async function getStaticProps(context){
       post,
       foundStaticFile: false
     },
-    // revalidate: 5,
+    revalidate: 1,
   })
 
 }

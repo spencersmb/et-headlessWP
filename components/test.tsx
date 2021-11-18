@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client'
 import { IsLoggedInVar, NAV_QUERY } from '../lib/apollo-cache'
-import { useEssGridAuth } from '../lib/auth/authContext'
+import { useEssGridAuth } from '../lib/authContext/authContext'
 import { memo } from 'react'
 import { mutations } from '../lib/apollo-mutations'
 

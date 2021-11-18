@@ -9,7 +9,7 @@ import { QUERY_POST_PER_PAGE, QUERY_ALL_POSTS, QUERY_NEXT_POSTS } from '../graph
 import { useQuery, gql, useMutation, useReactiveVar } from '@apollo/client'
 import { IsLoggedInVar, NAV_QUERY } from '../lib/apollo-cache'
 import Test from '../components/test'
-import { useEssGridAuth } from '../lib/auth/authContext'
+import { useEssGridAuth } from '../lib/authContext/authContext'
 import { useEffect } from 'react'
 import { wrapper } from '../lib/redux/store'
 import { serverRenderClock, startClock } from '../lib/redux/tick/actions'
