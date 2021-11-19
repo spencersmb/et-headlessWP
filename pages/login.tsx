@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { data } from 'browserslist'
 import Layout from '../components/Layout/Layout'
 import { isEmpty } from 'lodash'
@@ -8,6 +8,10 @@ import { initializeApollo } from '../lib/apollo-client'
 import { getPreviewRedirectUrl, handleRedirectsAndReturnData } from '../lib/utilities/redirects'
 import { validateAndSanitizeLoginForm } from '../lib/utilities/validation'
 import axios from 'axios'
+import { gql, useMutation } from '@apollo/client'
+import { useCookieAuth } from '../lib/authContext/authProvider'
+import { GET_POST_BY_ID } from '../lib/graphql/queries/posts'
+import { GET_PAGE_BY_ID } from '../lib/graphql/queries/page'
 
 /**
  *
@@ -31,7 +35,7 @@ const Login = () => {
     password: '',
   } );
   const [ errorMessage, setErrorMessage ] = useState( null );
-  const [ loading, setLoading ] = useState( false );
+  const [ jwtloading, setLoading ] = useState( false );
   const { username, password } = loginFields;
 
   /**
@@ -105,6 +109,80 @@ const Login = () => {
     }
 
   }
+  const {loggedIn} = useCookieAuth()
+
+  /*
+  * Cookie Method
+  */
+  const {postType, previewPostId} = router?.query ?? {};
+
+  const LOG_IN = gql`
+      mutation logIn($login: String!, $password: String!) {
+          loginWithCookies(input: {
+              login: $login
+              password: $password
+          }) {
+              status
+          }
+      }
+  `;
+
+  const GET_USER = gql`
+      query getUser {
+          viewer {
+              id
+              databaseId
+              firstName
+              lastName
+              email
+              capabilities
+          }
+      }
+  `;
+
+  const [logIn, { loading, error, data }] = useMutation(LOG_IN, {
+    refetchQueries: [
+      { query: GET_USER },
+    ],
+
+  });
+
+  function onCookieFormSubmit(event){
+    event.preventDefault();
+
+    // get params from URL
+
+    // Validation and Sanitization.
+    const validationResult = validateAndSanitizeLoginForm( {
+
+      username: loginFields?.username ?? '',
+      password: loginFields?.password ?? '',
+    } );
+
+    if ( validationResult.isValid ) {
+      // setLoading(true);
+
+      logIn({
+        variables: {
+          login: loginFields.username,
+          password: loginFields.password,
+        }
+      }).then((result)=>{
+        console.log('result', result)
+
+      }).catch(error => {
+        console.error(error);
+      });
+
+    }
+  }
+
+  useEffect(() => {
+    if(loggedIn === true){
+      router.push(getPreviewRedirectUrl(postType.toString(), previewPostId.toString()));
+    }
+      }, [loggedIn])
+
 
   return (
     <Layout>
@@ -116,7 +194,7 @@ const Login = () => {
             dangerouslySetInnerHTML={{ __html: sanitize( errorMessage ) }}
           />
         )}
-        <form onSubmit={onFormSubmit} className="mb-4">
+        <form onSubmit={onCookieFormSubmit} className="mb-4">
           <label className="leading-7 text-sm text-gray-600">
             Username:
             <input

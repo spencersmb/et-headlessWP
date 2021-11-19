@@ -9,3 +9,11 @@ export function getAuthToken( req ): IAuthToken | string {
   const cookies = parseCookies( req );
   return cookies.auth ? JSON.parse(cookies.auth) : '' ;
 }
+
+export function getWPAuthToken( req ) {
+  const cookies = parseCookies( req );
+  console.log('cookies', cookies)
+  return '';
+}
+
+

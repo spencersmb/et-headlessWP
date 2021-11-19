@@ -7,6 +7,7 @@ import { jsonldImageObject, jsonldPerson, jsonldWebpage, jsonldWebsite } from '.
 import Nav from '../nav/nav'
 import Footer from '../footer/footer'
 import { defaultSeoImages } from '../../lib/wp/seo'
+import { useCookieAuth } from '../../lib/authContext/authProvider'
 
 interface IProps {
   children: ReactNode

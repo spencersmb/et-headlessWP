@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
 import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
 import type { AppProps } from 'next/app'
-import EssAuthProvider from '../lib/authContext/authProvider'
+import WpAuthProvider from '../lib/authContext/authProvider'
 import { SiteContext } from '../hooks/useSite'
 import { IEssAuthState } from '../lib/authContext/authContext'
 import NextNProgress from 'nextjs-progressbar';
@@ -94,9 +94,9 @@ function MyApp(props: MyAppProps) {
           <SearchProvider>
             <NextNProgress height={4} color={`#0070f3`} />
             {/*<Provider store={store} >*/}
-            <EssAuthProvider auth={auth}>
+            <WpAuthProvider auth={auth}>
               <Component {...pageProps} />
-            </EssAuthProvider>
+            </WpAuthProvider>
 
           </SearchProvider>
 

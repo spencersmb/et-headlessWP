@@ -91,11 +91,11 @@ const persistedQueriesLink = createPersistedQueryLink({ sha256 });
 function _createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    // link: new HttpLink({
-    //   uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
-    //   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
-    // }),
-    uri: API_URL,
+    link: new HttpLink({
+      uri: API_URL, // Server URL (must be absolute)
+      credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+    }),
+    // uri: API_URL,
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
       typePolicies: {
@@ -188,7 +188,7 @@ export function useApollo(pageProps) {
 FETCH Method
  */
 
-async function fetchAPI(query, { variables }: any = {}) {
+export async function fetchAPI(query, { variables }: any = {}) {
   const headers = { 'Content-Type': 'application/json' }
 
   if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
