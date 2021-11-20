@@ -1,4 +1,3 @@
-
 interface IProps {
   loading: boolean
   post?: any

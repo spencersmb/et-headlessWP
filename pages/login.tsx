@@ -57,7 +57,6 @@ const Login = () => {
   };
 
   const handleOnChange = ( event ) => {
-    console.log('router', router)
     setLoginFields( { ...loginFields, [event.target.name]: event.target.value } );
   };
 
