@@ -78,7 +78,8 @@ const mutations = {
 WITH-APOLLO DOCS
  */
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-const httpLink = new HttpLink({ uri: API_URL });
+const httpLink = new HttpLink({ uri: API_URL, // Server URL (must be absolute)
+  credentials: 'include' });
 const persistedQueriesLink = createPersistedQueryLink({ sha256 });
 /**
  * Creates and provides the apolloContext
@@ -91,10 +92,10 @@ const persistedQueriesLink = createPersistedQueryLink({ sha256 });
 function _createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: new HttpLink({
-      uri: API_URL, // Server URL (must be absolute)
-      credentials: 'include', // Additional fetch() options like `credentials` or `headers`
-    }),
+    // link: new HttpLink({
+    //   uri: API_URL, // Server URL (must be absolute)
+    //   credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+    // }),
     // uri: API_URL,
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
@@ -133,7 +134,7 @@ function _createApolloClient() {
         },
       },
     }),
-    // link: persistedQueriesLink.concat(httpLink)
+    link: persistedQueriesLink.concat(httpLink)
   })
 }
 
