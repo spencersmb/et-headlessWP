@@ -122,7 +122,7 @@ const Login = () => {
               password: $password
           }) {
               status
-          }
+          },
       }
   `;
 
@@ -141,8 +141,14 @@ const Login = () => {
 
   const [logIn, { loading, error, data }] = useMutation(LOG_IN, {
     refetchQueries: [
-      { query: GET_USER },
+      { query: GET_USER,
+        context:{
+          credentials: 'include'
+        }},
     ],
+    context:{
+      credentials: 'include'
+    }
 
   });
 
@@ -160,7 +166,6 @@ const Login = () => {
 
     if ( validationResult.isValid ) {
       // setLoading(true);
-
       logIn({
         variables: {
           login: loginFields.username,
@@ -168,7 +173,6 @@ const Login = () => {
         }
       }).then((result)=>{
         console.log('result', result)
-
       }).catch(error => {
         console.error(error);
       });

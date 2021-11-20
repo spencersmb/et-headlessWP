@@ -213,3 +213,27 @@ export async function fetchAPI(query, { variables }: any = {}) {
   }
   return json.data
 }
+
+export async function fetchWithCredentials(query, { variables }: any = {}) {
+  const headers = {
+    'Content-Type': 'application/json',
+  }
+
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers,
+    credentials: 'include',
+    mode: 'cors',
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  })
+
+  const json = await res.json()
+  if (json.errors) {
+    console.error(json.errors)
+    throw new Error('Etest')
+  }
+  return json.data
+}

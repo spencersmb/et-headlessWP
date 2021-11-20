@@ -48,7 +48,11 @@ export const useCookieAuth = () => useContext(AuthContext);
 
 const WpAuthProvider = ({auth, children}: IProps) => {
 
-  const { data, loading, error } = useQuery(GET_USER);
+  const { data, loading, error } = useQuery(GET_USER, {
+    context:{
+      credentials: 'include'
+    }
+  });
   console.log('EssAuthProvider user', data)
 
   const user = data?.viewer;

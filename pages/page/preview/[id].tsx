@@ -15,6 +15,9 @@ const PagePreview = () => {
     notifyOnNetworkStatusChange: true,
     variables:{
       id
+    },
+    context:{
+      credentials: 'include'
     }
   });
 

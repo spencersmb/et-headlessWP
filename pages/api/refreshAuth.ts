@@ -48,7 +48,7 @@ export default async function wpCookieApi( req, res ) {
     // } ) );
 
     // Only sending a message that successful, because we dont want to send JWT to client.
-    res.status( 200 ).json( { success: data } );
+    res.status( 200 ).json( { success: true } );
   }catch (e){
     console.log('e', e)
     // return res.status(401).json({error: "Bad login"})
