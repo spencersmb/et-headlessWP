@@ -6,6 +6,7 @@ import { getLoginPreviewRedirectUrl } from '../../lib/utilities/redirects'
 export default function AuthContent({ children }: { children: ReactNode }) {
   const { loggedIn, loading } = useCookieAuth();
   const router = useRouter();
+  console.log('router in auth', router)
   const postType = router.pathname.split('/').splice(1).shift()
   const {id} = router.query
   const redirectUrl = getLoginPreviewRedirectUrl( postType, id.toString() );

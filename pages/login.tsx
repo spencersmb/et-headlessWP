@@ -180,7 +180,7 @@ const Login = () => {
     if(loggedIn === true){
       router.push(getPreviewRedirectUrl(postType.toString(), previewPostId.toString()));
     }
-      }, [loggedIn])
+  }, [loggedIn])
 
 
   return (

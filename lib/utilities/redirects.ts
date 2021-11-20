@@ -17,7 +17,9 @@ export const getPreviewRedirectUrl = ( postType = '', previewPostId = '' ) => {
 };
 
 export const getLoginPreviewRedirectUrl = ( postType = '', previewPostId = '' ) => {
-  return `/login/?postType=${postType || ''}&previewPostId=${previewPostId || ''}`;
+  const _postType = postType === 'blog' ? 'post' : postType
+
+  return `/login/?postType=${_postType || ''}&previewPostId=${previewPostId || ''}`;
 };
 
 interface IRedirectReturn{

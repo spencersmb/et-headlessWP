@@ -17,17 +17,28 @@ import { refreshUser } from '../../../lib/auth/authApi'
 import { useRouter } from 'next/router'
 import AuthContent from '../../../components/auth/AuthContent'
 import PreviewPost from '../../../components/previewPage/previewPost'
-import { GET_PAGE_BY_ID } from '../../../lib/graphql/queries/page'
-import { useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
+import { useCookieAuth } from '../../../lib/authContext/authProvider'
+import { useEffect } from 'react'
 
 const PostPreview = () => {
   const router = useRouter()
+  const {loggedIn} = useCookieAuth()
   const id = router.query.id.toString()
-  const { data, loading, error, refetch } = useQuery(GET_POST_BY_ID, {
+
+  const [getPost, { data, loading, error}] = useLazyQuery(GET_POST_BY_ID, {
+    notifyOnNetworkStatusChange: true,
     variables:{
       id
     }
   });
+
+  useEffect(() => {
+    if(loggedIn){
+      console.log('refetch')
+      getPost()
+    }
+  }, [loggedIn, getPost])
   return(
     <Layout post={data?.post}>
       <AuthContent>

@@ -404,7 +404,7 @@ interface UniformResourceIdentifiable {
 union ContentRevisionUnion = Page | Post
 
 "Deprecated in favor of MenuItemLinkeable Interface"
-union MenuItemObjectUnion = Category | Course | Page | Post | Tag | Team
+union MenuItemObjectUnion = Category | Course | Page | Post | Tag
 
 union MenuItem_Featured_Courses = Course
 
@@ -1223,14 +1223,6 @@ type CreateTagPayload {
     tag: Tag
 }
 
-"The payload for the createTeam mutation"
-type CreateTeamPayload {
-    "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "The Post object mutation type."
-    team: Team
-}
-
 "The payload for the createUser mutation"
 type CreateUserPayload {
     "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
@@ -1323,16 +1315,6 @@ type DeleteTagPayload {
     deletedId: ID
     "The deteted term object"
     tag: Tag
-}
-
-"The payload for the deleteTeam mutation"
-type DeleteTeamPayload {
-    "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "The ID of the deleted object"
-    deletedId: ID
-    "The object before it was deleted"
-    team: Team
 }
 
 "The payload for the deleteUser mutation"
@@ -1483,18 +1465,6 @@ type HierarchicalContentNodeToContentNodeChildrenConnectionEdge {
 type HierarchicalContentNodeToParentContentNodeConnectionEdge {
     "The node of the connection, without the edges"
     node: ContentNode
-}
-
-"The payload for the login mutation"
-type LoginPayload {
-    "JWT Token that can be used in future requests for Authentication"
-    authToken: String
-    "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers."
-    refreshToken: String
-    "The user that was logged in"
-    user: User
 }
 
 "The payload for the loginWithCookies mutation"
@@ -2714,14 +2684,6 @@ type ReadingSettings {
     postsPerPage: Int
 }
 
-"The payload for the refreshJwtAuthToken mutation"
-type RefreshJwtAuthTokenPayload {
-    "JWT Token that can be used in future requests for Authentication"
-    authToken: String
-    "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-}
-
 "The payload for the registerUser mutation"
 type RegisterUserPayload {
     "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
@@ -2790,11 +2752,6 @@ type RootMutation {
         "Input for the createTag mutation"
         input: CreateTagInput!
     ): CreateTagPayload
-    "The payload for the createTeam mutation"
-    createTeam(
-        "Input for the createTeam mutation"
-        input: CreateTeamInput!
-    ): CreateTeamPayload
     "The payload for the createUser mutation"
     createUser(
         "Input for the createUser mutation"
@@ -2840,11 +2797,6 @@ type RootMutation {
         "Input for the deleteTag mutation"
         input: DeleteTagInput!
     ): DeleteTagPayload
-    "The payload for the deleteTeam mutation"
-    deleteTeam(
-        "Input for the deleteTeam mutation"
-        input: DeleteTeamInput!
-    ): DeleteTeamPayload
     "The payload for the deleteUser mutation"
     deleteUser(
         "Input for the deleteUser mutation"
@@ -2855,11 +2807,6 @@ type RootMutation {
         "The count to increase"
         count: Int
     ): Int
-    "The payload for the login mutation"
-    login(
-        "Input for the login mutation"
-        input: LoginInput!
-    ): LoginPayload
     "The payload for the loginWithCookies mutation"
     loginWithCookies(
         "Input for the loginWithCookies mutation"
@@ -2870,11 +2817,6 @@ type RootMutation {
         "Input for the logout mutation"
         input: LogoutInput!
     ): LogoutPayload
-    "The payload for the refreshJwtAuthToken mutation"
-    refreshJwtAuthToken(
-        "Input for the refreshJwtAuthToken mutation"
-        input: RefreshJwtAuthTokenInput!
-    ): RefreshJwtAuthTokenPayload
     "The payload for the registerUser mutation"
     registerUser(
         "Input for the registerUser mutation"
@@ -2940,11 +2882,6 @@ type RootMutation {
         "Input for the UpdateTag mutation"
         input: UpdateTagInput!
     ): UpdateTagPayload
-    "The payload for the updateTeam mutation"
-    updateTeam(
-        "Input for the updateTeam mutation"
-        input: UpdateTeamInput!
-    ): UpdateTeamPayload
     "The payload for the updateUser mutation"
     updateUser(
         "Input for the updateUser mutation"
@@ -3339,39 +3276,6 @@ type RootQuery {
         "Type of unique identifier to fetch a taxonomy by. Default is Global ID"
         idType: TaxonomyIdTypeEnum
     ): Taxonomy
-    "An object of the Team Type. "
-    team(
-        "Whether to return the node as a preview instance"
-        asPreview: Boolean,
-        "The globally unique identifier of the object."
-        id: ID!,
-        "Type of unique identifier to fetch by. Default is Global ID"
-        idType: TeamIdType
-    ): Team
-    "A Team object"
-    teamBy(
-        "Get the object by its global ID"
-        id: ID,
-        "Get the Team by its slug (only available for non-hierarchical types)"
-        slug: String,
-        "Get the Team by its database ID"
-        teamId: Int,
-        "Get the Team by its uri"
-        uri: String
-    ): Team @deprecated(reason : "Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)")
-    "Connection between the RootQuery type and the Team type"
-    teams(
-        "Cursor used along with the \"first\" argument to reference where in the dataset to get data"
-        after: String,
-        "Cursor used along with the \"last\" argument to reference where in the dataset to get data"
-        before: String,
-        "The number of items to return after the referenced \"after\" cursor"
-        first: Int,
-        "The number of items to return before the referenced \"before\" cursor"
-        last: Int,
-        "Arguments for filtering the connection"
-        where: RootQueryToTeamConnectionWhereArgs
-    ): RootQueryToTeamConnection
     "A node in a taxonomy used to group and relate content nodes"
     termNode(
         "Unique identifier for the term node."
@@ -3762,24 +3666,6 @@ type RootQueryToTaxonomyConnectionEdge {
     node: Taxonomy
 }
 
-"Connection between the RootQuery type and the Team type"
-type RootQueryToTeamConnection {
-    "Edges for the RootQueryToTeamConnection connection"
-    edges: [RootQueryToTeamConnectionEdge]
-    "The nodes of the connection, without the edges"
-    nodes: [Team]
-    "Information about pagination in a connection."
-    pageInfo: WPPageInfo
-}
-
-"An edge in a connection"
-type RootQueryToTeamConnectionEdge {
-    "A cursor for use in pagination"
-    cursor: String
-    "The item at the end of the edge"
-    node: Team
-}
-
 "Connection between the RootQuery type and the TermNode type"
 type RootQueryToTermNodeConnection {
     "Edges for the RootQueryToTermNodeConnection connection"
@@ -3903,7 +3789,6 @@ type SEOContentTypes {
     mediaItem: SEOContentType
     page: SEOContentType
     post: SEOContentType
-    team: SEOContentType
 }
 
 "The Open Graph data"
@@ -4365,106 +4250,6 @@ type TaxonomyToContentTypeConnectionEdge {
     node: ContentType
 }
 
-"The Team type"
-type Team implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable {
-    "The content of the post."
-    content(
-        "Format of the field output"
-        format: PostObjectFieldFormatEnum
-    ): String
-    "Connection between the ContentNode type and the ContentType type"
-    contentType: ContentNodeToContentTypeConnectionEdge
-    "The unique resource identifier path"
-    databaseId: Int!
-    "Post publishing date."
-    date: String
-    "The publishing date set in GMT."
-    dateGmt: String
-    "The desired slug of the post"
-    desiredSlug: String
-    "If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds"
-    editingLockedBy: ContentNodeToEditLockConnectionEdge
-    "The RSS enclosure for the object"
-    enclosure: String
-    "Connection between the ContentNode type and the EnqueuedScript type"
-    enqueuedScripts(
-        "Cursor used along with the \"first\" argument to reference where in the dataset to get data"
-        after: String,
-        "Cursor used along with the \"last\" argument to reference where in the dataset to get data"
-        before: String,
-        "The number of items to return after the referenced \"after\" cursor"
-        first: Int,
-        "The number of items to return before the referenced \"before\" cursor"
-        last: Int
-    ): ContentNodeToEnqueuedScriptConnection
-    "Connection between the ContentNode type and the EnqueuedStylesheet type"
-    enqueuedStylesheets(
-        "Cursor used along with the \"first\" argument to reference where in the dataset to get data"
-        after: String,
-        "Cursor used along with the \"last\" argument to reference where in the dataset to get data"
-        before: String,
-        "The number of items to return after the referenced \"after\" cursor"
-        first: Int,
-        "The number of items to return before the referenced \"before\" cursor"
-        last: Int
-    ): ContentNodeToEnqueuedStylesheetConnection
-    "Connection between the NodeWithFeaturedImage type and the MediaItem type"
-    featuredImage: NodeWithFeaturedImageToMediaItemConnectionEdge
-    "The database identifier for the featured image node assigned to the content node"
-    featuredImageDatabaseId: Int
-    "Globally unique ID of the featured image assigned to the node"
-    featuredImageId: ID
-    "The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table."
-    guid: String
-    "The globally unique identifier of the team object."
-    id: ID!
-    "Whether the node is a Content Node"
-    isContentNode: Boolean!
-    "Whether the object is a node in the preview state"
-    isPreview: Boolean
-    "Whether the object is restricted from the current viewer"
-    isRestricted: Boolean
-    "Whether the node is a Term"
-    isTermNode: Boolean!
-    "The user that most recently edited the node"
-    lastEditedBy: ContentNodeToEditLastConnectionEdge
-    "The permalink of the post"
-    link: String
-    "The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time."
-    modified: String
-    "The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT."
-    modifiedGmt: String
-    "Connection between the Team type and the Team type"
-    preview: TeamToPreviewConnectionEdge
-    "The database id of the preview node"
-    previewRevisionDatabaseId: Int
-    "Whether the object is a node in the preview state"
-    previewRevisionId: ID
-    "The Yoast SEO data of the Team"
-    seo: PostTypeSEO
-    "The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table."
-    slug: String
-    "The current status of the object"
-    status: String
-    "The id field matches the WP_Post-&gt;ID field."
-    teamId: Int! @deprecated(reason : "Deprecated in favor of the databaseId field")
-    "The template assigned to a node of content"
-    template: ContentTemplate
-    "The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made."
-    title(
-        "Format of the field output"
-        format: PostObjectFieldFormatEnum
-    ): String
-    "The unique resource identifier path"
-    uri: String
-}
-
-"Connection between the Team type and the Team type"
-type TeamToPreviewConnectionEdge {
-    "The node of the connection, without the edges"
-    node: Team
-}
-
 "Connection between the TermNode type and the EnqueuedScript type"
 type TermNodeToEnqueuedScriptConnection {
     "Edges for the TermNodeToEnqueuedScriptConnection connection"
@@ -4609,14 +4394,6 @@ type UpdateTagPayload {
     tag: Tag
 }
 
-"The payload for the updateTeam mutation"
-type UpdateTeamPayload {
-    "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "The Post object mutation type."
-    team: Team
-}
-
 "The payload for the updateUser mutation"
 type UpdateUserPayload {
     "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions."
@@ -4689,20 +4466,10 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
     id: ID!
     "Whether the node is a Content Node"
     isContentNode: Boolean!
-    "Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user."
-    isJwtAuthSecretRevoked: Boolean!
     "Whether the object is restricted from the current viewer"
     isRestricted: Boolean
     "Whether the node is a Term"
     isTermNode: Boolean!
-    "The expiration for the JWT Token for the user. If not set custom for the user, it will use the default sitewide expiration setting"
-    jwtAuthExpiration: String
-    "A JWT token that can be used in future requests for authentication/authorization"
-    jwtAuthToken: String
-    "A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers."
-    jwtRefreshToken: String
-    "A unique secret tied to the users JWT token that can be revoked or refreshed. Revoking the secret prevents JWT tokens from being issued to the user. Refreshing the token invalidates previously issued tokens, but allows new tokens to be issued."
-    jwtUserSecret: String
     "Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property."
     lastName: String
     "The preferred language locale set for the user. Value derived from get_user_locale()."
@@ -5077,8 +4844,6 @@ enum ContentTypeEnum {
     PAGE
     "The Type of Content object"
     POST
-    "The Type of Content object"
-    TEAM
 }
 
 "The Type of Identifier used to fetch a single Content Type node. To be used along with the \"id\" field. Default is \"ID\"."
@@ -5177,16 +4942,10 @@ enum MenuItemNodeIdTypeEnum {
 
 "Registered menu locations"
 enum MenuLocationEnum {
-    "Put the menu in the footer-menu location"
-    FOOTER_MENU
     "Put the menu in the hcms-menu-footer location"
     HCMS_MENU_FOOTER
     "Put the menu in the hcms-menu-header location"
     HCMS_MENU_HEADER
-    "Put the menu in the mobile-menu location"
-    MOBILE_MENU
-    "Put the menu in the primary-menu location"
-    PRIMARY_MENU
 }
 
 "The Type of Identifier used to fetch a single node. Default is \"ID\". To be used along with the \"id\" field."
@@ -5539,18 +5298,6 @@ enum TaxonomyIdTypeEnum {
     ID
     "The name of the taxonomy"
     NAME
-}
-
-"The Type of Identifier used to fetch a single resource. Default is ID."
-enum TeamIdType {
-    "Identify a resource by the Database ID."
-    DATABASE_ID
-    "Identify a resource by the (hashed) Global ID."
-    ID
-    "Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier."
-    SLUG
-    "Identify a resource by the URI."
-    URI
 }
 
 "The Type of Identifier used to fetch a single resource. Default is \"ID\". To be used along with the \"id\" field."
@@ -6389,26 +6136,6 @@ input CreateTagInput {
     slug: String
 }
 
-"Input for the createTeam mutation"
-input CreateTeamInput {
-    "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "The content of the object"
-    content: String
-    "The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, \"2017\" as the input will use current date with timestamp 20:17 "
-    date: String
-    "A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types."
-    menuOrder: Int
-    "The password used to protect the content of the object"
-    password: String
-    "The slug of the object"
-    slug: String
-    "The status of the object"
-    status: PostStatusEnum
-    "The title of the object"
-    title: String
-}
-
 "Input for the createUser mutation"
 input CreateUserInput {
     "User's AOL IM account."
@@ -6435,12 +6162,8 @@ input CreateUserInput {
     nickname: String
     "A string that contains the plain text password for the user."
     password: String
-    "If true, this will refresh the users JWT secret."
-    refreshJwtUserSecret: Boolean
     "The date the user registered. Format is Y-m-d H:i:s."
     registered: String
-    "If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets."
-    revokeJwtUserSecret: Boolean
     "A string for whether to enable the rich editor or not. False if not empty."
     richEditing: String
     "An array of roles to be assigned to the user."
@@ -6567,16 +6290,6 @@ input DeleteTagInput {
     id: ID!
 }
 
-"Input for the deleteTeam mutation"
-input DeleteTeamInput {
-    "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "Whether the object should be force deleted instead of being moved to the trash"
-    forceDelete: Boolean
-    "The ID of the Team to delete"
-    id: ID!
-}
-
 "Input for the deleteUser mutation"
 input DeleteUserInput {
     "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions."
@@ -6665,16 +6378,6 @@ input HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs {
     status: PostStatusEnum
     "Title of the object"
     title: String
-}
-
-"Input for the login mutation"
-input LoginInput {
-    "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "The plain-text password for the user logging in."
-    password: String!
-    "The username used for login. Typically a unique or email address depending on specific configuration"
-    username: String!
 }
 
 "Input for the loginWithCookies mutation"
@@ -7369,14 +7072,6 @@ input PostToTermNodeConnectionWhereArgs {
     updateTermMetaCache: Boolean
 }
 
-"Input for the refreshJwtAuthToken mutation"
-input RefreshJwtAuthTokenInput {
-    "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "A valid, previously issued JWT refresh token. If valid a new Auth token will be provided. If invalid, expired, revoked or otherwise invalid, a new AuthToken will not be provided."
-    jwtRefreshToken: String!
-}
-
 "Input for the registerUser mutation"
 input RegisterUserInput {
     "User's AOL IM account."
@@ -7403,12 +7098,8 @@ input RegisterUserInput {
     nickname: String
     "A string that contains the plain text password for the user."
     password: String
-    "If true, this will refresh the users JWT secret."
-    refreshJwtUserSecret: Boolean
     "The date the user registered. Format is Y-m-d H:i:s."
     registered: String
-    "If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets."
-    revokeJwtUserSecret: Boolean
     "A string for whether to enable the rich editor or not. False if not empty."
     richEditing: String
     "A string that contains the user's username."
@@ -7953,44 +7644,6 @@ input RootQueryToTagConnectionWhereArgs {
     updateTermMetaCache: Boolean
 }
 
-"Arguments for filtering the RootQueryToTeamConnection connection"
-input RootQueryToTeamConnectionWhereArgs {
-    "Filter the connection based on dates"
-    dateQuery: DateQueryInput
-    "True for objects with passwords; False for objects without passwords; null for all objects with or without passwords"
-    hasPassword: Boolean
-    "Specific ID of the object"
-    id: Int
-    "Array of IDs for the objects to retrieve"
-    in: [ID]
-    "Get objects with a specific mimeType property"
-    mimeType: MimeTypeEnum
-    "Slug / post_name of the object"
-    name: String
-    "Specify objects to retrieve. Use slugs"
-    nameIn: [String]
-    "Specify IDs NOT to retrieve. If this is used in the same query as \"in\", it will be ignored"
-    notIn: [ID]
-    "What paramater to use to order the objects by."
-    orderby: [PostObjectsConnectionOrderbyInput]
-    "Use ID to return only children. Use 0 to return only top-level items"
-    parent: ID
-    "Specify objects whose parent is in an array"
-    parentIn: [ID]
-    "Specify posts whose parent is not in an array"
-    parentNotIn: [ID]
-    "Show posts with a specific password."
-    password: String
-    "Show Posts based on a keyword search"
-    search: String
-    "Retrieve posts where post status is in an array."
-    stati: [PostStatusEnum]
-    "Show posts with a specific status."
-    status: PostStatusEnum
-    "Title of the object"
-    title: String
-}
-
 "Arguments for filtering the RootQueryToTermNodeConnection connection"
 input RootQueryToTermNodeConnectionWhereArgs {
     "Unique cache key to be produced when this query is stored in an object cache. Default is 'core'."
@@ -8485,28 +8138,6 @@ input UpdateTagInput {
     slug: String
 }
 
-"Input for the updateTeam mutation"
-input UpdateTeamInput {
-    "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions."
-    clientMutationId: String
-    "The content of the object"
-    content: String
-    "The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, \"2017\" as the input will use current date with timestamp 20:17 "
-    date: String
-    "The ID of the Team object"
-    id: ID!
-    "A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types."
-    menuOrder: Int
-    "The password used to protect the content of the object"
-    password: String
-    "The slug of the object"
-    slug: String
-    "The status of the object"
-    status: PostStatusEnum
-    "The title of the object"
-    title: String
-}
-
 "Input for the updateUser mutation"
 input UpdateUserInput {
     "User's AOL IM account."
@@ -8535,12 +8166,8 @@ input UpdateUserInput {
     nickname: String
     "A string that contains the plain text password for the user."
     password: String
-    "If true, this will refresh the users JWT secret."
-    refreshJwtUserSecret: Boolean
     "The date the user registered. Format is Y-m-d H:i:s."
     registered: String
-    "If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets."
-    revokeJwtUserSecret: Boolean
     "A string for whether to enable the rich editor or not. False if not empty."
     richEditing: String
     "An array of roles to be assigned to the user."
