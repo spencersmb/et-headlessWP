@@ -103,7 +103,7 @@ export async function getServerSideProps(context){
       post,
       foundStaticFile: false
     },
-    revalidate: 1,
+    // revalidate: 1,
   })
 
 }
