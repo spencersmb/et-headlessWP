@@ -2,7 +2,6 @@
 /*
 url ex: https://every-tuesday.com/api/preview/?postType=page&postId=8333
  */
-import { getAuthToken, getWPAuthToken } from '../../lib/utilities/cookies'
 import {isEmpty} from "lodash"
 import { getPreviewRedirectUrl } from '../../lib/utilities/redirects'
 export default async function preview(req, res){

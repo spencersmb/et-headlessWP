@@ -3,12 +3,13 @@ import PreviewPost from '../../../components/previewPage/previewPost'
 import { useRouter } from 'next/router'
 import { useLazyQuery } from '@apollo/client'
 import Layout from '../../../components/Layout/Layout'
-import { GET_PAGE_BY_ID } from '../../../lib/graphql/queries/page'
+import { GET_PAGE_BY_ID } from '../../../lib/graphql/queries/pages'
 import { useEffect } from 'react'
 import { useCookieAuth } from '../../../lib/authContext/authProvider'
+import { contextWithCredentials } from '../../../lib/auth/authApi'
 const PagePreview = () => {
   const router = useRouter()
-  const {loggedIn} = useCookieAuth()
+  const {wpAuth} = useCookieAuth()
   const id = router.query.id.toString()
 
   const [getPage, { data, loading, error}] = useLazyQuery(GET_PAGE_BY_ID, {
@@ -16,19 +17,14 @@ const PagePreview = () => {
     variables:{
       id
     },
-    context:{
-      credentials: 'include'
-    }
+    ...contextWithCredentials
   });
 
   useEffect(() => {
-    if(loggedIn){
-      console.log('refetch')
+    if(wpAuth.loggedIn){
       getPage()
     }
-  }, [loggedIn])
-  console.log('parent loggedIn', loggedIn)
-  console.log('render page parent', data)
+  }, [wpAuth.loggedIn, getPage])
 
   return(
     <Layout page={data?.page}>

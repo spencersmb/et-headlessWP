@@ -2,7 +2,7 @@
  * getAllMenus
  */
 import { initializeApollo } from '../apollo-client'
-import { QUERY_ALL_MENUS } from '../../graphqlData/menuGQL'
+import { QUERY_ALL_MENUS } from '../graphql/queries/menu'
 import { getLocalJsonFile } from '../utilities/localApi'
 
 export const MENU_LOCATION_NAVIGATION_DEFAULT = 'DEFAULT_NAVIGATION';

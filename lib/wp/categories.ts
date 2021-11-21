@@ -2,7 +2,7 @@
  * getCategories
  */
 import { initializeApollo } from '../apollo-client'
-import { QUERY_ALL_CATEGORIES } from '../../graphqlData/categoryGQL'
+import { QUERY_ALL_CATEGORIES } from '../graphql/queries/categories'
 
 export async function getCategories({ count }: {count: number} = {count: 1}) {
   const { categories } = await getAllCategories();

@@ -1,5 +1,4 @@
 import { useContext, createContext} from 'react'
-import { IMetaData } from '../../lib/wp/site'
 
 export interface IMenu{
   menuItems: IMenuItem[]

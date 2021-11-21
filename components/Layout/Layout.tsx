@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 import { BlogJsonLd, BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import useSite from '../../hooks/useSite'
 import { useRouter } from 'next/router'
@@ -7,23 +7,24 @@ import { jsonldImageObject, jsonldPerson, jsonldWebpage, jsonldWebsite } from '.
 import Nav from '../nav/nav'
 import Footer from '../footer/footer'
 import { defaultSeoImages } from '../../lib/wp/seo'
-import { useCookieAuth } from '../../lib/authContext/authProvider'
 
 interface IProps {
   children: ReactNode
   post?: IPost
   page?: {
+    title: string
     seo:{
       title: string
       opengraphModifiedTime: string
+      metaDesc: string
     }
   }
+  alternateNav?: ReactNode
 }
-function Layout ({children, post, page}: IProps){
+function Layout ({children, post, page, alternateNav}: IProps){
   const router = useRouter();
   const { asPath } = router;
   const { metadata } = useSite();
-
   const seoSettings:ISEOSETTINGS = {
     defaultTitle: metadata.title,
     title: metadata.title,
@@ -168,11 +169,6 @@ function Layout ({children, post, page}: IProps){
     jsonBreadCrumbs.itemListElements.concat([
       {
         position: 2,
-        name: 'Blog',
-        item: `${metadata.domain}/blog`,
-      },
-      {
-        position: 3,
         name: `${post.title}`,
         item: `${metadata.domain}${asPath}`
       },])
@@ -183,6 +179,7 @@ function Layout ({children, post, page}: IProps){
     seoSettings.openGraph = {
       ...seoSettings.openGraph,
       title: page.seo.title,
+      description: page.seo.metaDesc
     }
     seoSettings.additionalMetaTags = [
       {
@@ -190,6 +187,19 @@ function Layout ({children, post, page}: IProps){
         content: page.seo.opengraphModifiedTime
       }
     ]
+    seoSettings.description = page.seo.metaDesc
+    seoSettings.title = page.seo.title
+
+    jsonWebpageSettings.description = page.seo.metaDesc
+    jsonPersonSettings.description = page.seo.metaDesc
+
+    jsonBreadCrumbs.itemListElements.push(
+      {
+        position: 2,
+        name: `${page.seo.title}`,
+        item: `${metadata.domain}${asPath}`
+      },
+    )
   }
 
   return (
@@ -230,7 +240,7 @@ function Layout ({children, post, page}: IProps){
         description={post.seo.metaDesc}
       />}
       <BreadcrumbJsonLd {...jsonBreadCrumbs}/>
-      <Nav/>
+      {alternateNav ? alternateNav : <Nav/>}
       <main>
         {children}
       </main>

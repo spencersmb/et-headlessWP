@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import { GrPrevious as PreviousIcon, GrNext as NextIcon } from 'react-icons/gr';
 import { HiOutlineDotsHorizontal as Dots } from 'react-icons/hi';
 import { useQuery } from '@apollo/client'
-import { QUERY_POST_PER_PAGE } from '../../graphqlData/postsData'
+import { QUERY_POST_PER_PAGE } from '../../lib/graphql/queries/posts'
 import { getCurrentPage } from '../../lib/wp/posts'
 
 interface IProps {

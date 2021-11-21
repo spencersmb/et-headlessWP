@@ -2,7 +2,7 @@ import styles from '../pagination/Paginate.module.scss';
 import Link from 'next/link'
 import { GrNext as NextIcon, GrPrevious as PreviousIcon } from 'react-icons/gr'
 import { useQuery } from '@apollo/client'
-import { QUERY_ALL_POSTS, QUERY_NEXT_POSTS } from '../../graphqlData/postsData'
+import { QUERY_ALL_POSTS, QUERY_NEXT_POSTS } from '../../lib/graphql/queries/posts'
 import { flattenAllPosts } from '../../lib/wp/posts'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -11,7 +11,7 @@ const CursorPaginationDynamic = () => {
   const router = useRouter();
   const path = router.asPath
   const {page} = Object.fromEntries(new URLSearchParams(path.slice(2)));
-  const {loading, error, data, fetchMore, networkStatus} = useQuery(QUERY_NEXT_POSTS,{
+  const {loading, error, data, fetchMore} = useQuery(QUERY_NEXT_POSTS,{
     notifyOnNetworkStatusChange: true,
   });
   const posts = flattenAllPosts(data?.posts) || []

@@ -1,13 +1,3 @@
-import _ from 'lodash'
-import { IMetaData } from './site'
-
-export interface IOGType {
-  property: string,
-  content: string,
-}
-interface IFacebookOptions {
-  path?: string
-}
 
 export const metadata = {
   generalSettings: {

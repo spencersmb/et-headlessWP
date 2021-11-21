@@ -1,6 +1,6 @@
 
 import { initializeApollo } from '../apollo-client'
-import { QUERY_ALL_PAGES } from '../../graphqlData/pagesGQL'
+import { QUERY_ALL_PAGES } from '../graphql/queries/pages'
 /**
  * getTopLevelPages
  */

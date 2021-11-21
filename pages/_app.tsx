@@ -22,14 +22,17 @@ import {
   MENU_LOCATION_NAVIGATION_DEFAULT
 } from '../lib/wp/menu'
 import { getTopLevelPages } from '../lib/wp/pages'
-import { getMenu, getMetadata, getSiteMetadata, getStaticSiteMetadata, IMetaData } from '../lib/wp/site'
-import { QUERY_ALL_POSTS } from '../graphqlData/postsData'
-import { QUERY_ALL_PAGES } from '../graphqlData/pagesGQL'
+import { getMenu, getMetadata } from '../lib/wp/site'
+import { QUERY_ALL_POSTS } from '../lib/graphql/queries/posts'
+import { QUERY_ALL_PAGES } from '../lib/graphql/queries/pages'
 import { addCount } from '../lib/redux/counter/actions'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { SearchProvider } from '../hooks/useSearch'
 import path from 'path'
+import { getAuthToken, getResourceLibraryAuthToken } from '../lib/utilities/cookies'
+import { isEmpty } from 'lodash'
+import cookie from 'cookie'
 
 
 interface IProps {
@@ -48,30 +51,6 @@ function MyApp(props: MyAppProps) {
   const apolloClient = useApollo(pageProps)
   console.log('asPath', asPath)
 
-
-  // const DEFAULT_SEO = {
-  //   title: `Home - ${metadata.title}`,
-  //   description: metadata.description,
-  //   openGraph: {
-  //     type: 'website',
-  //     locale: 'en_IE',
-  //     url: metadata.domain + asPath,
-  //     title: metadata.title,
-  //     description: metadata.description,
-  //     image:
-  //       // need defaul image
-  //       'https://prismic-io.s3.amazonaws.com/gary-blog%2F3297f290-a885-4cc6-9b19-3235e3026646_default.jpg',
-  //     site_name: metadata.siteTitle,
-  //     imageWidth: 1200,
-  //     imageHeight: 1200
-  //   },
-  //   twitter: {
-  //     handle: `@${metadata.social.twitter.username}`,
-  //     cardType: 'summary_large_image'
-  //   }
-  // };
-
-
   return(
     <>
       <Head>
@@ -80,10 +59,8 @@ function MyApp(props: MyAppProps) {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny"/>
         <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l"/>
-        {/*<title>Home - {metadata.title}</title>*/}
-
+        <title>Home - {metadata.title}</title>
       </Head>
-      {/*<NextSeo {...DEFAULT_SEO} />*/}
       <ApolloProvider client={apolloClient}>
         <SiteContext.Provider value={{
           menus,
@@ -110,6 +87,19 @@ function MyApp(props: MyAppProps) {
 
 MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
+  const isServer = typeof window === 'undefined'
+  const auth = {
+    loggedIn: false,
+    modal:{
+      open: false,
+      component: null
+    }
+  }
+
+  if(isServer){
+    const resourceAuthToken = getResourceLibraryAuthToken(appContext.ctx.req)
+    auth.loggedIn = !isEmpty(resourceAuthToken)
+  }
 
 
   // const { posts: recentPosts } = await getRecentPosts({
@@ -133,13 +123,7 @@ MyApp.getInitialProps = async (appContext) => {
 
   // AUTH EXAMPLE
   // const auth = await getUser(appContext.ctx)
-  const auth = {
-    loggedIn: false,
-    modal:{
-      open: false,
-      component: null
-    }
-  }
+
 
   // const apolloClient = initializeApollo()
   //

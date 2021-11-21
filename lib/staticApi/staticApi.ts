@@ -2,7 +2,8 @@ import path from 'path'
 import fs from 'fs/promises'
 import { initializeApollo } from '../apollo-client'
 import { flattenAllPosts, flattenPost, mapPostData } from '../wp/posts'
-import { QUERY_ALL_POSTS, QUERY_PAGE_BY_ID, QUERY_POST_BY_SLUG } from '../../graphqlData/postsData'
+import { QUERY_ALL_POSTS, QUERY_POST_BY_SLUG } from '../graphql/queries/posts'
+import { GET_PAGE_BY_ID } from '../graphql/queries/pages'
 
 export async function getStaticFile({fileName, dir}){
   let result: any = {}
@@ -145,7 +146,7 @@ export async function getSingleStaticPage({pageSlug, pageID}){
     page = mapPostData(result.pages[pageSlug])
   }else {
     data = await apolloClient.query({
-      query: QUERY_PAGE_BY_ID,
+      query: GET_PAGE_BY_ID,
       variables: {
         pageID
       },

@@ -1,5 +1,6 @@
 import { IMenuItem } from '../../hooks/useSite'
 import Link from 'next/link';
+import { useCookieAuth } from '../../lib/authContext/authProvider'
 
 interface IProps {
   dropDownClassNames?: string
@@ -8,11 +9,20 @@ interface IProps {
 
 const NavMenuItem = (props: IProps) => {
   const {item, dropDownClassNames} = props
+  const {resourceAuth} = useCookieAuth()
+  const link = checkLibraryPath()
+
+  function checkLibraryPath (){
+    if(props.item.path === '/resource-library' && resourceAuth.loggedIn){
+      return '/resource-library/members'
+    }
+    return props.item.path
+  }
 
   return(
     <li key={item.id}>
       {!item.path.includes('http') && !item.target && (
-        <Link href={item.path}>
+        <Link href={link}>
           <a title={item.title}>{item.label}</a>
         </Link>
       )}

@@ -2,6 +2,7 @@ import { authInitialState, EssGridAuthContext, IEssAuthState } from './authConte
 import React, { createContext, ReactElement, useContext } from 'react'
 import { authReducer } from './authReducer'
 import { ApolloError, gql, useQuery } from '@apollo/client'
+import { contextWithCredentials } from '../auth/authApi'
 
 interface IProps {
   auth: IEssAuthState
@@ -17,17 +18,29 @@ export interface User {
 }
 
 interface AuthData {
-  loggedIn: boolean;
-  user?: User,
-  loading: boolean;
-  error?: ApolloError;
+  resourceAuth:IEssAuthState
+  wpAuth:{
+    loggedIn: boolean;
+    user?: User,
+    loading: boolean;
+    error?: ApolloError;
+  }
 }
 
 const DEFAULT_STATE: AuthData = {
-  loggedIn: false,
-  user: undefined,
-  loading: false,
-  error: undefined,
+  resourceAuth: {
+    loggedIn: false,
+    modal:{
+      open: false,
+      component: null
+    }
+  },
+  wpAuth:{
+    loggedIn: false,
+    user: undefined,
+    loading: false,
+    error: undefined,
+  }
 };
 const GET_USER = gql`
     query getUser {
@@ -49,24 +62,24 @@ export const useCookieAuth = () => useContext(AuthContext);
 const WpAuthProvider = ({auth, children}: IProps) => {
 
   const { data, loading, error } = useQuery(GET_USER, {
-    context:{
-      credentials: 'include'
-    }
+    ...contextWithCredentials
   });
-  console.log('EssAuthProvider user', data)
 
   const user = data?.viewer;
   const loggedIn = Boolean(user);
 
   const value = {
-    loggedIn,
-    user,
-    loading,
-    error,
+    resourceAuth: auth,
+    wpAuth:{
+      loggedIn,
+      user,
+      loading,
+      error,
+    }
   };
 
-  // const [state, dispatch] = React.useReducer(authReducer, auth)
-  // const value = {state, dispatch}
+  console.log('EssAuthProvider', value)
+
   return <AuthContext.Provider value={value}>
     {children}
   </AuthContext.Provider>

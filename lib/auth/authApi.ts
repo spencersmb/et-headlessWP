@@ -2,6 +2,16 @@ import { initializeApollo } from '../apollo-client'
 import { Auth, REFRESH_LOGIN } from '../graphql/mutations/auth'
 import { v4 } from 'uuid';
 
+
+export const contextWithCredentials = {
+  context:{
+    credentials: 'include'
+  }
+}
+
+/*
+ USED FOR JWT TOKENS
+ */
 export async function loginUser( {username, password} ) {
   console.log('username', username)
   console.log('password', password)

@@ -1,45 +1,8 @@
-/**
- * getSiteMetadata
- */
 import { initializeApollo } from '../apollo-client'
 import { QUERY_SEO_DATA, QUERY_SITE_DATA } from '../../graphqlData/siteGQL'
 import { getLocalJsonFile } from '../utilities/localApi'
 import { metadata } from './seo'
 
-export interface ISocialTwitter {
-  username: string
-  cardType: string
-  url: string
-}
-export interface ISocialFacebook {
-  url: string
-  defaultImage: {
-    altText: string
-    mediaDetails: {
-      height: number
-      width: number
-    }
-    sourceUrl: string
-  }
-}
-
-type ISocialSettings = {
-  twitter?: ISocialTwitter
-  facebook?: ISocialFacebook
-  pinterest?: string
-  instagram?: string
-  youtube?: string
-}
-
-export interface IMetaData {
-  title: string
-  domain: string
-  siteTitle: string
-  description: string
-  language: string
-  social?: ISocialSettings
-  webmaster?: any
-}
 export async function getSiteMetadata() {
   const apolloClient = initializeApollo();
 
@@ -322,7 +285,41 @@ export function getMenu(){
             featured: {
               courses: null
             }
-          }
+          },
+          {
+            childItems: {
+              edges: []
+            },
+            id: "cG9zdDo4Njk3",
+            title: null,
+            cssClasses: [],
+            parentId: null,
+            label: "Resource Library",
+            path: "/resource-library",
+            target: null,
+            featured: {
+              courses: [
+                {
+                  id: "cG9zdDo4MzM5",
+                  details: {
+                    url: "http://learn.every-tuesday.com/3d-lettering-in-procreate"
+                  }
+                },
+                {
+                  id: "cG9zdDo4MTI2",
+                  details: {
+                    url: null
+                  }
+                },
+                {
+                  id: "cG9zdDo3Njk5",
+                  details: {
+                    url: null
+                  }
+                }
+              ]
+            }
+          },
         ]
       }
     ],

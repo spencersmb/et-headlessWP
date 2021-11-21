@@ -45,3 +45,36 @@ interface IjsonldWebpage {
   modifiedTime: string
   description: string
 }
+
+interface ISocialTwitter {
+  username: string
+  cardType: string
+  url: string
+}
+interface ISocialFacebook {
+  url: string
+  defaultImage: {
+    altText: string
+    mediaDetails: {
+      height: number
+      width: number
+    }
+    sourceUrl: string
+  }
+}
+type ISocialSettings = {
+  twitter?: ISocialTwitter
+  facebook?: ISocialFacebook
+  pinterest?: string
+  instagram?: string
+  youtube?: string
+}
+interface IMetaData {
+  title: string
+  domain: string
+  siteTitle: string
+  description: string
+  language: string
+  social?: ISocialSettings
+  webmaster?: any
+}

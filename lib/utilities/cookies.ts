@@ -2,7 +2,7 @@ import cookie from 'cookie';
 import { IAuthToken } from '../auth/authApi'
 
 export function parseCookies( req ) {
-  return cookie.parse( req ? req.headers.cookie : '' );
+  return cookie.parse( req.headers?.cookie || '' );
 }
 
 export function getAuthToken( req ): IAuthToken | string {
@@ -10,10 +10,10 @@ export function getAuthToken( req ): IAuthToken | string {
   return cookies.auth ? JSON.parse(cookies.auth) : '' ;
 }
 
-export function getWPAuthToken( req ) {
+export function getResourceLibraryAuthToken( req ): IAuthToken | string {
   const cookies = parseCookies( req );
   console.log('cookies', cookies)
-  return '';
-}
 
+  return cookies.resourceAuth ? cookies.resourceAuth : '' ;
+}
 

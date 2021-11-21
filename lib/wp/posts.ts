@@ -1,5 +1,5 @@
 import { APOLLO_STATE_PROP_NAME, initializeApollo } from '../apollo-client'
-import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../../graphqlData/postsData'
+import { QUERY_ALL_POSTS, QUERY_POST_PER_PAGE } from '../graphql/queries/posts'
 import { sortObjectsByDate } from '../utilities/dateTime'
 
 /**
