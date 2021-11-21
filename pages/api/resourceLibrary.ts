@@ -7,10 +7,10 @@ export default async function resourceLibraryAPI( req, res ) {
     res.status(401).send({
       error: {
         status: 401,
-        message: `Incorrect password: ${process.env.RESOURCE_LIBRARY_PW}`,
+        message: `Incorrect password`,
       },
     });
-    res.end()
+    return
   }
   try {
     /**
