@@ -159,7 +159,7 @@ const Nav = () => {
         {/* LOGO */}
         <p className={styles.navName}>
           <Link href="/" >
-            <a>{metadata.title}</a>
+            <a className=''>{metadata.title}</a>
           </Link>
         </p>
 

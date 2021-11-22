@@ -49,7 +49,7 @@ function Home(props) {
     <Layout >
     <div className={styles.container}>
 
-      <h1 className={styles.title}>Welcome to our demo blog!</h1>
+      <h1 style={{fontSize: '48px'}} className='font-sentinel__SemiBoldItal'>Welcome to our demo blog!</h1>
       <AddCount />
       {/*<Clock lastUpdate={props.tick.lastUpdate} light={props.tick.light}/>*/}
       {/*<Counter />*/}

@@ -245,6 +245,7 @@ function Layout ({children, post, page, alternateNav}: IProps){
         {children}
       </main>
       <Footer />
+      {/*INSERT MODAL HERE*/}
     </div>
   )
 }

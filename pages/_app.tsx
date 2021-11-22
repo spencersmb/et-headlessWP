@@ -60,6 +60,8 @@ function MyApp(props: MyAppProps) {
         <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny"/>
         <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l"/>
         <title>Home - {metadata.title}</title>
+        <link rel="preload" href="/fonts/sentinel/Sentinel-SemiboldItal.woff" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/sentinel/Sentinel-SemiboldItal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </Head>
       <ApolloProvider client={apolloClient}>
         <SiteContext.Provider value={{

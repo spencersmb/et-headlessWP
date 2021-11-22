@@ -1,3 +1,46 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root{
+  --slateGreen: #486e65;
+}
+
+@font-face {
+  font-family: "Sentinel Book";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/sentinel/Sentinel-Book.woff") format("woff");
+  src: url("/fonts/sentinel/Sentinel-Book.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Sentinel SemiBold";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/fonts/sentinel/Sentinel-Semibold.woff") format("woff");
+  src: url("/fonts/sentinel/Sentinel-Semibold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Sentinel SemiBoldItal";
+  font-style: italic;
+  font-weight: 600;
+  src: url("/fonts/sentinel/Sentinel-SemiboldItal.woff") format("woff");
+  src: url("/fonts/sentinel/Sentinel-SemiboldItal.woff2") format("woff2");
+}
+
+/*
+  Example of adding my own class
+ */
+
+@layer components {
+  .customClass{
+    @apply relative flex text-center
+           hover: bg-green-800;
+  }
+}
+
 html,
 body {
   padding: 0;
@@ -14,3 +57,5 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
