@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import App from "next/app"
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
-import { addApolloState, initializeApollo, useApollo } from '../lib/apollo-client'
+import { useApollo } from '../lib/apollo-client'
 import type { AppProps } from 'next/app'
 import WpAuthProvider from '../lib/authContext/authProvider'
 import { SiteContext } from '../hooks/useSite'
@@ -11,28 +11,13 @@ import NextNProgress from 'nextjs-progressbar';
 import { Provider } from 'react-redux'
 import { wrapper } from '../lib/redux/store'
 import store from '../lib/redux-toolkit/store'
-import { flattenAllPosts, getRecentPosts } from '../lib/wp/posts'
 import { increment } from '../components/counter/counterSlice'
-import { getCategories } from '../lib/wp/categories'
-import {
-  createMenuFromPages,
-  getAllMenus,
-  getStaticMenus,
-  mapMenuData,
-  MENU_LOCATION_NAVIGATION_DEFAULT
-} from '../lib/wp/menu'
-import { getTopLevelPages } from '../lib/wp/pages'
 import { getMenu, getMetadata } from '../lib/wp/site'
-import { QUERY_ALL_POSTS } from '../lib/graphql/queries/posts'
-import { QUERY_ALL_PAGES } from '../lib/graphql/queries/pages'
 import { addCount } from '../lib/redux/counter/actions'
 import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
 import { SearchProvider } from '../hooks/useSearch'
-import path from 'path'
-import { getAuthToken, getResourceLibraryAuthToken } from '../lib/utilities/cookies'
+import { getResourceLibraryAuthToken } from '../lib/utilities/cookies'
 import { isEmpty } from 'lodash'
-import cookie from 'cookie'
 
 
 interface IProps {
@@ -60,7 +45,6 @@ function MyApp(props: MyAppProps) {
         <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny"/>
         <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l"/>
         <title>Home - {metadata.title}</title>
-        <link rel="preload" href="/fonts/sentinel/Sentinel-SemiboldItal.woff" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/sentinel/Sentinel-SemiboldItal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </Head>
       <ApolloProvider client={apolloClient}>
@@ -102,8 +86,6 @@ MyApp.getInitialProps = async (appContext) => {
     const resourceAuthToken = getResourceLibraryAuthToken(appContext.ctx.req)
     auth.loggedIn = !isEmpty(resourceAuthToken)
   }
-
-
   // const { posts: recentPosts } = await getRecentPosts({
   //   count: 5,
   // });
@@ -114,32 +96,10 @@ MyApp.getInitialProps = async (appContext) => {
   //
   const { menus } = getMenu()
 
-  // const defaultNavigation = createMenuFromPages({
-  //   locations: [MENU_LOCATION_NAVIGATION_DEFAULT],
-  //   pages: await getTopLevelPages(),
-  // });
-  //
-  // menus.push(defaultNavigation) // SO far do not need this
-
   const metadata = getMetadata()
 
   // AUTH EXAMPLE
   // const auth = await getUser(appContext.ctx)
-
-
-  // const apolloClient = initializeApollo()
-  //
-  // const data = await apolloClient.query({
-  //   query: QUERY_ALL_PAGES,
-  // })
-  //
-  // const flattendPosts = flattenAllPosts(data?.data.pages) || []
-  //
-  // return addApolloState(apolloClient, {
-  //   ...appProps,
-  //   auth,
-  //   pages: flattendPosts
-  // })
 
   return {
     ...appProps,

@@ -12,7 +12,6 @@ export function getAuthToken( req ): IAuthToken | string {
 
 export function getResourceLibraryAuthToken( req ): IAuthToken | string {
   const cookies = parseCookies( req );
-  console.log('cookies', cookies)
 
   return cookies.resourceAuth ? cookies.resourceAuth : '' ;
 }

@@ -5,6 +5,9 @@ interface IProps {
 }
 const PreviewPost = ({loading, post, page}: IProps) => {
 
+  console.log('post', post)
+  console.log('page', page)
+
   if(loading){
     return (
       <div>Loading preview page...</div>

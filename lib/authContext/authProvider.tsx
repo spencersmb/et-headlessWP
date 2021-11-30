@@ -3,6 +3,7 @@ import React, { createContext, ReactElement, useContext } from 'react'
 import { authReducer } from './authReducer'
 import { ApolloError, gql, useQuery } from '@apollo/client'
 import { contextWithCredentials } from '../auth/authApi'
+import { GET_USER } from '../graphql/queries/user'
 
 interface IProps {
   auth: IEssAuthState
@@ -42,18 +43,7 @@ const DEFAULT_STATE: AuthData = {
     error: undefined,
   }
 };
-const GET_USER = gql`
-    query getUser {
-        viewer {
-            id
-            databaseId
-            firstName
-            lastName
-            email
-            capabilities
-        }
-    }
-`;
+
 const AuthContext = createContext(DEFAULT_STATE);
 AuthContext.displayName = 'WPAuthContext'
 

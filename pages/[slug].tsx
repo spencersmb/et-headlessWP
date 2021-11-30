@@ -66,7 +66,6 @@ export async function getServerSideProps(context){
   // const filenames = await fs.readdir(postsDirectory)
   // console.log('filenames', filenames)
 
-  console.log('context', context)
   const {params} = context
 
   // const apolloClient = initializeApollo()

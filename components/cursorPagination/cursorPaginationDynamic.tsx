@@ -35,15 +35,17 @@ const CursorPaginationDynamic = () => {
 
   console.log('current Page', currentPage)
   console.log('loading', loading)
+  console.log('posts', posts)
+
 
   return (
     <div className={styles.container}>
       <ol>
         {posts
-          .filter((post,index) => {
-            // return index < currentPage * 10
-            return index
-          } )
+          // .filter((post,index) => {
+          //   // return index < currentPage * 10
+          //   return index
+          // } )
           .map((post) => (
             <li key={post.id}>
               <Link href={`/${post.slug}`}>

@@ -7,6 +7,8 @@ import PreviewPost from '../../../components/previewPage/previewPost'
 import { useLazyQuery } from '@apollo/client'
 import { useCookieAuth } from '../../../lib/authContext/authProvider'
 import { useEffect } from 'react'
+import PreviewAuthSSR from '../../../components/previewPage/previewAuthSSR'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 const PostPreview = () => {
   const router = useRouter()
@@ -36,3 +38,6 @@ const PostPreview = () => {
 }
 
 export default PostPreview
+
+export const getServerSideProps = PreviewAuthSSR()
+

@@ -91,7 +91,6 @@ const Login = () => {
       },
     ],
     ...contextWithCredentials
-
   });
 
   function onCookieFormSubmit(event){
@@ -125,6 +124,41 @@ const Login = () => {
     }else{
       setClientSideError( validationResult );
     }
+  }
+
+  function tempLogin (){
+    const user = {
+      username: 'teelac',
+      password: 'Sparkles0626311?!'
+    }
+    const query = `
+  mutation logIn($login: String!, $password: String!) {
+      loginWithCookies(input: {
+          login: $login
+          password: $password
+      }) {
+          status
+      },
+  }
+  `
+    const variables = {
+      login: user.username,
+      password: user.password
+    }
+    return fetch(process.env.NEXT_PUBLIC_WP_API_URL, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      // @ts-ignore
+      // agent,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    })
   }
 
   useEffect(() => {
@@ -171,6 +205,7 @@ const Login = () => {
           {loading ? <p>Loading...</p> : null  }
         </form>
       </div>
+      <button onClick={tempLogin}>LOGIN</button>
     </Layout>
   );
 };

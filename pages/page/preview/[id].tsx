@@ -12,13 +12,13 @@ const PagePreview = () => {
   const {wpAuth} = useCookieAuth()
   const id = router.query.id.toString()
 
-  const [getPage, { data, loading, error}] = useLazyQuery(GET_PAGE_BY_ID, {
-    notifyOnNetworkStatusChange: true,
-    variables:{
-      id
-    },
-    ...contextWithCredentials
-  });
+    const [getPage, { data, loading, error}] = useLazyQuery(GET_PAGE_BY_ID, {
+      notifyOnNetworkStatusChange: true,
+      variables:{
+        id
+      },
+      ...contextWithCredentials
+    });
 
   useEffect(() => {
     if(wpAuth.loggedIn){
