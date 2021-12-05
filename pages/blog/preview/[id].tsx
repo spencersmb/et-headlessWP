@@ -39,5 +39,5 @@ const PostPreview = () => {
 
 export default PostPreview
 
-export const getServerSideProps = PreviewAuthSSR()
+// export const getServerSideProps = PreviewAuthSSR()
 

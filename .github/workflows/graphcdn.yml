@@ -5,6 +5,8 @@ on:
       - main
       - master
       - trunk
+env:
+  GRAPHCDN_TOKEN: ${{ secrets.GRAPHCDN_TOKEN }}
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -17,5 +19,4 @@ jobs:
 
       - name: Push schema
         run: npx graphcdn push
-        env:
-          GRAPHCDN_TOKEN: ${{ secrets.GRAPHCDN_TOKEN }}
+
