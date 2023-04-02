@@ -2,17 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://et-headless-wp.vercel.app/</loc>
-    <lastmod>2021-11-30T20:58:05.205Z</lastmod>
+    <lastmod>2023-04-02T19:54:54.157Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//homepage</loc>
+    <loc>https://et-headless-wp.vercel.app//bl</loc>
     <priority>0.3</priority>
-    <lastmod>2021-10-14T17:55:57.000Z</lastmod>
+    <lastmod>1970-01-01T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//404-2</loc>
+    <loc>https://et-headless-wp.vercel.app//5x-bonuses</loc>
     <priority>0.3</priority>
-    <lastmod>2021-10-14T17:33:25.000Z</lastmod>
+    <lastmod>1970-01-01T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://et-headless-wp.vercel.app//ess-grid-test</loc>
+    <priority>0.3</priority>
+    <lastmod>2020-11-20T03:33:46.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://et-headless-wp.vercel.app//infinityscroll-test</loc>
+    <priority>0.3</priority>
+    <lastmod>2020-11-18T16:47:28.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://et-headless-wp.vercel.app//florals-bonuses</loc>
+    <priority>0.3</priority>
+    <lastmod>1970-01-01T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://et-headless-wp.vercel.app//procreate-watercolor-bonuses</loc>
+    <priority>0.3</priority>
+    <lastmod>2019-09-21T19:13:55.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://et-headless-wp.vercel.app//terms-conditions</loc>
+    <priority>0.3</priority>
+    <lastmod>2020-04-14T16:11:41.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://et-headless-wp.vercel.app//procreate-bonuses</loc>
+    <priority>0.3</priority>
+    <lastmod>2019-08-29T02:22:49.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//3d-skillshare</loc>
@@ -32,7 +62,7 @@
   <url>
     <loc>https://et-headless-wp.vercel.app//homepage-paintstreaks</loc>
     <priority>0.3</priority>
-    <lastmod>2018-11-14T15:27:35.000Z</lastmod>
+    <lastmod>2021-11-17T18:45:28.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//5-font-making-rookie-mistakes</loc>
@@ -77,7 +107,7 @@
   <url>
     <loc>https://et-headless-wp.vercel.app//privacy-policy</loc>
     <priority>0.3</priority>
-    <lastmod>2018-05-30T09:08:18.000Z</lastmod>
+    <lastmod>2020-05-08T01:48:54.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//blog</loc>
@@ -112,12 +142,12 @@
   <url>
     <loc>https://et-headless-wp.vercel.app//courses</loc>
     <priority>0.3</priority>
-    <lastmod>2017-02-26T10:10:31.000Z</lastmod>
+    <lastmod>2021-04-30T21:22:42.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//products</loc>
     <priority>0.3</priority>
-    <lastmod>2017-02-26T10:11:38.000Z</lastmod>
+    <lastmod>2019-11-16T16:05:48.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//glitz-glam-kit</loc>
@@ -132,147 +162,147 @@
   <url>
     <loc>https://et-headless-wp.vercel.app//success</loc>
     <priority>0.3</priority>
-    <lastmod>2017-02-26T07:43:26.000Z</lastmod>
+    <lastmod>2021-08-21T03:40:00.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//resources</loc>
     <priority>0.3</priority>
-    <lastmod>2018-08-10T18:12:21.000Z</lastmod>
+    <lastmod>2020-09-21T23:17:27.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//licenses</loc>
     <priority>0.3</priority>
-    <lastmod>2017-02-26T06:03:34.000Z</lastmod>
+    <lastmod>2021-04-09T03:42:48.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//about</loc>
     <priority>0.3</priority>
-    <lastmod>2018-08-11T06:11:41.000Z</lastmod>
+    <lastmod>2019-11-16T16:00:07.000Z</lastmod>
   </url>
   <url>
     <loc>https://et-headless-wp.vercel.app//contact</loc>
     <priority>0.3</priority>
-    <lastmod>2018-12-22T23:40:06.000Z</lastmod>
+    <lastmod>2019-04-01T02:27:53.000Z</lastmod>
   </url>
 
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-march-2019-desktop-wallpapers</loc>
-    <lastmod>2021-11-07T22:32:12.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//create-candy-cane-lettering-procreate</loc>
+    <lastmod>2022-12-20T06:28:52.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//cute-notebook-icon-adobe-illustrator</loc>
-    <lastmod>2021-10-10T01:57:58.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//holiday-gift-tag-gouache-details-procreate</loc>
+    <lastmod>2022-09-15T19:18:33.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//heart-shape</loc>
-    <lastmod>2021-10-10T01:58:28.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//merry-easy-evergreen-doodles-procreate</loc>
+    <lastmod>2022-08-26T03:49:33.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-february-2019-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:58:22.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//lettering-enhancements-procreate</loc>
+    <lastmod>2021-11-08T03:48:33.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//peeling-sticker-lettering-effect-procreate</loc>
-    <lastmod>2021-10-10T01:58:18.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//quick-tip-lettering-curve-procreate</loc>
+    <lastmod>2021-11-02T04:31:51.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//bullet-journal-weekly-planner-design</loc>
-    <lastmod>2021-10-10T01:57:59.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//spooky-spider-lettering-animation-procreate</loc>
+    <lastmod>2021-10-22T20:38:03.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//resolutions-checklist-illustrator</loc>
-    <lastmod>2021-10-10T01:58:02.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//draw-3-fall-doodle-wreaths-procreate</loc>
+    <lastmod>2021-10-16T02:46:58.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-january-2019-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:58:32.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//washi-taped-fall-post-it-procreate</loc>
+    <lastmod>2021-10-07T21:40:39.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//winter-watercolor-gift-tags-illustrator</loc>
-    <lastmod>2021-10-10T01:58:04.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-vase-fall-florals-procreate</loc>
+    <lastmod>2021-10-03T21:43:35.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-december-2018-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:58:38.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//draw-leaf-shapes</loc>
+    <lastmod>2021-09-27T02:44:36.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//winter-watercolor-holiday-postcard</loc>
-    <lastmod>2021-10-10T01:58:09.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//leafy-depth-illusion-procreate</loc>
+    <lastmod>2021-09-21T01:13:12.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//3d-lettering-in-procreate</loc>
-    <lastmod>2021-10-10T01:58:27.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//strawberry-gouache-painting-procreate</loc>
+    <lastmod>2021-09-14T03:57:49.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//masking-in-procreate</loc>
-    <lastmod>2021-10-10T01:58:33.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//watercolor-line-art-bouquet-procreate</loc>
+    <lastmod>2021-09-09T01:08:10.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-november-2018-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:58:42.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//3d-lettering-beginners-procreate</loc>
+    <lastmod>2021-08-21T20:15:12.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//halloween-lettering</loc>
-    <lastmod>2021-10-10T01:58:35.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//washi-taped-flowers-procreate</loc>
+    <lastmod>2021-08-16T20:00:36.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//pattern-brushes-corners</loc>
-    <lastmod>2021-10-10T01:58:39.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//add-depth-lettering-procreate</loc>
+    <lastmod>2021-08-08T21:19:21.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-october-2018-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:58:46.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//line-art-florals-beginners-procreate</loc>
+    <lastmod>2021-08-04T02:31:11.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//vector-coffee-icon-adobe-illustrator</loc>
-    <lastmod>2021-10-10T01:58:48.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//make-custom-neon-procreate-brush</loc>
+    <lastmod>2021-08-04T02:32:07.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//favorite-lettering-supplies-font-making</loc>
-    <lastmod>2021-10-10T01:58:49.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//3-ways-to-install-custom-fonts-in-procreate</loc>
+    <lastmod>2021-07-20T19:14:40.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-september-2018-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:58:53.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//flat-summer-florals-procreate</loc>
+    <lastmod>2021-08-04T02:32:31.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//metallic-watercolors</loc>
-    <lastmod>2021-10-10T01:59:00.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//3d-hatched-shadow-effect-procreate</loc>
+    <lastmod>2021-07-05T23:11:30.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//easy-ribbons-in-procreate</loc>
-    <lastmod>2021-10-10T01:59:04.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//easy-floral-lettering-one-brush-procreate</loc>
+    <lastmod>2021-07-05T00:59:51.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//watercolor-jewel-using-brush-pens</loc>
-    <lastmod>2021-10-10T01:59:19.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-asymmetrical-wreath-procreate</loc>
+    <lastmod>2021-06-22T20:51:31.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-august-2018-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:59:24.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//fathers-day-popsicle-art-procreate</loc>
+    <lastmod>2021-06-22T20:59:26.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//illustrator-trace-settings-vectorize-lettering</loc>
-    <lastmod>2021-10-10T01:59:26.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-gouache-wheelbarrow-flowers-procreate</loc>
+    <lastmod>2021-06-22T20:53:25.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//save-and-export-patterns-in-illustrator</loc>
-    <lastmod>2021-10-10T01:59:28.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-gouache-herb-garden-procreate</loc>
+    <lastmod>2021-06-14T15:00:46.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-july-2018-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:59:34.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-gouache-gardening-supplies-procreate-new-gardening-series</loc>
+    <lastmod>2021-06-12T21:34:56.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//improve-your-brush-lettering</loc>
-    <lastmod>2021-10-10T01:59:47.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-messy-gouache-wildflowers-procreate</loc>
+    <lastmod>2021-05-31T20:37:37.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//fathers-day-card-using-brusho</loc>
-    <lastmod>2021-10-10T01:59:50.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-gouache-fiddle-leaf-fig-tree-procreate</loc>
+    <lastmod>2021-05-31T20:39:49.000Z</lastmod>
   </url>
   <url>
-    <loc>https://et-headless-wp.vercel.app//freebie-june-2018-desktop-wallpapers</loc>
-    <lastmod>2021-10-10T01:59:56.000Z</lastmod>
+    <loc>https://et-headless-wp.vercel.app//paint-mothers-day-gouache-florals-procreate</loc>
+    <lastmod>2021-06-01T00:33:40.000Z</lastmod>
   </url>
 </urlset>

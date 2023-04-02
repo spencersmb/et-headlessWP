@@ -7,7 +7,7 @@
     ],
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "https://etheadless.wpengine.com/graphql",
+        "url": "https://api.every-tuesday.com/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

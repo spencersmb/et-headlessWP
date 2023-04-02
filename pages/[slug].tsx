@@ -6,20 +6,21 @@ import Layout from '../components/Layout/Layout'
 import path from 'path'
 import fs from 'fs/promises'
 import { getAllStaticPaths, getSingleStaticPost } from '../lib/staticApi/staticApi'
+import { gql } from '@apollo/client'
 
 interface IProps {
   post: IPost
   foundStaticFile: boolean
 }
-function Post(props: IProps){
-  const {post} = props
+function Post(props: IProps) {
+  const { post } = props
   console.log('props.foundStaticFile', props.foundStaticFile)
 
   return (
-    <Layout post={post}>
+    <Layout >
       <div>
         <h1>{post.title}</h1>
-        <div dangerouslySetInnerHTML={{__html: post.content}} />
+        <div dangerouslySetInnerHTML={{ __html: post.content }} />
         <Link href='/'>
           <a>home</a>
         </Link>
@@ -30,82 +31,72 @@ function Post(props: IProps){
 
 export default Post
 
-
-// to build all postsStatically
-// - must have fallback set to false
-// - local env set to 100
-
-// export async function getStaticPaths(){
-//   console.log('run get getStaticPaths')
-//
-//   // const {posts} = await getAllStaticPaths()
-//   const apolloClient = initializeApollo()
-//
-//   /*
-//   Change to QUERY_NEXT_POST if switching to real pagination method
-//    */
-//   const data = await apolloClient.query({
-//     query: QUERY_NEXT_POSTS,
-//     // variables: {count: parseInt(process.env.NEXT_GET_ALL_PAGES_COUNT)}
-//   })
-//   const posts = flattenAllPosts(data?.data.posts) || []
-//   const slugs = posts.map(post => post.slug)
-//
-//   //
-//   // const data = await getLocalJsonFile('public', 'wp-search.json')
-//   // const slugs = data.posts.map(post => post.slug)
-//   const params = slugs.map(slug => ({params:{slug: slug.toString()}}))
-//
-//   return{
-//     paths: params,
-//     fallback: "blocking"
-//   }
-// }
-export async function getServerSideProps(context){
-  // const postsDirectory = path.join(process.cwd(), 'public')
-  // const filenames = await fs.readdir(postsDirectory)
-  // console.log('filenames', filenames)
-
-  const {params} = context
-
-  // const apolloClient = initializeApollo()
-
-  /**
-   * STATIC
-   */
-
-  // const {post, apolloClient, foundStaticFile} = await getSingleStaticPost(params)
-
-  /**
-   * WITH-APOLLO
-   */
-  const apolloClient = initializeApollo()
+export async function getStaticPaths() {
+  const apolloClient = initializeApollo();
 
   const data = await apolloClient.query({
-    query: QUERY_POST_BY_SLUG,
-    variables: {
-      slug: params.slug
-    },
-  })
-
-  const post = flattenPost(data?.data?.postBy)
-
-  if (Object.keys(post).length === 0) {
-    return addApolloState(apolloClient, {
-        notFound: true,
+    query: gql`
+      {
+        posts(first: 1000) {
+          edges {
+            node {
+              id
+              title
+              slug
+            }
+          }
+        }
       }
-    )
-  }
+    `,
+  });
+  console.log('data', data)
 
-  return addApolloState(apolloClient, {
+  // const posts = data?.data.posts.edges.map(({ node }) => node);
+  const posts = []
+
+  return {
+    paths: posts.map(({ slug }) => {
+      return {
+        params: {
+          postSlug: 'create-candy-cane-lettering-procreate'
+        }
+      }
+    }),
+    fallback: 'blocking'
+  }
+}
+
+
+export async function getStaticProps({ params = {} }: any = {}) {
+  const { postSlug } = params;
+
+  const apolloClient = initializeApollo();
+
+  const data = await apolloClient.query({
+    query: gql`
+      query PostBySlug($slug: String!) {
+        postBy(slug: $slug) {
+          id
+          content
+          title
+          slug
+        }
+      }
+    `,
+    variables: {
+      slug: 'create-candy-cane-lettering-procreate'
+    }
+  });
+
+  const post = data?.data.postBy;
+  return {
     props: {
       post,
-      foundStaticFile: false
     },
-    // revalidate: 1,
-  })
-
+    revalidate: 86400
+  }
 }
+
 
 
 
