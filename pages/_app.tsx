@@ -7,7 +7,6 @@ import type { AppProps } from 'next/app'
 import WpAuthProvider from '../lib/authContext/authProvider'
 import { SiteContext } from '../hooks/useSite'
 import { IEssAuthState } from '../lib/authContext/authContext'
-import NextNProgress from 'nextjs-progressbar';
 import { Provider } from 'react-redux'
 import { wrapper } from '../lib/redux/store'
 import store from '../lib/redux-toolkit/store'
@@ -36,14 +35,14 @@ function MyApp(props: MyAppProps) {
   const apolloClient = useApollo(pageProps)
   console.log('asPath', asPath)
 
-  return(
+  return (
     <>
       <Head>
-        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta name="application-name" content="Every-Tuesday"/>
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="application-name" content="Every-Tuesday" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny"/>
-        <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l"/>
+        <meta name="facebook-domain-verification" content="49a7ouvzn8x5uhb6gdmg2km5pnbfny" />
+        <meta name="norton-safeweb-site-verification" content="42o2xv441l6-j8hnbn5bc1wi76o7awsydx8s00-ad8jqokbtj2w3ylsaed7gk2tbd3o-tdzh62ynrlkpicf51voi7pfpa9j61f51405kq0t9z-v896p48l7nlqas6i4l" />
         <title>Home - {metadata.title}</title>
         <link rel="preload" href="/fonts/sentinel/Sentinel-SemiboldItal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </Head>
@@ -55,7 +54,7 @@ function MyApp(props: MyAppProps) {
           categories
         }}>
           <SearchProvider>
-            <NextNProgress height={4} color={`#0070f3`} />
+            {/* <NextNProgress height={4} color={`#0070f3`} /> */}
             {/*<Provider store={store} >*/}
             <WpAuthProvider auth={auth}>
               <Component {...pageProps} />
@@ -68,7 +67,7 @@ function MyApp(props: MyAppProps) {
       </ApolloProvider>
 
     </>
-    )
+  )
 }
 
 MyApp.getInitialProps = async (appContext) => {
@@ -76,13 +75,13 @@ MyApp.getInitialProps = async (appContext) => {
   const isServer = typeof window === 'undefined'
   const auth = {
     loggedIn: false,
-    modal:{
+    modal: {
       open: false,
       component: null
     }
   }
 
-  if(isServer){
+  if (isServer) {
     const resourceAuthToken = getResourceLibraryAuthToken(appContext.ctx.req)
     auth.loggedIn = !isEmpty(resourceAuthToken)
   }
